@@ -1,0 +1,206 @@
+version: "3.6"
+services:
+  # front-end:
+  #   build:
+  #     context: ./Front-End
+  #   image: ${DOCKER_REGISTRY:-localhost}/front-end
+  #   ports:
+  #     - 80:8010
+  #   environment:
+  #     HOST: "0.0.0.0"
+  #     PORT: "8010"
+  #     GATEWAY_PORT: "8080"
+  #   networks:
+  #     microservice:
+  challenges:
+    build:
+      context: ./challenges
+    image: ${DOCKER_REGISTRY:-localhost}/challenges
+    environment :
+      HOST : 'localhost'
+      DATABASE_URL: 'mongodb+srv://ampinto:<password>@cluster0.l4vjr.mongodb.net/<database>?retryWrites=true&w=majority'
+      DATABASE_PASSWORD: 'n6u7V5wxoPmr6piX'
+      DATABASE_NAME: 'code-king'
+      DATABASE_COLLECTION: 'challenges'
+    ports:
+      # Expose external port 5000 with internal port 3000.
+      - 5000:3000
+    networks:
+      microservice:
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+  # Defines the Submission History microservice
+  submission-history:
+    build:
+      # Build the service from the Dockerfile in ./submission-history
+      context: ./submission-history
+    image: ${DOCKER_REGISTRY:-localhost}/submission-history
+    ports:
+      # Expose internal port 5050 on external port 7000.
+      - 7000:5050
+    networks:
+      - submissionHistory
+      - microservice
+    restart: always
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+  # submission-history:
+  #   build:
+  #     # Build the service from the Dockerfile in ./submission-history
+  #     context: ./submission-history
+  #   image: ${DOCKER_REGISTRY:-localhost}/submission-history
+  #   environment:
+  #     PORT: "5050"
+  #     # TODO set this to something (but don't put it in a file commited to the public repo!)
+  #     MYSQL_ROOT_PASSWORD: password
+  #     MYSQL_DATABASE: submissionHistory
+  #     MYSQL_HOST: "submission-history-database"
+  #   ports:
+  #     # Expose internal port 5050 on external port 7000.
+  #     - 7000:5050
+  #   networks:
+  #     - submissionHistory
+  #     - microservice
+  #   depends_on:
+  #     - submission-history-database
+  #   restart: always
+  #   deploy:
+  #     replicas: 1
+  #     restart_policy:
+  #       condition: on-failure
+  # submission-history-database:
+  #   build:
+  #     context: "./submission-history/submission-history-database/"
+  #     args:
+  #       # TODO set this to something (but don't put it in a file commited to the public repo!)
+  #       MYSQL_ROOT_PASSWORD: password
+  #   image: ${DOCKER_REGISTRY:-localhost}/submission-history-database
+  #   volumes:
+  #     - "submissionHistoryData:/mysql_data"
+  #   environment:
+  #     # TODO set this to something (but don't put it in a file commited to the public repo!)
+  #       MYSQL_ROOT_PASSWORD: password
+  #   networks:
+  #     submissionHistory:
+  #     # https://stackoverflow.com/a/55706057
+  #   cap_add:
+  #     - SYS_NICE
+  #   ports:
+  #     - 3306:3306
+  #   deploy:
+  #     replicas: 1
+  #     restart_policy:
+  #       condition: on-failure
+  # Defines the account service
+  accounts:
+    build:
+      # Build the account service from the Dockerfile in ./IdentityManagement
+      context: ./IdentityManagement
+    image: ${DOCKER_REGISTRY:-localhost}/accounts
+    environment:
+      # Listen on 0.0.0.0 to accept connections from any host.
+      HOST: "0.0.0.0"
+      PORT: "3000"
+      DATABASE_URL: 'mongodb+srv://ampinto:<password>@cluster0.l4vjr.mongodb.net/<database>?retryWrites=true&w=majority'
+      DATABASE_PASSWORD: 'n6u7V5wxoPmr6piX'
+      DATABASE_NAME: 'code-king'
+      DATABASE_COLLECTION: 'accounts'
+      SALT_ROUND: '3'
+    ports:
+      # Expose internal port 3000 on external port 4000.
+      - 4000:3000
+    networks:
+      - accountsNetwork
+      - microservice
+    restart: always
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+  # Defines the mongoDB container for accounts service.
+  accounts_db:
+    build:
+      context: "./init-mongo"
+    image: "${DOCKER_REGISTRY:-localhost}/init-mongo"
+    environment:
+      # Initializes mongoDB with the following credentials
+      MONGO_INITDB_USERNAME: "gerrygan98"
+      MONGO_INITDB_PASSWORD: "password"
+    volumes:
+      - mongo_accounts_data:/data/db
+    ports:
+      # Expose internal port 27017 on external port 27019.
+      - 27019:27017
+    networks:
+      - accountsNetwork
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+  # Defines the Submission Testing microservice
+  submission-testing:
+    build:
+      context: ./submission-testing
+    image: ${DOCKER_REGISTRY:-localhost}/submission-testing
+    ports:
+      - 8000:8080
+    volumes:
+      # Expose the host docker socket to the container so it can create new containers.
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      microservice:
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+  # Defines the Sessions microservice
+  sessions:
+    build:
+      context: ./Sessions
+    image: ${DOCKER_REGISTRY:-localhost}/sessions
+    environment:
+      HOST: "0.0.0.0"
+      PORT: "5000"
+      JWT_KEY: "my_secret_key"
+      JWT_KEY_EXPIRY : "7d"
+    ports:
+      # Expose internal port 5000 on external port 6000.
+      - 6001:5000
+    networks:
+      microservice:
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+  # Defines the API Gateway
+  api_gateway:
+    build:
+      context: ./Gateway
+    image:  ${DOCKER_REGISTRY:-localhost}/api_gateway
+    ports:
+      # Uses external port 8080
+      - "8080:8080"
+    networks:
+      microservice:
+    restart: always
+    depends_on:
+      - accounts
+      - submission-history
+      - submission-testing
+      - challenges
+      - sessions
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+networks:
+  accountsNetwork:
+  submissionHistory:
+  microservice:  
+volumes:
+  mongo_accounts_data:
+  submissionHistoryData:

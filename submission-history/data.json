@@ -1,0 +1,5 @@
+[{"userID":"123","userName":"Thinh","challengeId":"159","challengeName":"Insert json to mySQL","programmingLanguage":"java","dateSubmitted":"2020-10-4","executionTime":"00:00:05","didAllTestsPass":"True"},
+{"userID":"123","userName":"Matt","challengeId":"753","challengeName":"Insert json to mySQL2","programmingLanguage":"python","dateSubmitted":"2020-10-2","executionTime":"00:00:10","didAllTestsPass":"False"},
+{"userID":"789","userName":"Austin","challengeId":"486","challengeName":"Insert json to mySQL3","programmingLanguage":"TypeScript3","dateSubmitted":"2020-10-3","executionTime":"00:01:00","didAllTestsPass":"True"},
+{"userID":"147","userName":"Gerry","challengeId":"426","challengeName":"Insert json to mySQL4","programmingLanguage":"TypeScript4","dateSubmitted":"2020-10-4","executionTime":"00:10:05","didAllTestsPass":"False"},
+{"userID":"369","userName":"Veronica","challengeId":"555","challengeName":"Insert json to mySQL5","programmingLanguage":"TypeScript5","dateSubmitted":"2020-10-5","executionTime":"01:00:05","didAllTestsPass":"True"}]

@@ -1,0 +1,29 @@
+{
+    "color-highlight.enable": true,
+    "colorize.languages": [
+
+        "css",
+        "sass",
+        "scss",
+        "less",
+        "postcss",
+        "sss",
+        "stylus",
+        "xml",
+        "svg",
+        "javascript",
+        "javascriptreact",
+        "jsx",
+        "html"
+    ],
+    "colorize.colorized_variables": [
+
+        "CSS"
+    ],
+    "colorize.colorized_colors": [
+        "BROWSERS_COLORS",
+        "HEXA",
+        "RGB",
+        "HSL"
+    ]
+}
