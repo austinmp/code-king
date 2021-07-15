@@ -1,0 +1,389 @@
+* {
+    margin:0;
+    padding:0;
+}
+
+
+body {
+    /* font-family: 'Alata', sans-serif; */
+    font-family: 'Josefin Sans', sans-serif;
+    background-color: rgb(238,238,238);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    
+ 
+}
+
+
+header a {
+    color: white;
+    text-decoration: none;
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    width:60vw;
+    /* set top padding to same height as header */
+    padding-top:60px; 
+    /* background-color: blueviolet; */
+}
+
+
+ header a:hover {
+    padding-bottom: 18px;
+    text-decoration: none;
+    color: rgb(0,255,0);
+    border-bottom: 3px solid;
+    border-color: rgb(0,255,0);
+}
+
+.header-container{
+    position: fixed;
+    width:90%;
+    height:50px;
+    display: flex;
+    justify-self: center;
+    justify-content: space-between;
+    /* font-family: "Brandon Grotesque", sans-serif; */
+    font-family: "miso-bold;", sans-serif;
+    font-size: 14px; 
+    font-weight: 500;
+}
+
+.menu-container {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    justify-self:flex-start;
+}
+
+header {    
+    position: fixed;
+    width: 100vw;
+    height: 60px;
+    display:flex;
+    justify-content: center;
+    background-color: black;
+   
+}
+
+
+ .menu-icon{
+      /* top - right - bot - left */
+    padding: 0px 30px 0px 10px;
+ }
+
+ nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+
+.nav-links li {  
+    display: inline-block;
+    list-style: none;
+    margin: 5px 20px;
+}
+
+
+.scrolled-header{
+    background-color: rgb(54, 57, 63);
+    box-shadow: 0px 1px;
+    opacity: 0.95;
+}
+
+
+.social-icons-container i {  
+    color: rgb(0,255,0);
+    padding: 0px 20px;
+}
+
+.social-icons-container i:hover{
+    color:orange;
+    transform: scale(1.2); 
+}
+
+.my-name-large{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 76px;
+    margin-bottom: 50px;
+    color: rgb(0,255,0);
+}
+
+#homepage{
+    height: 100vh;
+    width: 100vw;
+    background: url(pics/circuit.JPG) center no-repeat;
+    background-size: cover;
+    color:white;
+    display:flex;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+} 
+
+section{
+    display: flex;
+    justify-content: flex-start;
+    height: 75vh;
+    width: 100vw;
+    /* margin-top:40px; */
+    align-items: center;
+    flex-direction: column;
+}
+
+.header{
+    font-size:36px;
+    font-weight: 600;
+    margin: 40px;
+    border-bottom:2px solid;
+}
+
+.main-page-container{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 60vw;
+}
+
+.main-page-container p{
+    width: 50vw;
+    font-size: 16pt;
+    margin:40px 40px;
+}
+
+.main-page-container div{
+    width: 30vw;
+    height: 300px;
+    width: 300px;
+    border-radius: 50%;
+    border: 2px solid;
+    display: inline-block; 
+    background: url(pics/selfie.JPG) center no-repeat;
+    background-position-y: 20%;
+    background-size: 99%;
+}
+
+#technical-skills{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#technical-skills-bottom {
+    display:flex;
+    justify-content: center;
+    width:50vw;
+}
+
+#bot {
+   justify-content: space-evenly;
+
+}
+
+#skills {
+    margin:40px 40px;
+    width:70vw;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#about{
+    width: 60%;
+    height: 200px;
+    background-color:white;
+    margin: 40px auto;
+    border: 0px;
+}
+
+footer {
+    height: 300px;
+    background-color: rgb(54, 57, 63);
+}
+
+
+
+
+
+/* CREATE A CHALLENGE PAGE */
+
+form    {
+    width:inherit;
+    
+}
+.challenges{
+    width:inherit;
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    /* background-color: green; */
+}
+
+.challenges h3{
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+.challenges h1{
+    align-self: center;
+    margin-top: 40px;
+}
+
+#challenge-name, #challenge-description{
+    width:100%;
+    height:30px;
+}
+#testCaseWrapper{
+    width:inherit;
+}
+#testInput, #testExpected{
+    width: 98%;
+    height:8em;
+    /* align-self: flex-end; */
+}
+
+#testCase{
+    margin-bottom: 40px;
+}
+
+
+#checkbox-wrapper{
+    display:flex;
+    flex-direction: column; 
+}
+
+#checkboxes{
+    display:flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#checkboxes input[type="checkbox"]{
+    margin-right: 20px;
+}
+
+.challenges input[type="submit"]{
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+#submit-button-wrapper{
+    align-self: center;
+    margin-top: 40px;
+}
+
+.challenges input[type="submit"]:hover{
+    background-color: #158000;
+    color: white;
+  }
+
+#nicEditor-text-area{
+    display: flex;
+    flex-direction: column;
+    width:100%; 
+    height:300px;
+    background-color: white;
+}
+
+#heading{
+   display: block;
+}
+
+
+
+#button-wrapper  input[type="submit"]{
+    background-color: #4CAF50; /* Green */
+    border: 4px solid black;
+    border-color: black;
+    color: white;
+    padding: 16px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 8px;
+    height:400px;
+    width:300px;
+}
+
+#button-wrapper  input[type="submit"]:hover{
+    background-color: #158000;
+    color: white;
+  }
+
+  #button-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+  #button-page-wrapper{
+    display:flex;
+    flex-direction: column; 
+    align-content: center;
+    justify-content: center;
+    height:100vh;
+    width:100%;
+  }
+
+
+#challengeTable table, #challengeTable th, #challengeTable tr {
+    border: 1px solid black;
+}
+
+#challengeTable table{
+    border-collapse: collapse;
+}
+
+#challengeTable tr{
+    
+}
+
+#challengeTable{
+    margin-top: 40px;
+    display:table;
+    width:100%;
+}
+
+#container{
+    height:50vh;
+    width:80vw;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

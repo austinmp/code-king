@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="UTF-8">
+  <title>Code King</title>
+  <script src="testScript.js"></script>
+  <script src="https://kit.fontawesome.com/67a854812b.js" crossorigin="anonymous"></script>
+  <link href="styles.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet"> 
+<body>
+    <header>
+      <div class = "header-container">
+        <div class="menu-container">
+          <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class = "menu-icon"width="24" height="24" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M14.33333,35.83333v14.33333h143.33333v-14.33333zM14.33333,78.83333v14.33333h143.33333v-14.33333zM14.33333,121.83333v14.33333h143.33333v-14.33333z"></path></g></g></svg>
+          <div class = "menu-icon"><a href = "">MENU</a></div>
+          <div class="homepage-logo"><a href = "index.html">CODE KING</a></div>
+        </div>
+        <nav>
+          <ul class = "nav-links">
+            <li><a href = "challengeButtons.html">CHALLENGES</a></li>
+            <li><a href = "a">LEADERBOARDS</a></li> 
+            <li><a href = "a">ABOUT</a></li>
+            <li><a href = "a">SIGN IN</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <form action="http://localhost:5000/createChallenge" method="post" autocomplete="off"> 
+        <div class = "challenges"> 
+          <h1> Create a Challenge</h1>
+            <h3>Challenge Name</h3>
+            <input type="text" name="name" id="challenge-name"  required maxlength="128">
+            <h3>Challege Description</h3>
+            <input type="text" name="description" id="challenge-description" required maxlength="512">
+            <h3>Difficulty</h3>
+            <select name="difficulty" id="selectDifficulty" required> 
+              <option value = "">Select</option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          <div id = "testCaseWrapper">
+            <h3>Test Cases</h3>
+            <div id = "testCase">
+              <h4>Input</h4>
+              <p>Enter a comma seperated list of input and expected output values. Example: [3,6,7,8]</p>
+              <p></p>
+              <textarea id="testInput" name="testInput" class ="testCase" required>[]</textarea>
+              <h4>Expected Output</h4>
+              <textarea id="testExpected" name="testExpected" class="testCase" required>[]</textarea>
+            </div>
+          </div>
+          <button type="button" id="addTestCaseButton">Add Test Case</button>
+          <div id="submit-button-wrapper">
+            <input type="submit">
+          </div>
+        </div>
+      </form>
+    </main>
+    <footer>
+    </footer>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- script to turn textareas into rich text areas - called nicedit -->
+        <!-- <script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript "></script>
+        <script type="text/javascript">bkLib.onDomLoaded(function(){ var myNicEditor = new nicEditor();
+          myNicEditor.setPanel('myNicPanel');  
+          myNicEditor.addInstance('nicEditor-text-area');});
+        </script>
+        <div id = "myNicPanel"></div>
+        <div id = "nicEditor-text-area"></div> -->
+
+        <!-- Create a simple CodeMirror instance -->
+
+
+
+
+
+
+        <!-- <h3>Return Type</h3>
+        <div id = "checkbox-wrapper"> -->
+            <!-- <div>Input Parameters</div> -->
+            <!-- <div id = "checkboxes">
+                <label for="int">Int</label>
+                <input type="checkbox" name="int" id="int">
+
+                <label for="string">String</label>
+                <input type="checkbox" name="string" id="string" >
+
+                <label for="char">Char</label>
+                <input type="checkbox" name="char" id="char" >
+
+                <label for="float">Float</label>
+                <input type="checkbox" name="float" id="float" >
+
+                <label for="long">Long</label>
+                <input type="checkbox" name="long" id="long">
+
+                <label for="boolean">Boolean</label>
+                <input type="checkbox" name="boolean" id="boolean">
+
+                <label for="array">Array</label>
+                <input type="checkbox" name="array" id="array"> -->
+                
+                <!-- Will add support for creating 2D/ 3D arrays and lists
+                - add a way to specify domain of function inputs (ints 1 -100)
+                - add a way to add test cases
+                - add a algorithm type selection (array, linked lists, dynamic programming)
+                - custom 
+                -->
+            <!-- </div>
+        </div> -->

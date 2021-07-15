@@ -1,0 +1,10 @@
+body{
+}
+
+#challengeTable table, #challengeTable th, #challengeTable tr {
+    border: 1px solid black;
+}
+
+#challengeTable table{
+    border-collapse: collapse;
+}

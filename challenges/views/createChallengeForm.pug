@@ -1,0 +1,47 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  title Code King
+  script(src='testScript.js')
+  script(src='https://kit.fontawesome.com/67a854812b.js' crossorigin='anonymous')
+  link(href='pugStyles.css' rel='stylesheet')
+  link(href='styles.css' rel='stylesheet')
+  link(href='https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap' rel='stylesheet')
+  link(href='https://fonts.googleapis.com/css2?family=Alata&display=swap' rel='stylesheet')
+header
+  .header-container
+    .menu-container
+      svg.menu-icon(xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' width='24' height='24' viewbox='0 0 172 172' style=' fill:#000000;')
+        g(fill='none' fill-rule='nonzero' stroke='none' stroke-width='1' stroke-linecap='butt' stroke-linejoin='miter' stroke-miterlimit='10' stroke-dasharray='' stroke-dashoffset='0' font-family='none' font-weight='none' font-size='none' text-anchor='none' style='mix-blend-mode: normal')
+          path(d='M0,172v-172h172v172z' fill='none')
+          g(fill='#ffffff')
+            path(d='M14.33333,35.83333v14.33333h143.33333v-14.33333zM14.33333,78.83333v14.33333h143.33333v-14.33333zM14.33333,121.83333v14.33333h143.33333v-14.33333z')
+      .menu-icon
+        a(href='') MENU
+      .homepage-logo
+        a(href='index.html') WEBSITE NAME
+    nav
+      ul.nav-links
+        li
+          a(href='challengeButtons.html') CHALLENGES
+        li
+          a(href='a') LEADERBOARDS
+        li
+          a(href='a') ABOUT
+        li
+          a(href='a') SIGN IN
+        ul
+  table#challengeTable
+    tr
+      th Title
+      th Description
+      th Difficulty
+      th Status
+      th Date Created
+    each chal in result
+      tr
+        th #{chal.name}
+        th #{chal.description}
+        th Easy
+        th Incomplete
+        th #{chal.date}
