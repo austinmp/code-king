@@ -234,9 +234,8 @@ const CreateChallengeForm = styled.form`
   flex-direction: column;
   align-items: flex-start;  
   height: auto;
-  width:50%;
+  width:100%;
   overflow: visible;
-  min-width: 800px;
 `;
 
 const DifficultySelect = styled.div`
@@ -325,10 +324,12 @@ const TestCaseAside = styled.div`
 
 const RemoveTestCaseButton = styled(Button)`
   background: #e85e6c;
+  min-height: 1em;
   min-width: 1em;
   align-self: center;
+  text-align: center;
   height:50px;
-  width: 4em;
+  width: 3.5em;
   &:hover {
     background: #ad424d;
   }
@@ -362,6 +363,7 @@ const SubmitButton = styled(Button)`
   height:50px;
   margin-top:80px;
   align-self: center;
+  text-align: center;
   background-color: #4CAF55;
   &:hover {
     background: #60e06c;

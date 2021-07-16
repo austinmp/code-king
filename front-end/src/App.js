@@ -78,6 +78,9 @@ const Div = styled.div`
   min-height: 100vh;
   position:relative;
   padding-bottom: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 

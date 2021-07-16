@@ -1,6 +1,7 @@
 // models/challenge.js
 const db = require("../database/db");
 const AutoIncrement = require('mongoose-sequence')(db);
+const config = require('../config/config');
 
 const challengeSchema = new db.Schema(
     {

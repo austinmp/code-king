@@ -79,9 +79,8 @@ function ChallengeSet({ token} ){
 }
 
 const Table = styled.table`
-    width:80%;
+    width:100%;
     border-collapse:collapse; 
-    
     thead {
         background: #20232a;
     }

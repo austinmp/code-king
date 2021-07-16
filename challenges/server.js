@@ -3,7 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require('path');
 const formData = require('express-form-data');
-const config = require('./config/config');
+const config = require('./config/config.js');
 const cors = require('cors');
 // const redisServer = require('./redis-server/server');
 
