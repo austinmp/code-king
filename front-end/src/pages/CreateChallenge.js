@@ -7,7 +7,7 @@ import useAPI from '../api/useAPI';
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import { FaRegTrashAlt } from 'react-icons/fa';
 
-function CreateChallenge({ setModal }) {
+function CreateChallenge({ setModal, token }) {
   const testCase = {
     input: "[]",
     expectedOutput:"[]",
@@ -50,11 +50,12 @@ function CreateChallenge({ setModal }) {
 
   const handleSubmit = (e, i) => {
     e.preventDefault();
+    console.log(token);
 
     if( !(isValidTestCases()) || testCases.length === 0 ) return;
 
-    const url = 'http://localhost:5000/createChallenge'
-    // const url = 'http://localhost:8080/challenges/createChallenge';
+    // const url = 'http://localhost:5000/createChallenge'
+    const url = 'http://localhost:8080/challenges/createChallenge';
     const body = {
       ...form,
       testCases: testCases
@@ -64,10 +65,11 @@ function CreateChallenge({ setModal }) {
       method: 'POST',
       body : JSON.stringify(body),
       headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization' : 'Bearer ' + token
       }
     }
-    setUrl(url);
+    setUrl(url);  
     setOptions(options);
   };
   

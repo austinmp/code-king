@@ -41,7 +41,6 @@ function ChallengeSet({ token} ){
         fetchMyAPI();
         
       }, []);
-      console.log(data);
 
     return (
         <PageContainer className='challenges-container'>
@@ -50,7 +49,7 @@ function ChallengeSet({ token} ){
                 <thead>
                     <tr>
                         {headers.map(header => (
-                            <th>{header}</th>
+                            <th key={header}>{header}</th>
                         ))}
     
                     </tr>
@@ -61,7 +60,8 @@ function ChallengeSet({ token} ){
                             <tr key={challenge.id}
                                 onClick={ (e) => {
                                     e.preventDefault();
-                                    window.location.href=`/challenges/${challenge.name}`;
+                                    console.log(challenge);
+                                    window.location.href=`/challenges/${challenge.name}/${challenge._id}`;
                                 }}
                             >
                                 <td>{challenge.id}</td>

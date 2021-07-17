@@ -1,5 +1,4 @@
 //server.js
-const bodyParser = require("body-parser");
 const path = require('path');
 const express = require("express");
 const config = require('./Config/config');
@@ -17,6 +16,12 @@ app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Credentials', 'true');
     res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    if (req.method === "OPTIONS") {
+      console.log('got options request');
+      res.header('Access-Control-Allow-Origin', req.headers.origin);
+    } else {
+      res.header('Access-Control-Allow-Origin', '*');
+    }
     next();
   });
 // router.use(bodyParser.urlencoded({extended:false}));

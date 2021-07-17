@@ -85,7 +85,7 @@ async function getChallengeSet(req, res, next){
     let query = req.query.numChallenges;
     if(query && Number.isSafeInteger(JSON.parse(query))) numChallenges = JSON.parse(query);
     try {
-        const challenges = await Challenge.find({},{_id:0, __v: 0}).limit(numChallenges).exec();
+        const challenges = await Challenge.find({},{__v: 0}).limit(numChallenges).exec();
         return res.status(200).json({challenges : challenges}); 
     } catch (err) {
         return res.status(500).json({ 

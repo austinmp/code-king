@@ -60,13 +60,15 @@ function App() {
         <Route 
           exact path="/createChallenge" 
           render={(props) => (
-          <CreateChallenge setModal={setModal} />
+          <CreateChallenge 
+          token={credentials.token}
+          setModal={setModal} />
           )}
         
         />
         {/* <ProtectedRoute exact path="/createChallenge" component={CreateChallenge} isAuthenticated={credentials.token}/> */}
         <ProtectedRoute exact path="/challenges" component={ChallengeSet} isAuthenticated={credentials.token}/>
-        <ProtectedRoute path="/challenges/:title" component={Challenge} isAuthenticated={credentials.token}/>
+        <ProtectedRoute path="/challenges/:title/:_id" component={Challenge} isAuthenticated={credentials.token}/>
       </Router>
     </Div>    
   );
@@ -75,6 +77,7 @@ function App() {
 export default App;
 
 const Div = styled.div`
+  /* background: red; */
   min-height: 100vh;
   position:relative;
   padding-bottom: 150px;

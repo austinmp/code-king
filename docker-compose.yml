@@ -1,17 +1,20 @@
 version: "3.6"
 services:
-  # front-end:
-  #   build:
-  #     context: ./Front-End
-  #   image: ${DOCKER_REGISTRY:-localhost}/front-end
-  #   ports:
-  #     - 80:8010
-  #   environment:
-  #     HOST: "0.0.0.0"
-  #     PORT: "8010"
-  #     GATEWAY_PORT: "8080"
-  #   networks:
-  #     microservice:
+  front-end:
+    build:
+      context: ./front-end
+    image: ${DOCKER_REGISTRY:-localhost}/front-end
+    ports:
+      - 80:8010
+    volumes:
+      - ./front-end:/src/
+      - nodemodules:/src/node_modules
+    environment:
+      HOST: "0.0.0.0"
+      PORT: "8010"
+      GATEWAY_PORT: "8080"
+    networks:
+      microservice:
   challenges:
     build:
       context: ./challenges
@@ -188,6 +191,7 @@ services:
       microservice:
     restart: always
     depends_on:
+      - front-end
       - accounts
       - submission-history
       - submission-testing
@@ -202,5 +206,6 @@ networks:
   submissionHistory:
   microservice:  
 volumes:
+  nodemodules:
   mongo_accounts_data:
   submissionHistoryData:

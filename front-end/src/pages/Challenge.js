@@ -4,10 +4,12 @@ import fetch from 'node-fetch';
 import Header from '../components/Header.js';
 import PageContainer from '../components/PageContainer';
 
-function Challenge() {
+function Challenge(props) {
+    const { title } = props.match.params
+    console.log(title);
     return (
         <PageContainer className='challenge-container'>
-            <Header text=" Challenge"/>
+            <Header text="Challenge"/>
         </PageContainer>
     );
 }
