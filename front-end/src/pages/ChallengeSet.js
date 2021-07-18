@@ -16,7 +16,7 @@ const headers = [
     'Highscores',
 ];
 
-function ChallengeSet({ token} ){
+function ChallengeSet({ token }){
     const [ { data, error }, setUrl, setOptions] = useAPI();
     const [challenges, setChallenges] = useState([]);
     useEffect(() => {
@@ -60,7 +60,6 @@ function ChallengeSet({ token} ){
                             <tr key={challenge.id}
                                 onClick={ (e) => {
                                     e.preventDefault();
-                                    console.log(challenge);
                                     window.location.href=`/challenges/${challenge.name}/${challenge._id}`;
                                 }}
                             >

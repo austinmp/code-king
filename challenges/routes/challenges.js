@@ -15,6 +15,10 @@ router.get('/getChallengeParameters', challengeManager.getChallengeTestCases);
 // Example: /getChallengeSet?num=20 ==> retuns 20 challenges (default of 10)
 router.get("/getChallengeSet", challengeManager.getChallengeSet);
 
+/// GET ALL DATA FOR A CHALLENGE GIVEN ITS DB _ID ///
+router.get("/getChallenge", challengeManager.getChallenge);
+
+
 // GET SPECIFIED CHALLENGES HIGHSCORES ///
 /// Example /getHighscores?challengeId=212&programmingLanguage=java
 router.get("/getHighscores", challengeManager.getHighscores);
