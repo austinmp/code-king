@@ -125,7 +125,7 @@ async function getChallengeTestCases(req, res, next){
         const testCasesDBObject = await Challenge.find({"id": challengeId}, 'testCases').exec();
         if(testCasesDBObject.length === 0){
             return res.status(404).json({ message: `Challenge with id:${challengeId} does not exist`});
-        }   
+        }           
         return res.status(200).json({testCases : testCasesDBObject[0].testCases});
     } catch(err) {
         return res.status(500).json({ 

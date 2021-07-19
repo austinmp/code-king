@@ -1,27 +1,25 @@
 import React from "react";
 import AceEditor from "react-ace";
-
-import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-monokai";
 
-const CodeSandbox = () => {
-    return (
+
+const CodeSandbox = ({ submission, setSubmission } ) => {
+        return (        
         <AceEditor
             placeholder="Placeholder Text"
-            mode="javascript"
+            mode="python"   
             theme="monokai"
             name="blah2"
             // onLoad={this.onLoad}
-            // onChange={this.onChange}
+            onChange={ (e) => setSubmission(e) }     
             fontSize={14}
             showPrintMargin={true}
             showGutter={true}
             highlightActiveLine={true}
-            value={`function answer(params) { 
-    console.log("i've loaded");
-    return solution;
-}`}
+            value={submission}
             setOptions={{
+                useWorker: false,
                 enableBasicAutocompletion: false,
                 enableLiveAutocompletion: false,
                 enableSnippets: false,

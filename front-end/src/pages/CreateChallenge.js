@@ -71,6 +71,7 @@ function CreateChallenge({ setModal, token }) {
     }
     setUrl(url);  
     setOptions(options);
+    console.log(data);
   };
   
   const isValidTestCases = () => {
