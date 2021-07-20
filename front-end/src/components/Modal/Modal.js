@@ -2,15 +2,15 @@ import React from "react";
 import ReactDOM from 'react-dom';
 import { MdClose } from 'react-icons/md';
 import styled from "styled-components";
-import SignInForm from '../Forms/SignInForm';
-import SignUpForm from '../Forms/SignUpForm';
-import ErrorForm from '../Forms/ErrorForm';
-
+import SignInForm from '../ModalForms/SignInForm';
+import SignUpForm from '../ModalForms/SignUpForm';
+import ErrorForm from '../ModalForms/ErrorForm';
+import ModalMessage from "../ModalForms/ModalMessage";
 
 const forms = {
     signIn : SignInForm,
     signUp: SignUpForm,
-    errorMessage : ErrorForm
+    message : ModalMessage
 }
 
 const  Modal = ( { modal, setModal, setCredentials } ) => {

@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from 'react-router-dom';
 import styled, {css} from "styled-components";
 import Button from '../components/Button';
 import Header from '../components/Header';
 import PageContainer from '../components/PageContainer';
 import useAPI from '../api/useAPI';
+
+// icons
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import { FaRegTrashAlt } from 'react-icons/fa';
 
 function CreateChallenge({ setModal, token }) {
+  let history = useHistory();
   const testCase = {
     input: "[]",
     expectedOutput:"[]",
@@ -101,17 +105,41 @@ function CreateChallenge({ setModal, token }) {
       setModal(prevState =>({
           ...prevState,
           isOpen : true,
-          form: 'errorMessage',
+          form: 'message',
           data: message,
-          header: ''
+          header: '',
+          icon : 'error'
       }));
+  }
+  const displaySuccess = (message) => {
+    setModal(prevState =>({
+      ...prevState,
+      isOpen : true,
+      form: 'message',
+      data: message,
+      header: '',
+      icon : 'success'
+    }));
   }
 
   useEffect( () => {
-    if(error){
+    if(error) {
+      console.log(error);
       displayError(error.message);
     }
-    console.log(error);
+
+    if(data && !error) {
+      const newChallenge = data._doc
+      const path = `/challenges/${newChallenge.name}/${newChallenge._id}`
+      console.log(newChallenge);
+      // "/challenges/:title/:_id"
+      // data.name
+      // const path = '/challenges/'
+      displaySuccess('Challenge created successfully!');
+      history.push(path);
+    }
+    
+    
   }, [data, error]);
 
   const renderTestCases = () => {
@@ -345,17 +373,6 @@ const AddTestCaseButton = styled(Button)`
   height:50px;
 `;
 
-const TrashIcon = styled(FaRegTrashAlt)`
-    color: white;
-`;
-
-const AddIcon = styled(IoMdAddCircleOutline)`
-  color: white;
-  font-size: 1.5em;
-  margin-right: 20px;
-  text-align:center;
-`;
-
 const ErrorText = styled.div`
   color: #e85e6c;
 `;
@@ -371,5 +388,17 @@ const SubmitButton = styled(Button)`
     background: #60e06c;
   }
 `;
+
+const TrashIcon = styled(FaRegTrashAlt)`
+    color: white;
+`;
+
+const AddIcon = styled(IoMdAddCircleOutline)`
+  color: white;
+  font-size: 1.5em;
+  margin-right: 20px;
+  text-align:center;
+`;
+
 
 export default CreateChallenge;

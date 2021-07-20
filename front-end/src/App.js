@@ -14,6 +14,7 @@ import {
   Route, 
 } from "react-router-dom";
 
+import ModalMessage from './components/ModalForms/ModalMessage';
 
 function App() {
 
@@ -26,7 +27,8 @@ function App() {
     isOpen  : false,
     form    : '',
     header  : '',
-    data    : ''
+    data    : '',
+    icon    : ''
   });
 
   useEffect( ()=> {
@@ -48,7 +50,7 @@ function App() {
               modal={modal}
               setModal={setModal}
               setCredentials={setCredentials}
-            /> 
+            />  
           : null
         }
         <Route
