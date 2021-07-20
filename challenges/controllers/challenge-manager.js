@@ -95,6 +95,26 @@ async function getChallengeSet(req, res, next){
     }
 }
 
+/// GET ALL DATA FOR A CHALLENGE GIVEN ITS DB _ID ///
+async function getChallenge(req, res, next){
+    const _id = req.query._id;
+    if(!_id){
+        return res.status(400).json({ message: "Bad Request: A valid challengeId must be provided in the query parameters"});
+    } 
+    try { 
+        const challenge = await Challenge.findById(_id).exec();
+        if(!challenge || challenge.length === 0){
+            return res.status(404).json({ message: `Challenge with id:${_id} does not exist`});
+        }   
+        return res.status(200).json({...challenge._doc});
+    } catch(err) {
+        return res.status(500).json({ 
+            message : `Challenges service was unable to retrieve the challenge with id:${_id}`,
+            error   : `${err}`
+        });
+    }
+}
+
 /// GET TEST CASES FOR SPECIFIED CHALLENGE ///
 async function getChallengeTestCases(req, res, next){
     const challengeId = req.query.challengeId;
@@ -105,7 +125,7 @@ async function getChallengeTestCases(req, res, next){
         const testCasesDBObject = await Challenge.find({"id": challengeId}, 'testCases').exec();
         if(testCasesDBObject.length === 0){
             return res.status(404).json({ message: `Challenge with id:${challengeId} does not exist`});
-        }   
+        }           
         return res.status(200).json({testCases : testCasesDBObject[0].testCases});
     } catch(err) {
         return res.status(500).json({ 
@@ -189,6 +209,7 @@ exports.challengeSetPageGet = async function(req, res){
 module.exports = {
     postChallenge,
     getChallengeSet,
+    getChallenge,
     getChallengeTestCases,
     getHighscores
 }

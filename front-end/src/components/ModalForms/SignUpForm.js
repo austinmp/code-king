@@ -36,7 +36,7 @@ function SignUpForm({ modal, setModal }) {
         const value = e.target.value;
         setState( prevState =>({
             ...prevState,
-            [e.target.name] : value
+            [e.target.name] : value 
         }));
     }
 

@@ -69,8 +69,8 @@ function App() {
         
         />
         {/* <ProtectedRoute exact path="/createChallenge" component={CreateChallenge} isAuthenticated={credentials.token}/> */}
-        <ProtectedRoute exact path="/challenges" component={ChallengeSet} isAuthenticated={credentials.token}/>
-        <ProtectedRoute path="/challenges/:title/:_id" component={Challenge} isAuthenticated={credentials.token}/>
+        <ProtectedRoute exact path="/challenges" component={ChallengeSet} isAuthenticated={credentials.token} />
+        <ProtectedRoute path="/challenges/:title/:_id" component={Challenge} isAuthenticated={credentials.token} username={credentials.username}/>
       </Router>
     </Div>    
   );
