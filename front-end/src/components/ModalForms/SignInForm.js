@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import useAPI from '../../api/useAPI';
+import Button from '../Button';
+import styled from "styled-components";
+
 
 function LoginForm({modal, setModal, setCredentials}){
     const [username, setUsername] = useState("");
@@ -79,12 +82,11 @@ function LoginForm({modal, setModal, setCredentials}){
                     />
                 </div>
                 <div className="form-group">
-                    <button 
-                        type="submit" 
-                        className="btn btn-primary btn-block"
+                    <SignInButton 
+                        text='Sign In'
+                        className="sign-in-button"
                         disabled={!validateForm()}
-                    >Log in   
-                    </button>
+                    />
                 </div>     
             </form>
             <p className="text-center">Not registered? {' '}
@@ -103,5 +105,10 @@ function LoginForm({modal, setModal, setCredentials}){
         </div>
     );
 }
+
+const SignInButton = styled(Button)`
+    width:100%;
+    text-align: center;
+`;
 
 export default LoginForm;

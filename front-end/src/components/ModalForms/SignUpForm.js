@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import './Form.css';
 import base64 from 'base-64';
 import useAPI from '../../api/useAPI';
+import Button from '../Button';
+import styled from "styled-components";
 
 /* signUp form controls the modal state by taking the user to the signIn modal after an account is created successfully. */
 
@@ -101,18 +103,22 @@ function SignUpForm({ modal, setModal }) {
                     {(isPasswordMatch === false) ? <p name="passwordStatus" className='passwordStatus'>Passwords do not match.</p> : null  }
                 </div>  
                 <div className="form-group">
-                    <button 
-                        type="submit" 
+                    <SignUpButton 
+                        text='Create Account'
                         className="btn btn-primary btn-block"
                         disabled={!validateForm()}
-                    >Log in
-                    </button>
+                    />
                 </div>
             </form>
             { error ? <div> {error.message} </div> : null }  
         </div>
     );
 }
+
+const SignUpButton = styled(Button)`
+    width:100%;
+    text-align: center;
+`;
 
 export default SignUpForm;
 

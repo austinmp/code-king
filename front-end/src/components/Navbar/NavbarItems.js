@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { Link } from "react-router-dom";
 import Button from '../Button'
 import styled from "styled-components";
 import { Links } from './MenuLinks'
@@ -97,7 +98,7 @@ export const SignUpButton = ({ setModal }) => {
                     ...prevState,
                     isOpen : true,
                     header : 'Create an Account',
-                    form   : 'singUp'
+                    form   : 'signUp'
                 }));
             }}
         />
@@ -121,11 +122,13 @@ const MenuItem = styled(Button)`
 
 export const MenuItems = Links.map(item => {
     return (
-        <MenuItem
-            key={item.title}
-            className={item.cName}
-            text={item.title}                     
-        />
+        <Link to={item.url}>
+            <MenuItem
+                key={item.title}
+                className={item.cName}
+                text={item.title}                 
+            />
+        </Link>
     )
 });
 

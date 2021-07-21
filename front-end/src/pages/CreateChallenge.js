@@ -71,7 +71,7 @@ function CreateChallenge({ setModal, token }) {
       headers: {
           'Content-Type': 'application/json',
           'Authorization' : 'Bearer ' + token
-      }
+      } 
     }
     setUrl(url);  
     setOptions(options);
@@ -132,10 +132,6 @@ function CreateChallenge({ setModal, token }) {
     if(data && !error) {
       const newChallenge = data._doc
       const path = `/challenges/${newChallenge.name}/${newChallenge._id}`
-      console.log(newChallenge);
-      // "/challenges/:title/:_id"
-      // data.name
-      // const path = '/challenges/'
       displaySuccess('Challenge created successfully!');
       history.push(path);
     }

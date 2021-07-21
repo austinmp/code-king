@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Header from '../components/Header.js';
 import PageContainer from '../components/PageContainer';
@@ -6,9 +7,12 @@ import useAPI from '../api/useAPI';
 import CodeSandbox from '../components/CodeSandbox';
 import Button from '../components/Button';
 import { BsPlayFill } from 'react-icons/bs';
+import { IoMdArrowRoundBack } from 'react-icons/io';
+
 
 // All route props (match, location and history) are available to component 
 function Challenge({token, ...rest}) {
+    let history = useHistory();
     const { title, _id } = rest.match.params;
     const [submission, setSubmission] = useState('def submission:');
     const [ { error, ...challenge }, setUrl, setOptions] = useAPI();
@@ -53,8 +57,15 @@ function Challenge({token, ...rest}) {
                 <Header text={title}/>
                 {challenge.data 
                 ? <>
+                    <Button     
+                        text='Browse Challenges'
+                        icon={<BackIcon/>} 
+                        onClick={ () => history.push('/challenges')}
+                    />
+                    <div>ID: {challenge.data.id}</div>
                     <div>Difficulty: {challenge.data.difficulty}</div>
                     <div>Description: {challenge.data.description}</div>
+                    {/* <div>Test Cases: {challenge.data.testCases}</div> */}
                     <CodeSandbox 
                         submission={submission} 
                         setSubmission={setSubmission} 
@@ -75,6 +86,15 @@ function Challenge({token, ...rest}) {
 const SubmitIcon = styled(BsPlayFill)`
     margin-right: 5px;
     text-align: center;
+    width: 20px;
+    height: auto;
+`;
+
+const BackIcon = styled(IoMdArrowRoundBack)`
+    margin-right: 5px;
+    text-align: center;
+    align-self: center;
+
     width: 20px;
     height: auto;
 `;

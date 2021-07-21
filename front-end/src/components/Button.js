@@ -2,9 +2,13 @@ import React from 'react';
 import styled from "styled-components";
 
 
-const Button = ({text, onClick, className, icon}) => {
+const Button = ({text, onClick, className, icon, type}) => {
     return (
-        <button className={className} onClick={onClick}>
+        <button 
+            className={className} 
+            onClick={onClick}
+            type={type}
+        >
             {icon}
             {text}
         </button>

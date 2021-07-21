@@ -26,11 +26,8 @@ const ModalMessage = ( {modal, setModal} ) => {
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    /* background: green; */
     align-items: center;
     justify-content: space-around;
-    height:100%;
-    width: 100%;
 `;
 
 const HeaderDiv = styled.div `
