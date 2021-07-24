@@ -79,13 +79,11 @@ function getEnteredTestCases(req){
 
 /// GET SPECIFIED NUMBER OF CHALLENGE OBJECTS FROM DB ///
 async function getChallengeSet(req, res, next){
-    console.log('GOT REQUEST');
-    console.log(req);
-    let numChallenges = MAX_CHALLENGES_PER_PAGE;
-    let query = req.query.numChallenges;
-    if(query && Number.isSafeInteger(JSON.parse(query))) numChallenges = JSON.parse(query);
+    // let numChallenges = MAX_CHALLENGES_PER_PAGE;
+    // let query = req.query.numChallenges;
+    // if(query && Number.isSafeInteger(JSON.parse(query))) numChallenges = JSON.parse(query);
     try {
-        const challenges = await Challenge.find({},{__v: 0}).limit(numChallenges).exec();
+        const challenges = await Challenge.find({},{__v: 0}).exec();
         return res.status(200).json({challenges : challenges}); 
     } catch (err) {
         return res.status(500).json({ 

@@ -5,7 +5,9 @@ import Header from '../components/Header.js';
 import PageContainer from '../components/PageContainer';
 import { Link } from "react-router-dom";
 import useAPI from '../api/useAPI';
+import BasicPagination from '../components/BasicPagination';
 
+const CHALLENGES_PER_PAGE = 20;
 
 const headers = [
     'Id',
@@ -17,30 +19,61 @@ const headers = [
 ];
 
 function ChallengeSet({ token }){
-    const [ { data, error }, setUrl, setOptions] = useAPI();
-    const [challenges, setChallenges] = useState([]);
+    const [challenges, setChallenges] = useState();
+    const [numChallenges, setNumChallenges] = useState(0);
+    const [page, setPage] = useState(1);
+    
+    const paginateChallenges = () => {
+        const start = (page-1)*CHALLENGES_PER_PAGE;
+        const end = (page*CHALLENGES_PER_PAGE <= numChallenges) ? page*CHALLENGES_PER_PAGE : undefined;
+        const currChallenges = challenges.slice(start, end);
+        return (
+            currChallenges.map(challenge => (
+                <tr key={challenge.name}
+                    onClick={ (e) => {
+                        e.preventDefault();
+                        window.location.href=`/challenges/${challenge.name}/${challenge._id}`;
+                    }}
+                >
+                    <td>{challenge.id}</td>
+                    <td>{challenge.name} </td>
+                    <td>{challenge.difficulty}</td> 
+                    <td>Incomplete</td>
+                    <td>{challenge.date}</td>
+                    <td>Highscores</td>
+                </tr>
+            ))
+        );
+    }
+
     useEffect(() => {
-        async function fetchMyAPI() {
-            const url = 'http://localhost:8080/challenges/getChallengeSet';
-            const options = {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token,
-                }
+        const options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
             }
-            setUrl(url);
-            setOptions(options);
         }
+        fetch(`http://localhost:8080/challenges/getChallengeSet`, options)
+        .then(response => response.json())
+        .then(data => {
+            setChallenges(data.challenges);
+            setNumChallenges(data.challenges.length);
 
-        if(data && !error){
-            console.log(data);
-            setChallenges(data);
-        }
-
-        fetchMyAPI();
-        
+        })
+        .catch(err => console.log(err));
+ 
       }, []);
+
+    useEffect( () => {
+        if(challenges) {
+            paginateChallenges();
+        }      
+    }, [page]);
+
+    
+
+    
 
     return (
         <PageContainer className='challenges-container'>
@@ -55,24 +88,13 @@ function ChallengeSet({ token }){
                     </tr>
                 </thead>
                 <tbody>
-                    {!data ? null :
-                        data.challenges.map(challenge => (
-                            <tr key={challenge.id}
-                                onClick={ (e) => {
-                                    e.preventDefault();
-                                    window.location.href=`/challenges/${challenge.name}/${challenge._id}`;
-                                }}
-                            >
-                                <td>{challenge.id}</td>
-                                <td>{challenge.name} </td>
-                                <td>{challenge.difficulty}</td> 
-                                <td>Incomplete</td>
-                                <td>{challenge.date}</td>
-                                <td>Highscores</td>
-                            </tr>
-                    ))}
+                    {!challenges 
+                    ? null 
+                    : paginateChallenges()
+                    }
                 </tbody>
             </Table>
+            <BasicPagination pageCount={Math.ceil(numChallenges / CHALLENGES_PER_PAGE)} setPage={setPage} />
         </PageContainer>
     );
 }
@@ -97,3 +119,24 @@ const Table = styled.table`
 `;
 
 export default ChallengeSet;
+
+
+
+// <tbody>
+//                     {!data ? null :
+//                         data.challenges.map(challenge => (
+//                             <tr key={challenge.id}
+//                                 onClick={ (e) => {
+//                                     e.preventDefault();
+//                                     window.location.href=`/challenges/${challenge.name}/${challenge._id}`;
+//                                 }}
+//                             >
+//                                 <td>{challenge.id}</td>
+//                                 <td>{challenge.name} </td>
+//                                 <td>{challenge.difficulty}</td> 
+//                                 <td>Incomplete</td>
+//                                 <td>{challenge.date}</td>
+//                                 <td>Highscores</td>
+//                             </tr>
+//                     ))}
+//                 </tbody>
