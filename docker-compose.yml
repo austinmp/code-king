@@ -10,7 +10,7 @@ services:
       - ./front-end:/src/
       - nodemodules:/src/node_modules
     environment:
-      HOST: "0.0.0.0"
+      HOST: "${HOST}"
       PORT: "8010"
       GATEWAY_PORT: "8080"
     networks:
@@ -20,10 +20,11 @@ services:
       context: ./challenges
     image: ${DOCKER_REGISTRY:-localhost}/challenges
     environment :
-      HOST : 'localhost'
-      DATABASE_URL: 'mongodb+srv://ampinto:<password>@cluster0.l4vjr.mongodb.net/<database>?retryWrites=true&w=majority'
-      DATABASE_PASSWORD: 'n6u7V5wxoPmr6piX'
-      DATABASE_NAME: 'code-king'
+      PORT: "3000"
+      HOST: "${HOST}"
+      DATABASE_URL: "${DATABASE_URL}"
+      DATABASE_PASSWORD: "${DATABASE_PASSWORD}"
+      DATABASE_NAME: "${DATABASE_NAME}"
       DATABASE_COLLECTION: 'challenges'
     ports:
       # Expose external port 5000 with internal port 3000.
@@ -34,12 +35,18 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-  # Defines the Submission History microservice
   submission-history:
     build:
       # Build the service from the Dockerfile in ./submission-history
       context: ./submission-history
     image: ${DOCKER_REGISTRY:-localhost}/submission-history
+    environment:
+      DATABASE_COLLECTION: 'submission-history'
+      PORT: "5050"
+      HOST: "${HOST}"
+      DATABASE_URL: "${DATABASE_URL}"
+      DATABASE_PASSWORD: "${DATABASE_PASSWORD}"
+      DATABASE_NAME: "${DATABASE_NAME}"
     ports:
       # Expose internal port 5050 on external port 7000.
       - 7000:5050
@@ -51,53 +58,6 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-  # submission-history:
-  #   build:
-  #     # Build the service from the Dockerfile in ./submission-history
-  #     context: ./submission-history
-  #   image: ${DOCKER_REGISTRY:-localhost}/submission-history
-  #   environment:
-  #     PORT: "5050"
-  #     # TODO set this to something (but don't put it in a file commited to the public repo!)
-  #     MYSQL_ROOT_PASSWORD: password
-  #     MYSQL_DATABASE: submissionHistory
-  #     MYSQL_HOST: "submission-history-database"
-  #   ports:
-  #     # Expose internal port 5050 on external port 7000.
-  #     - 7000:5050
-  #   networks:
-  #     - submissionHistory
-  #     - microservice
-  #   depends_on:
-  #     - submission-history-database
-  #   restart: always
-  #   deploy:
-  #     replicas: 1
-  #     restart_policy:
-  #       condition: on-failure
-  # submission-history-database:
-  #   build:
-  #     context: "./submission-history/submission-history-database/"
-  #     args:
-  #       # TODO set this to something (but don't put it in a file commited to the public repo!)
-  #       MYSQL_ROOT_PASSWORD: password
-  #   image: ${DOCKER_REGISTRY:-localhost}/submission-history-database
-  #   volumes:
-  #     - "submissionHistoryData:/mysql_data"
-  #   environment:
-  #     # TODO set this to something (but don't put it in a file commited to the public repo!)
-  #       MYSQL_ROOT_PASSWORD: password
-  #   networks:
-  #     submissionHistory:
-  #     # https://stackoverflow.com/a/55706057
-  #   cap_add:
-  #     - SYS_NICE
-  #   ports:
-  #     - 3306:3306
-  #   deploy:
-  #     replicas: 1
-  #     restart_policy:
-  #       condition: on-failure
   # Defines the account service
   accounts:
     build:
@@ -106,13 +66,13 @@ services:
     image: ${DOCKER_REGISTRY:-localhost}/accounts
     environment:
       # Listen on 0.0.0.0 to accept connections from any host.
-      HOST: "0.0.0.0"
-      PORT: "3000"
-      DATABASE_URL: 'mongodb+srv://ampinto:<password>@cluster0.l4vjr.mongodb.net/<database>?retryWrites=true&w=majority'
-      DATABASE_PASSWORD: 'n6u7V5wxoPmr6piX'
-      DATABASE_NAME: 'code-king'
       DATABASE_COLLECTION: 'accounts'
-      SALT_ROUND: '3'
+      SALT_ROUND: '12'
+      PORT: "3000"
+      HOST: "${HOST}"
+      DATABASE_URL: "${DATABASE_URL}"
+      DATABASE_PASSWORD: "${DATABASE_PASSWORD}"
+      DATABASE_NAME: "${DATABASE_NAME}"
     ports:
       # Expose internal port 3000 on external port 4000.
       - 4000:3000
@@ -120,26 +80,6 @@ services:
       - accountsNetwork
       - microservice
     restart: always
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-  # Defines the mongoDB container for accounts service.
-  accounts_db:
-    build:
-      context: "./init-mongo"
-    image: "${DOCKER_REGISTRY:-localhost}/init-mongo"
-    environment:
-      # Initializes mongoDB with the following credentials
-      MONGO_INITDB_USERNAME: "gerrygan98"
-      MONGO_INITDB_PASSWORD: "password"
-    volumes:
-      - mongo_accounts_data:/data/db
-    ports:
-      # Expose internal port 27017 on external port 27019.
-      - 27019:27017
-    networks:
-      - accountsNetwork
     deploy:
       replicas: 1
       restart_policy:

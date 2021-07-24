@@ -1,3 +1,4 @@
 node_modules/*
 Sessions/node_modules/*
 .vs/*
+.ENV

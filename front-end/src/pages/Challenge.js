@@ -15,57 +15,55 @@ function Challenge({token, ...rest}) {
     let history = useHistory();
     const { title, _id } = rest.match.params;
     const [submission, setSubmission] = useState('def submission:');
-    const [ { error, ...challenge }, setUrl, setOptions] = useAPI();
-    console.log(rest.username);
-    console.log(rest);
-    console.log(challenge);
+    // const [ { error, ...challenge }, setUrl, setOptions] = useAPI();
+    const [challenge, setChallenge] = useState();
     console.log(token);
     const handleSubmit = (e) => {
         e.preventDefault();  
-        // POST 127.0.0.1:8000/submitSolution?challengeId=123&programmingLanguage=python3&challengeName=test%20challenge&userName=matt
-        const url = `http://localhost:8080/submission-testing/submitSolution?challengeId=${challenge.data.id}&programmingLanguage=python3&challengeName=${challenge.data.name}&userName=${rest.username}`;
-        const options = {
-            method: 'POST',
-            body : JSON.stringify(submission),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization' : 'Bearer ' + token
-            }
-        }
-        setUrl(url);  
-        setOptions(options);
+        // // POST 127.0.0.1:8000/submitSolution?challengeId=123&programmingLanguage=python3&challengeName=test%20challenge&userName=matt
+        // const url = `http://localhost:8080/submission-testing/submitSolution?challengeId=${challenge.data.id}&programmingLanguage=python3&challengeName=${challenge.data.name}&userName=${rest.username}`;
+        // const options = {
+        //     method: 'POST',
+        //     body : JSON.stringify(submission),
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization' : 'Bearer ' + token
+        //     }
+        // }
+        // setUrl(url);  
+        // setOptions(options);
     };
     
     useEffect(() => {
-        async function fetchMyAPI() {
-            const url = `http://localhost:8080/challenges/getChallenge?_id=${_id}`;
-            const options = {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token,
-                }   
-            }
-            setUrl(url);
-            setOptions(options);
+        const options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            }   
         }
-        fetchMyAPI();
+        fetch(`http://localhost:8080/challenges/getChallenge?_id=${_id}`, options)
+        .then(response => response.json())
+        .then(data =>{
+            console.log(data);
+            setChallenge(data);
+        })
+        .catch(err => console.log(err));
       }, []);
 
     return (
             <PageContainer className='challenge-container'>
                 <Header text={title}/>
-                {challenge.data 
+                {challenge 
                 ? <>
                     <Button     
                         text='Browse Challenges'
                         icon={<BackIcon/>} 
                         onClick={ () => history.push('/challenges')}
                     />
-                    <div>ID: {challenge.data.id}</div>
-                    <div>Difficulty: {challenge.data.difficulty}</div>
-                    <div>Description: {challenge.data.description}</div>
-                    {/* <div>Test Cases: {challenge.data.testCases}</div> */}
+                    <div>ID: {challenge.id}</div>
+                    <div>Difficulty: {challenge.difficulty}</div>
+                    <div>Description: {challenge.description}</div>
                     <CodeSandbox 
                         submission={submission} 
                         setSubmission={setSubmission} 
@@ -75,7 +73,15 @@ function Challenge({token, ...rest}) {
                         icon={<SubmitIcon/>} 
                         onClick={handleSubmit}
                     />
-
+                    <div>TestCases:</div>
+                    {challenge.testCases.map(testCase => {
+                        return(
+                        <div>
+                            <div>Input: {testCase.input}</div>
+                            <div>Expected: {testCase.expectedOutput}</div>
+                        </div>
+                        )
+                    })}
             </>       
             : null
             }
@@ -94,11 +100,8 @@ const BackIcon = styled(IoMdArrowRoundBack)`
     margin-right: 5px;
     text-align: center;
     align-self: center;
-
     width: 20px;
     height: auto;
 `;
-
-
 
 export default Challenge;
