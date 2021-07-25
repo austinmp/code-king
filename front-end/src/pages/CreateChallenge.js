@@ -14,7 +14,7 @@ function CreateChallenge({ setModal, token }) {
   let history = useHistory();
   const testCase = {
     input: "[]",
-    expectedOutput:"[]",
+    expectedOutput:"",
     inputError:false,
     expectedOutputError:false
   }
@@ -56,9 +56,9 @@ function CreateChallenge({ setModal, token }) {
     e.preventDefault();
     console.log(token);
 
+
     if( !(isValidTestCases()) || testCases.length === 0 ) return;
 
-    // const url = 'http://localhost:5000/createChallenge'
     const url = 'http://localhost:8080/challenges/createChallenge';
     const body = {
       ...form,
@@ -79,7 +79,7 @@ function CreateChallenge({ setModal, token }) {
   };
   
   const isValidTestCases = () => {
-    const keys = ['input', 'expectedOutput']
+    const keys = ['input']
     let isAllValid = true;
     let isError = true;
     testCases.map( (test, index) => {

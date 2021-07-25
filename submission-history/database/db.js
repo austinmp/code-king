@@ -12,4 +12,4 @@ mongoose.connection.on('connected', function(){
     console.log(`Submission-History service successfully connected to MongoDB ${config.database.collection} collection.`);
 });
 
-module.exports = mongoose;
+module.exports = mongoose; 

@@ -1,5 +1,5 @@
 # Start with a Node.js base image.
-FROM node:carbon
+FROM node:16
 
 # Install dependencies.
 COPY package.json ./

@@ -7,16 +7,9 @@ const MAX_HIGHSCORES_PER_PAGE = 10;
 
 /// SAVE/UPDATE A SUBMISSION IN DATABASE ///
 async function postSubmission(req, res){
-    const newSubmission = new submission({
-        userId              : req.query.userID,
-        userName            : req.query.userName,
-        challengeId         : req.query.challengeId,
-        challengeName       : req.query.challengeName,
-        programmingLanguage : req.query.programmingLanguage,
-        executionTime       : req.query.executionTime,
-        didAllTestsPass     : req.query.didAllTestsPass
-    });
     try {
+        const newSubmission = new submission({ ...req.body });
+        console.log(newSubmission);
         await newSubmission.save();
         return res.status(201).json({message :`Submission created successfully!`});
     } catch(err) {

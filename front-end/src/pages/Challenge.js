@@ -74,9 +74,9 @@ function Challenge({token, ...rest}) {
                         onClick={handleSubmit}
                     />
                     <div>TestCases:</div>
-                    {challenge.testCases.map(testCase => {
+                    {challenge.testCases.map( ( testCase, index ) => {
                         return(
-                        <div>
+                        <div key={index}>
                             <div>Input: {testCase.input}</div>
                             <div>Expected: {testCase.expectedOutput}</div>
                         </div>

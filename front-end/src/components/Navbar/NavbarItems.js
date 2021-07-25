@@ -122,9 +122,10 @@ const MenuItem = styled(Button)`
 
 export const MenuItems = Links.map(item => {
     return (
-        <Link to={item.url}>
+        <Link to={item.url}
+            key={item.title}
+        >
             <MenuItem
-                key={item.title}
                 className={item.cName}
                 text={item.title}                 
             />

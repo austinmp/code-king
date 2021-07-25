@@ -2,10 +2,10 @@ const db = require('../database/db');
 const config = require('../config/config');
 
 const submissionSchema = new db.Schema({
-    userId: {
-        type: Number,
-        required: [true, 'UserId is required']
-    },
+    // userId: {
+    //     type: Number,
+    //     required: [true, 'UserId is required']
+    // },
     userName: {
         type: String,
         required: [true, 'User name is required'],

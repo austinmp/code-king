@@ -32,7 +32,7 @@ runnerImageContexts.forEach(async (context: string, language: string) => {
 /**
  * Begins submission evaluation and returns the ID of the submission.
  */
-export async function evaluateSubmission(code: string, language: string, challengeId: number, challengeName: string, userId: string, userName: string): Promise<SubmissionResult> {
+export async function evaluateSubmission(code: string, language: string, challengeId: number, challengeName: string, userName: string): Promise<SubmissionResult> {
 	const parameters: any = JSON.parse(await request("http://challenges:3000/getChallengeParameters", {
 		method: "GET",
 		qs: {
@@ -47,6 +47,7 @@ export async function evaluateSubmission(code: string, language: string, challen
 
 	try {
 		const executionResults: ExecutionResults = await runTests(code, language, testCases, submissionId);
+		console.log(executionResults.tests);
 		const allTestsPassed = executionResults.tests.reduce((allPassed, result) => result.outcome === "PASSED" && allPassed, true);
 		submissionStatus = allTestsPassed ? "PASSED" : "FAILED";
 
@@ -56,7 +57,6 @@ export async function evaluateSubmission(code: string, language: string, challen
 				"Content-Type": "application/x-www-form-urlencoded"
 			},
 			form: {
-				userID: userId,
 				userName: userName,
 				challengeId: challengeId,
 				challengeName: challengeName,

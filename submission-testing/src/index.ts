@@ -28,7 +28,6 @@ server.post("/submitSolution", async (req: express.Request, res: express.Respons
 
 	const challengeId = Number.parseInt(req.query.challengeId as string);
 	const challengeName = req.query.challengeName as string;
-	const userId = token_username as string;
 	const userName = token_username as string;
 	const language = req.query.programmingLanguage as string;
 
@@ -42,12 +41,7 @@ server.post("/submitSolution", async (req: express.Request, res: express.Respons
 		return;
 	}
 
-	if (!userId) {
-		res.status(400).json({message: "Invalid user ID."});
-		return;
-	}
-
-	const submissionResult = await evaluateSubmission(code, language, challengeId, challengeName, userId, userName);
+	const submissionResult = await evaluateSubmission(code, language, challengeId, challengeName, userName);
 	if (submissionResult.status === "ERRORED") {
 		res.status(500).json(submissionResult);
 	} else {

@@ -1,15 +1,19 @@
 const express = require('express');
 const db = require('./database/db');
 const config = require('./config/config');
-const routes = require('./routes/routes');
+const formData = require('express-form-data');
 
 const port = config.port || 5050;
 const app = express();
 
-app.use("/", routes);
-app.use(express.urlencoded({extended: true}));
+const router = express.Router();
+router.use("/", require('./routes/routes'));
+
+app.use(formData.parse());
 app.use(express.json());
-app.use(express.text());
+app.use(express.urlencoded({ extended: true }));
+app.use(router);
+
 
 app.listen(port, () => {
     console.log(`Submissions server listening on port: ${port}`);
