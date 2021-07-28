@@ -10,7 +10,7 @@ services:
       - ./front-end:/src/
       - nodemodules:/src/node_modules
     environment:
-      HOST: "0.0.0.0"
+      HOST: "${HOST}"
       PORT: "8010"
       GATEWAY_PORT: "8080"
     networks:
