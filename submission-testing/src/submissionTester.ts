@@ -67,7 +67,7 @@ export async function evaluateSubmission(code: string, language: string, challen
 		});
 	} catch (err) {
 		submissionStatus = "ERRORED";
-		console.error(err);
+		console.log(err);
 	}
 
 	return {
