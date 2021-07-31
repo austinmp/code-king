@@ -20,18 +20,21 @@ function Challenge({token, ...rest}) {
     console.log(token);
     const handleSubmit = (e) => {
         e.preventDefault();  
-        // // POST 127.0.0.1:8000/submitSolution?challengeId=123&programmingLanguage=python3&challengeName=test%20challenge&userName=matt
-        // const url = `http://localhost:8080/submission-testing/submitSolution?challengeId=${challenge.data.id}&programmingLanguage=python3&challengeName=${challenge.data.name}&userName=${rest.username}`;
-        // const options = {
-        //     method: 'POST',
-        //     body : JSON.stringify(submission),
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization' : 'Bearer ' + token
-        //     }
-        // }
-        // setUrl(url);  
-        // setOptions(options);
+        const options = {
+            method: 'POST',
+            body : JSON.stringify(submission),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            }   
+        }
+        fetch(`http://localhost:8080/submission-testing/submitSolution?challengeId=${challenge.data.id}&programmingLanguage=python3&challengeName=${challenge.data.name}&userName=${rest.username}`, options)
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(err =>{
+            console.log(err)
+        } )
+
     };
     
     useEffect(() => {

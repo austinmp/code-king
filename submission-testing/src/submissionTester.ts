@@ -8,6 +8,7 @@ import request from "request-promise";
 
 const runnerImageContexts = new Map<string, string>();
 runnerImageContexts.set("python3", "/runners/python3/");
+runnerImageContexts.set("javascript", "/runners/javascript/");
 
 const docker = new Dockerode();
 
@@ -97,7 +98,7 @@ export async function runTests(code: string, language: string, testCases: TestCa
 				// TODO make test timeouts configurable per challenge?
 				StopTimeout: 15,
 				HostConfig: {
-					AutoRemove: true
+					AutoRemove: false
 					// TODO set resource quotas.
 				}
 			}
