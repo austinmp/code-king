@@ -7,14 +7,14 @@ import "ace-builds/src-noconflict/theme-monokai";
 const CodeSandbox = ({ submission, setSubmission } ) => {
         return (        
         <AceEditor
-            placeholder="Placeholder Text"
             mode="python"   
             theme="monokai"
             name="blah2"
             // onLoad={this.onLoad}
             onChange={ (e) => setSubmission(e) }     
             fontSize={14}
-            showPrintMargin={true}
+            width={ '100%'}
+            showPrintMargin={false}
             showGutter={true}
             highlightActiveLine={true}
             value={submission}
