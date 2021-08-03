@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar.js';
 import Modal from './components/Modal/Modal';
@@ -15,13 +15,17 @@ import {
 } from "react-router-dom";
 
 import ModalMessage from './components/ModalForms/ModalMessage';
+import { AuthContext } from './context/AuthContext';
+
 
 function App() {
 
-  const [credentials, setCredentials] = useState({
-    username  : localStorage.getItem('codeKingUsername') || '',
-    token     : localStorage.getItem('APIToken') || '',
-  });
+  const [credentials, setCredentials] = useContext(AuthContext);
+
+  // const [credentials, setCredentials] = useState({
+  //   username  : localStorage.getItem('codeKingUsername') || '',
+  //   token     : localStorage.getItem('APIToken') || '',
+  // });
 
   const [modal, setModal] = useState({
     isOpen  : false,

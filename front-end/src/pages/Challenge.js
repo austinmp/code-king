@@ -8,6 +8,7 @@ import CodeSandbox from '../components/CodeSandbox';
 import Button from '../components/Button';
 import { BsPlayFill } from 'react-icons/bs';
 import { IoMdArrowRoundBack } from 'react-icons/io';
+import fetchData from '../api/fetchData';
 
 // All route props (match, location and history) are available to component 
 function Challenge({token, ...rest}) {
@@ -64,8 +65,6 @@ function Challenge({token, ...rest}) {
         renderExecutionResults();
     }, [executionResults]);
 
-   
-    
     useEffect(() => {
         const options = {
             method: 'GET',
@@ -74,14 +73,36 @@ function Challenge({token, ...rest}) {
                 'Authorization': 'Bearer ' + token,
             }   
         }
-        fetch(`http://localhost:8080/challenges/getChallenge?_id=${_id}`, options)
-        .then(response => response.json())
-        .then(data =>{
-            console.log(data);
-            setChallenge(data);
+        fetchData(`http://localhost:8080/challenges/getChallenge?_id=${_id}`, options)
+        .then( ({ data, error }) => {
+            if(error) {
+                console.log(error);
+                // setError(error)
+            } else {
+                setChallenge(data);
+            }
         })
         .catch(err => console.log(err));
-      }, []);
+    }, []);
+
+   
+    
+    // useEffect(() => {
+    //     const options = {
+    //         method: 'GET',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': 'Bearer ' + token,
+    //         }   
+    //     }
+    //     fetch(`http://localhost:8080/challenges/getChallenge?_id=${_id}`, options)
+    //     .then(response => response.json())
+    //     .then(data =>{
+    //         console.log(data);
+    //         setChallenge(data);
+    //     })
+    //     .catch(err => console.log(err));
+    //   }, []);
 
     return (
             <PageContainer className='challenge-container'>
