@@ -8,20 +8,27 @@ import CodeSandbox from '../components/CodeSandbox';
 import Button from '../components/Button';
 import { BsPlayFill } from 'react-icons/bs';
 import { IoMdArrowRoundBack } from 'react-icons/io';
-import fetchData from '../api/fetchData';
+import  useFetch from '../api/useFetch';
 
 // All route props (match, location and history) are available to component 
 function Challenge({token, ...rest}) {
     let history = useHistory();
     const { title, _id } = rest.match.params;
-    const [challenge, setChallenge] = useState();
     const [submission, setSubmission] = useState('def submission(*args):');
     const [submissionStatus, setSubmissionStatus] = useState('INCOMPLETE'); // WILL NEED TO PASS IN A STATE IF WE HAVE  SUBMITTED A CHALLENGE ALREADY
     const [language, setLanguage] = useState('python3');
     const [executionResults, setExecutionResults] = useState();
     const [output, setOutput] = useState();
 
+    const options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }   
+    };
     
+    const [challenge, loading, error] = useFetch(`http://localhost:8080/challenges/getChallenge?_id=${_id}`, options);
+
     const handleSubmit = (e) => {
         e.preventDefault();  
         const options = {
@@ -65,26 +72,10 @@ function Challenge({token, ...rest}) {
         renderExecutionResults();
     }, [executionResults]);
 
-    useEffect(() => {
-        const options = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token,
-            }   
-        }
-        fetchData(`http://localhost:8080/challenges/getChallenge?_id=${_id}`, options)
-        .then( ({ data, error }) => {
-            if(error) {
-                console.log(error);
-                // setError(error)
-            } else {
-                setChallenge(data);
-            }
-        })
-        .catch(err => console.log(err));
-    }, []);
+    useEffect( () => {
+        console.log(challenge);
 
+    }, [challenge]);
    
     
     // useEffect(() => {
@@ -113,10 +104,12 @@ function Challenge({token, ...rest}) {
                 />
                
                 <Header text={title}/>
+
+                {loading
+                ? <div>LOADING... </div>
+                :                 
                 
-                
-                {challenge 
-                ? <>
+        <>
                     <Label >Status:      
                         <SubmissionStatus className={`${submissionStatus}`}>
                             {' ' + submissionStatus}
@@ -145,8 +138,8 @@ function Challenge({token, ...rest}) {
                     })}
                     
             </>       
-            : null
-            }
+}
+            
             <Label>Solution  
                 <ProgrammingLanguageSelect>
                     <select name='language' onChange={(e)=> setLanguage(e.target.value)} required> 

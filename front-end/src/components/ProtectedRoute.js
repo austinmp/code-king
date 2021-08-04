@@ -1,12 +1,10 @@
-import React from 'react';
-import {
-    Route,
-    Redirect, 
-  } from 'react-router-dom';
-
+import { useContext } from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const ProtectedRoute = ({component : Component, ...rest }) => {
-    const isAuthenticated = rest.isAuthenticated;
+    const { credentials } = useContext(AuthContext);
+    const isAuthenticated = credentials.token;
     return (
         <Route 
             {...rest} 
