@@ -5,7 +5,7 @@ import { AuthContext } from '../context/AuthContext';
 
 // To Do : if unauthorized status is returned , log user out.
 
-const useFetch = (url = '', options) => {
+const useFetch = (url, options) => {
     const { credentials, logout } = useContext(AuthContext);
     const [error, setError] = useState(null);
     const [data, setData] = useState(null);
@@ -15,18 +15,26 @@ const useFetch = (url = '', options) => {
     let status;
     let fetchedData;
 
-    const fetchData = async () => {
+    const getFetchOptions = (options) => {
         const myHeaders = new Headers({
-            ...options.headers,
+            ...(options && {...options.headers}),
             'Authorization': 'Bearer ' + credentials.token,
         });
+        if(!myHeaders.has('Content-Type')){
+            myHeaders.append('Content-Type', 'application/json');         
+        }
         const fetchOptions = {
-            ...options,
+            ...(options),
+            ...(options && !options.method && {method: 'GET'}),
             headers: myHeaders
         }
+        console.log(fetchOptions);
+        return fetchOptions;
+    }
 
+    const fetchData = async (url='', options={}) => {  
         try {
-            const response = await fetch(url, fetchOptions);
+            const response = await fetch(url, getFetchOptions(options));
             status = response.status;
             if(status === 401) logout();
             try {
@@ -44,6 +52,7 @@ const useFetch = (url = '', options) => {
             isError = true;
             message = message || 'An unexpected error occured';   
             status = status || 500;
+            console.log(err);
         }
         if(isError){
             setError({
@@ -53,13 +62,14 @@ const useFetch = (url = '', options) => {
         } 
         setData(fetchedData); 
         setLoading(false);
+        return [fetchedData, loading, error];
     }
 
-    useEffect( () => {
-        fetchData();
-    }, [url]);
+    // useEffect( () => {
+    //     fetchData(url, options);
+    // }, []);
 
-    return [data, loading, error, ];
+    return  fetchData;
 }
 
 export default useFetch;

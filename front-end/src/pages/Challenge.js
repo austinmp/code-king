@@ -11,7 +11,7 @@ import { IoMdArrowRoundBack } from 'react-icons/io';
 import  useFetch from '../api/useFetch';
 
 // All route props (match, location and history) are available to component 
-function Challenge({token, ...rest}) {
+function Challenge({...rest}) {
     let history = useHistory();
     const { title, _id } = rest.match.params;
     const [submission, setSubmission] = useState('def submission(*args):');
@@ -19,36 +19,28 @@ function Challenge({token, ...rest}) {
     const [language, setLanguage] = useState('python3');
     const [executionResults, setExecutionResults] = useState();
     const [output, setOutput] = useState();
+    const [challenge, setChallenge] = useState();
+    const fetchData = useFetch();
 
-    const options = {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        }   
-    };
-    
-    const [challenge, loading, error] = useFetch(`http://localhost:8080/challenges/getChallenge?_id=${_id}`, options);
+    useEffect( async ()=> {
+        const  [challengeData, loading, error ] = await fetchData(`http://localhost:8080/challenges/getChallenge?_id=${_id}`);
+        setChallenge(challengeData);
+    }, []);
 
-    const handleSubmit = (e) => {
+
+
+    const handleSubmit = async (e) => {
         e.preventDefault();  
         const options = {
             method: 'POST',
             body : submission,
             headers: {
                 'Content-Type': 'text/plain',
-                'Authorization': 'Bearer ' + token,
             }   
         }
-        fetch(`http://localhost:8080/submission-testing/submitSolution?challengeId=${challenge.id}&programmingLanguage=${language}&challengeName=${challenge.name}&userName=${rest.username}`, options)
-        .then(response => response.json())
-        // .then(response => response.text())
-        .then(result => {
-            console.log(result.status);
-            setSubmissionStatus(result.status);
-            setExecutionResults(result.executionResults.tests);
-            // setSubmissionStatus(result.status);
-        })
-        .catch(error => console.log('error', error))
+        const [result, loading, error] = await fetchData(`http://localhost:8080/submission-testing/submitSolution?challengeId=${challenge.id}&programmingLanguage=${language}&challengeName=${challenge.name}&userName=${rest.username}`, options);
+        setSubmissionStatus(result.status);
+        setExecutionResults(result.executionResults.tests);
     };
 
     const renderExecutionResults = () => {
@@ -71,29 +63,7 @@ function Challenge({token, ...rest}) {
     useEffect(() => {
         renderExecutionResults();
     }, [executionResults]);
-
-    useEffect( () => {
-        console.log(challenge);
-
-    }, [challenge]);
    
-    
-    // useEffect(() => {
-    //     const options = {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Authorization': 'Bearer ' + token,
-    //         }   
-    //     }
-    //     fetch(`http://localhost:8080/challenges/getChallenge?_id=${_id}`, options)
-    //     .then(response => response.json())
-    //     .then(data =>{
-    //         console.log(data);
-    //         setChallenge(data);
-    //     })
-    //     .catch(err => console.log(err));
-    //   }, []);
 
     return (
             <PageContainer className='challenge-container'>
@@ -105,7 +75,7 @@ function Challenge({token, ...rest}) {
                
                 <Header text={title}/>
 
-                {loading
+                {!challenge
                 ? <div>LOADING... </div>
                 :                 
                 
@@ -240,3 +210,27 @@ const BackIcon = styled(IoMdArrowRoundBack)`
 
 
 export default Challenge;
+
+
+
+
+// const handleSubmit = (e) => {
+//     e.preventDefault();  
+//     const options = {
+//         method: 'POST',
+//         body : submission,
+//         headers: {
+//             'Content-Type': 'text/plain',
+//         }   
+//     }
+//     fetch(`http://localhost:8080/submission-testing/submitSolution?challengeId=${challenge.id}&programmingLanguage=${language}&challengeName=${challenge.name}&userName=${rest.username}`, options)
+//     .then(response => response.json())
+//     // .then(response => response.text())
+//     .then(result => {
+//         console.log(result.status);
+//         setSubmissionStatus(result.status);
+//         setExecutionResults(result.executionResults.tests);
+//         // setSubmissionStatus(result.status);
+//     })
+//     .catch(error => console.log('error', error))
+// };
