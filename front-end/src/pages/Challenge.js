@@ -19,7 +19,13 @@ function Challenge({...rest}) {
     const [language, setLanguage] = useState('python3');
     const [executionResults, setExecutionResults] = useState();
     const [output, setOutput] = useState();
-    const [challenge, loading, error, fetchData] = useFetch(`http://localhost:8080/challenges/getChallenge?_id=${_id}`);
+    const [challenge, setChallenge] = useState();
+    const fetchData = useFetch();
+
+    useEffect( async () =>{
+        const [challengeData, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallenge?_id=${_id}`);
+        setChallenge(challengeData);
+    }, [] );
 
     const handleSubmit = async (e) => {
         e.preventDefault();  

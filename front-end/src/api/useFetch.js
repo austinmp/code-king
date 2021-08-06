@@ -62,15 +62,14 @@ const useFetch = (url, options) => {
         } 
         setData(fetchedData); 
         setLoading(false);
-        console.log(fetchedData);
         return [fetchedData, loading, error];
     }
 
-    useEffect( () => {
-        fetchData(url, options);
-    }, [url]);
+    // useEffect( () => {
+    //     fetchData(url, options);
+    // }, []);
 
-    return [data, loading, error, fetchData];
+    return  fetchData;
 }
 
 export default useFetch;

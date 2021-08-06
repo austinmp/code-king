@@ -4,21 +4,25 @@ import styled, {css} from "styled-components";
 import Button from '../components/Button';
 import Header from '../components/Header';
 import PageContainer from '../components/PageContainer';
-import useAPI from '../api/useAPI';
+import useFetch from '../api/useFetch';
 
 // icons
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import { FaRegTrashAlt } from 'react-icons/fa';
 
-function CreateChallenge({ setModal, token }) {
+function CreateChallenge({ setModal }) {
   let history = useHistory();
+  const fetchData = useFetch();
+  const [data, setData] = useState();
+  const [error, setError] = useState();
+
   const testCase = {
     input: "[]",
     expectedOutput:"",
     inputError:false,
     expectedOutputError:false
   }
-  const [ { data, error }, setUrl, setOptions] = useAPI();
+
   const [testCases, setTestCases] = useState([testCase]);
   const [form, setForm] = useState({
     name: '',
@@ -52,10 +56,8 @@ function CreateChallenge({ setModal, token }) {
     setTestCases(testCaseCopy);
   }
 
-  const handleSubmit = (e, i) => {
+  const handleSubmit = async (e, i) => {
     e.preventDefault();
-    console.log(token);
-
 
     if( !(isValidTestCases()) || testCases.length === 0 ) return;
 
@@ -68,14 +70,10 @@ function CreateChallenge({ setModal, token }) {
     const options = {
       method: 'POST',
       body : JSON.stringify(body),
-      headers: {
-          'Content-Type': 'application/json',
-          'Authorization' : 'Bearer ' + token
-      } 
     }
-    setUrl(url);  
-    setOptions(options);
-    console.log(data);
+    const [response, err]  = await fetchData(url, options);
+    setData(response);
+    setError(err)
   };
   
   const isValidTestCases = () => {
@@ -130,6 +128,8 @@ function CreateChallenge({ setModal, token }) {
     }
 
     if(data && !error) {
+      console.log(data);
+      
       const newChallenge = data._doc
       const path = `/challenges/${newChallenge.name}/${newChallenge._id}`
       displaySuccess('Challenge created successfully!');

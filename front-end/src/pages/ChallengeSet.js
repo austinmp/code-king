@@ -19,12 +19,19 @@ const headers = [
 const ChallengeSet = () => {
     const [numChallenges, setNumChallenges] = useState(0);
     const [page, setPage] = useState(1);
-    const [challenges, loading, error, fetchData] = useFetch(`http://localhost:8080/challenges/getChallengeSet`);
+    const [challenges, setChallenges] = useState();
+    const fetchData = useFetch();
+
+    useEffect( async () =>{
+        const [challengeSet, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallengeSet`);
+        setChallenges(challengeSet.challenges);
+        setNumChallenges(challengeSet.length);
+    }, [] );
 
     const paginateChallenges = () => {
         const start = (page-1)*CHALLENGES_PER_PAGE;
         const end = (page*CHALLENGES_PER_PAGE <= numChallenges) ? page*CHALLENGES_PER_PAGE : undefined;
-        const currChallenges = challenges.challenges.slice(start, end);
+        const currChallenges = challenges.slice(start, end);
         return (
             currChallenges.map(challenge => (
                 <tr key={challenge.name}
@@ -43,12 +50,6 @@ const ChallengeSet = () => {
             ))
         );
     }
-
-    useEffect( () => {
-        if(challenges) {
-            setNumChallenges(challenges.challenges.length);
-        }      
-    }, [challenges]);
 
     return (
         <PageContainer className='challenges-container'>
