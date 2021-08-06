@@ -13,8 +13,6 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 function CreateChallenge({ setModal }) {
   let history = useHistory();
   const fetchData = useFetch();
-  const [data, setData] = useState();
-  const [error, setError] = useState();
 
   const testCase = {
     input: "[]",
@@ -58,22 +56,18 @@ function CreateChallenge({ setModal }) {
 
   const handleSubmit = async (e, i) => {
     e.preventDefault();
-
     if( !(isValidTestCases()) || testCases.length === 0 ) return;
-
-    const url = 'http://localhost:8080/challenges/createChallenge';
     const body = {
       ...form,
       testCases: testCases
     }
-
     const options = {
       method: 'POST',
       body : JSON.stringify(body),
     }
-    const [response, err]  = await fetchData(url, options);
-    setData(response);
-    setError(err)
+    const [response, loading, err]  = await fetchData('http://localhost:8080/challenges/createChallenge', options);
+    if(err) handleError(err)
+    if(response && !err) handleSuccess(response);
   };
   
   const isValidTestCases = () => {
@@ -100,44 +94,31 @@ function CreateChallenge({ setModal }) {
      return isAllValid;
   }
 
-  const displayError = (message) => {
+  const handleError = (error) => {
+      console.log(error);
       setModal(prevState =>({
           ...prevState,
           isOpen : true,
           form: 'message',
-          data: message,
+          data: error.message,
           header: '',
           icon : 'error'
       }));
   }
-  const displaySuccess = (message) => {
+
+  const handleSuccess = (response) => {
+    const newChallenge = response._doc
+    const path = `/challenges/${newChallenge.name}/${newChallenge._id}`
     setModal(prevState =>({
       ...prevState,
       isOpen : true,
       form: 'message',
-      data: message,
+      data: 'Challenge created successfully!',
       header: '',
       icon : 'success'
     }));
+    history.push(path);
   }
-
-  useEffect( () => {
-    if(error) {
-      console.log(error);
-      displayError(error.message);
-    }
-
-    if(data && !error) {
-      console.log(data);
-      
-      const newChallenge = data._doc
-      const path = `/challenges/${newChallenge.name}/${newChallenge._id}`
-      displaySuccess('Challenge created successfully!');
-      history.push(path);
-    }
-    
-    
-  }, [data, error]);
 
   const renderTestCases = () => {
     return testCases.map((test, i) =>

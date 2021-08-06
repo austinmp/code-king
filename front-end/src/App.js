@@ -56,25 +56,22 @@ function App() {
               setCredentials={setCredentials}
             />  
           : null
-        }
+        } 
         <Route
           exact path='/'
           render={(props) => (
             <Home modal={modal} setModal={setModal} />
           )}
         />
-        <Route 
+        {/* <Route 
           exact path="/createChallenge" 
           render={(props) => (
-          <CreateChallenge 
-          token={credentials.token}
-          setModal={setModal} />
+            <CreateChallenge setModal={setModal} />
           )}
-        
-        />
-        {/* <ProtectedRoute exact path="/createChallenge" component={CreateChallenge} isAuthenticated={credentials.token}/> */}
+        /> */}
+        <ProtectedRoute exact path="/createChallenge" component={CreateChallenge} setModal={setModal}/>
         <ProtectedRoute exact path="/challenges" component={ChallengeSet} />
-        <ProtectedRoute path="/challenges/:title/:_id" component={Challenge} isAuthenticated={credentials.token} username={credentials.username}/>
+        <ProtectedRoute path="/challenges/:title/:_id" component={Challenge} username={credentials.username}/>
       </Router>
     </Div>    
   );

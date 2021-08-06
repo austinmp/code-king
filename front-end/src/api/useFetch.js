@@ -28,7 +28,6 @@ const useFetch = (url, options) => {
             ...(options && !options.method && {method: 'GET'}),
             headers: myHeaders
         }
-        console.log(fetchOptions);
         return fetchOptions;
     }
 

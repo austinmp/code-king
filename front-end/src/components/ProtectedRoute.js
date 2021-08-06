@@ -14,7 +14,6 @@ const ProtectedRoute = ({component : Component, ...rest }) => {
                     // All route props (match, location and history) are available to component 
                     ? <Component 
                         {...routeProps}
-                        token={isAuthenticated }
                         {...rest}
                     />
                     : <Redirect to={{
