@@ -19,15 +19,7 @@ function Challenge({...rest}) {
     const [language, setLanguage] = useState('python3');
     const [executionResults, setExecutionResults] = useState();
     const [output, setOutput] = useState();
-    const [challenge, setChallenge] = useState();
-    const fetchData = useFetch();
-
-    useEffect( async ()=> {
-        const  [challengeData, loading, error ] = await fetchData(`http://localhost:8080/challenges/getChallenge?_id=${_id}`);
-        setChallenge(challengeData);
-    }, []);
-
-
+    const [challenge, loading, error, fetchData] = useFetch(`http://localhost:8080/challenges/getChallenge?_id=${_id}`);
 
     const handleSubmit = async (e) => {
         e.preventDefault();  
@@ -40,17 +32,21 @@ function Challenge({...rest}) {
         }
         const [result, loading, error] = await fetchData(`http://localhost:8080/submission-testing/submitSolution?challengeId=${challenge.id}&programmingLanguage=${language}&challengeName=${challenge.name}&userName=${rest.username}`, options);
         setSubmissionStatus(result.status);
-        setExecutionResults(result.executionResults.tests);
+        setExecutionResults(result.executionResults);
+        // To do add error and loading handling
+
     };
 
     const renderExecutionResults = () => {
+        console.log(executionResults);
         if(!executionResults || submissionStatus === 'INCOMPLETE') return null;
         
         switch(submissionStatus) {
-            case 'SUCCESS':
-                return (<div> hey</div>)
+            case 'PASSED':
+                setOutput({output : `ALL TEST CASES PASSED SUCCESSFULLY! Execution time : ${executionResults.executionTime} ms`});
+                break;
             case 'FAILED':
-                const failedTestCase = executionResults.find( ({ outcome }) => outcome === 'ERRORED' || outcome === 'FAILED');
+                const failedTestCase = executionResults.tests.find( ({ outcome }) => outcome === 'ERRORED' || outcome === 'FAILED');
                 const isErrored = (failedTestCase.outcome === 'ERRORED');
                 if (isErrored) {
                     setOutput({output : failedTestCase.output});
@@ -75,7 +71,7 @@ function Challenge({...rest}) {
                
                 <Header text={title}/>
 
-                {!challenge
+                {! challenge
                 ? <div>LOADING... </div>
                 :                 
                 
@@ -124,7 +120,7 @@ function Challenge({...rest}) {
             />
             <Label>Output</Label>
             <Output>
-                {!output ? null 
+                {! output ? null 
                 : Object.keys(output).map(key => {
                         return <p>{`${key} : ${output[key]}`} </p>
                     } )
