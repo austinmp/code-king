@@ -5,9 +5,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: rgb(40,44,52);
-
+  /* background: rgb(40,44,52); */
+  background: #f3f4f6;
 }
+
+:root {
+  --color-text: red;
+}
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

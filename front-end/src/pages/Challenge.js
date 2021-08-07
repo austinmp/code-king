@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Header from '../components/Header.js';
 import PageContainer from '../components/PageContainer';
+import ContentCard from '../components/ContentCard';
+
 import useAPI from '../api/useAPI';
 import CodeSandbox from '../components/CodeSandbox';
 import Button from '../components/Button';
@@ -68,38 +70,42 @@ function Challenge({...rest}) {
    
 
     return (
-            <PageContainer className='challenge-container'>
+        <PageContainer className='challenge-container' header={title}>
                 <BackButton     
                         text='Browse Challenges'
                         icon={<BackIcon/>} 
                         onClick={ () => history.push('/challenges')}
                 />
-               
-                <Header text={title}/>
-
-                {! challenge
-                ? <div>LOADING... </div>
-                :                 
+                <ContentCard>
+                    {! challenge
+                    ? <div>LOADING... </div>
+                    :<>  
+                        <ChallengeDetailsTopRow>
+                            <div> 
+                                <Label>Challenge Id: {challenge.id}</Label> 
+                            </div>  
+                            <div>       
+                                <Label >Status:      
+                                    <SubmissionStatus className={`${submissionStatus}`}>
+                                        {' ' + submissionStatus}
+                                    </SubmissionStatus>
+                                </Label>
+                            </div>  
+                            <div>  
+                                <Label>Difficulty: 
+                                    <Difficulty className={`${challenge.difficulty}`}>
+                                        {' ' +  challenge.difficulty.toUpperCase()}
+                                    </Difficulty>
+                                </Label>
+                            </div>  
+                        </ChallengeDetailsTopRow>
+                        <Label>Description: {challenge.description}</Label>
+                    </>
+                    }
+                </ContentCard>    
                 
-        <>
-                    <Label >Status:      
-                        <SubmissionStatus className={`${submissionStatus}`}>
-                            {' ' + submissionStatus}
-                        </SubmissionStatus>
-                    </Label>
-                    <Label>Difficulty: 
-                        <Difficulty className={`${challenge.difficulty}`}>
-                            {' ' +  challenge.difficulty.toUpperCase()}
-                        </Difficulty>
-                    </Label>
                 
-                    <Label>Challenge Id: {challenge.id}</Label>
-                    
-                    
-                    <Label>Description: {challenge.description}</Label>
-                    
-                                     
-                    <div>TestCases:</div>
+                    {/* <div>TestCases:</div>
                     {challenge.testCases.map( ( testCase, index ) => {
                         return(
                         <div key={index}>
@@ -110,8 +116,8 @@ function Challenge({...rest}) {
                     })}
                     
             </>       
-}
-            
+} */}
+        <ContentCard>
             <Label>Solution  
                 <ProgrammingLanguageSelect>
                     <select name='language' onChange={(e)=> setLanguage(e.target.value)} required> 
@@ -124,6 +130,14 @@ function Challenge({...rest}) {
                 submission={submission} 
                 setSubmission={setSubmission} 
             />
+        </ContentCard>
+
+        <Button 
+            text='Submit'
+            icon={<SubmitIcon/>} 
+            onClick={handleSubmit}
+        />
+        <ContentCard>
             <Label>Output</Label>
             <Output>
                 {! output ? null 
@@ -132,11 +146,7 @@ function Challenge({...rest}) {
                     } )
                 }
             </Output>
-            <Button 
-                text='Submit'
-                icon={<SubmitIcon/>} 
-                onClick={handleSubmit}
-            />
+        </ContentCard>
         </PageContainer>
     );
 }
@@ -176,6 +186,15 @@ const Difficulty = styled.span`
     }
 `;
 
+const ChallengeDetailsTopRow = styled.div`
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between;
+
+    width: 100%;
+
+`;
+
 const ProgrammingLanguageSelect = styled.span`
     float:right;
 `;
@@ -191,7 +210,7 @@ const Output = styled.div`
 
 const BackButton = styled(Button)`
     align-self: flex-start;
-    margin-top: 40px;
+    // margin-top: 40px;
 `
 
 const SubmitIcon = styled(BsPlayFill)`

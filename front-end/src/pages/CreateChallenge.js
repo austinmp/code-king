@@ -65,9 +65,9 @@ function CreateChallenge({ setModal }) {
       method: 'POST',
       body : JSON.stringify(body),
     }
-    const [response, loading, err]  = await fetchData('http://localhost:8080/challenges/createChallenge', options);
-    if(err) handleError(err)
-    if(response && !err) handleSuccess(response);
+    const [response, loading, error]  = await fetchData('http://localhost:8080/challenges/createChallenge', options);
+    if(error) handleError(error)
+    if(response && !error) handleSuccess(response);
   };
   
   const isValidTestCases = () => {
@@ -146,21 +146,18 @@ function CreateChallenge({ setModal }) {
                 required
               />
             </ExpectedOutput>
-        </TestCase>
-        <TestCaseAside>
             <RemoveTestCaseButton 
               classname='btn' 
               onClick={(e) => removeTestCase(e, i)}
               icon={<TrashIcon/>}
             />
-          </TestCaseAside> 
+        </TestCase>
       </TestCaseContainer>
     )
   }
 
   return (
-    <PageContainer className="create-challenge-container">
-      <Header text="Create a Challenge"/>
+    <PageContainer className='create-challenge-container' header={'Create a Challenge'}>
       <CreateChallengeForm onSubmit={handleSubmit}>
         <Div>
           <Row>
@@ -322,13 +319,14 @@ const TextArea = styled.textarea`
   width: 100%;
 `;
 
-const TestCaseAside = styled.div`
-  display: flex;
-  height: inherit;
-  flex-shrink: 3;
-  margin-left: 20px;
-  justify-content: flex-end;
-`;
+// const TestCaseAside = styled.div`
+//   display: flex;
+//   height: inherit;
+//   flex-shrink: 3;
+//   margin-left: 20px;
+//   justify-content: flex-end;
+//   background: green;
+// `;
 
 const RemoveTestCaseButton = styled(Button)`
   background: #e85e6c;

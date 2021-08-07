@@ -16,6 +16,8 @@ import {
 
 import ModalMessage from './components/ModalForms/ModalMessage';
 import { AuthContext } from './context/AuthContext';
+import GlobalStyles from './GlobalStyles';
+
 
 
 function App() {
@@ -42,6 +44,7 @@ function App() {
 
   return (
     <Div className="App">
+      <GlobalStyles/>
       <Router>
         <Navbar 
           setModal={setModal}
@@ -80,7 +83,6 @@ function App() {
 export default App;
 
 const Div = styled.div`
-  /* background: red; */
   min-height: 100vh;
   position:relative;
   padding-bottom: 150px;

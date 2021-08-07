@@ -52,8 +52,7 @@ const ChallengeSet = () => {
     }
 
     return (
-        <PageContainer className='challenges-container'>
-            <Header text="Solve a Challenge"/>
+        <PageContainer className='challenges-container' header={'Solve A Challenge'}>
             <Table>
                 <thead>
                     <tr>
@@ -79,11 +78,13 @@ const Table = styled.table`
     width:100%;
     border-collapse:collapse; 
     thead {
-        background: #20232a;
+        background: var(--title-primary);
+        color: white;
+        
     }
 
     tbody tr:hover{
-        background:#6568F4;
+        background:var(--hover-color);
         cursor: pointer;
     }
 

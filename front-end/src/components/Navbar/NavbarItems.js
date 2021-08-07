@@ -12,7 +12,7 @@ import { FaUser } from 'react-icons/fa';
 
 export const Nav = styled.nav`
     background: #20232a;
-    height: 70px;
+    height: 90px;
     min-height:70px;
     width: 100vw;
     display:flex;
@@ -23,12 +23,13 @@ export const Nav = styled.nav`
     padding-right: 30px;
     padding-left: 30px;
     overflow: hidden;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 `;
 
 export const Logo = () => {    
     const CrownIcon = styled(CgCrown)`
         color: gold;
-        width: 40px;
+        width: 60px;
         height: auto;
         margin-right: 10px;
     `;
@@ -39,7 +40,7 @@ export const Logo = () => {
         color:white;
         cursor: pointer;
         font-weight: 600;
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         &:hover {
             text-decoration: none;
             color:#3acbf7;

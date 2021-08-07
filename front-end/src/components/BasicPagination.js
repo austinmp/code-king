@@ -29,15 +29,15 @@ function BasicPagination({ pageCount, setPage }) {
 
 const StyledPagination = styled(Pagination)`
   .MuiPaginationItem-root {
-    color: white;
+    color: black;
   }
 
   .MuiPaginationItem-page:hover {
-    background-color: #20232a;
+    background-color: var(--hover-color);
   }
 
   .MuiPaginationItem-page.Mui-selected {
-    background-color: #6568F4;
+    background-color: var(--primary);
   }
 
 `;

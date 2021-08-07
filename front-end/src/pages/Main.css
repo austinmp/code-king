@@ -1,15 +1,15 @@
-main {
+/* main {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
     /* height: auto; */
-    color:white;
+    /* color:white;
     z-index: 0;
     font-size: 1.5rem;
-    background: rgb(40,44,52);
-}
+    background: rgb(40,44,52); */
+/* } */ 
 
 .title-container {
   display: flex;
@@ -21,15 +21,8 @@ main {
   text-align: center; 
 }
 
-.grid {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    max-width: 800px;
-  }
 
-  .card {
+  /* .card {
     margin: 1rem;
     flex-basis: 45%;
     padding: 1.5rem;
@@ -40,9 +33,9 @@ main {
     border-radius: 10px;
     background: #20232a;
     transition: color 0.15s ease, border-color 0.15s ease;
-  }
+  } */
 
-  .card:hover,
+  /* .card:hover,
   .card:focus,
   .card:active {
     color: #0070f3;
@@ -58,4 +51,4 @@ main {
     margin: 0;
     font-size: 1.1rem;
     line-height: 1.5;
-  }
+  } */
