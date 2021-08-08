@@ -1,11 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import Header from '../components/Header.js';
 import PageContainer from '../components/PageContainer';
 import ContentCard from '../components/ContentCard';
-
-import useAPI from '../api/useAPI';
 import CodeSandbox from '../components/CodeSandbox';
 import Button from '../components/Button';
 import { BsPlayFill } from 'react-icons/bs';

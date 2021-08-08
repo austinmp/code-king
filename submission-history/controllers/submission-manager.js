@@ -1,5 +1,5 @@
-const submission = require('../models/submission');
 const fetch = require('node-fetch');
+const UserSubmissions = require('../models/user-submissions');
 
 const MAX_HIGHSCORES_PER_PAGE = 10;
 
@@ -8,11 +8,28 @@ const MAX_HIGHSCORES_PER_PAGE = 10;
 /// SAVE/UPDATE A SUBMISSION IN DATABASE ///
 async function postSubmission(req, res){
     try {
-        const newSubmission = new submission({ ...req.body });
-        console.log(newSubmission);
-        await newSubmission.save();
+        const submission = {
+            _id: req.body.challengeId, 
+            ...req.body 
+        }
+        let user =  await UserSubmissions.findOne({ 'userName': req.body.userName });
+        if(user){
+            const isAlreadySubmitted = user.submissions.id(submission._id);
+            if(isAlreadySubmitted){
+                user.submissions.id(submission._id).remove();
+            }
+            user.submissions.push(submission);
+        } else {
+            user = new UserSubmissions({
+                _id: submission.userName,
+                userName: submission.userName,
+                submissions: [submission]
+            });
+        }
+        await user.save();   
         return res.status(201).json({message :`Submission created successfully!`});
     } catch(err) {
+        console.error(err);
         if(err.name == 'ValidationError'){
             return res.status(400).json({message : err.message}); 
         }

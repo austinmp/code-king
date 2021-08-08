@@ -9,6 +9,9 @@ const GlobalStyles = createGlobalStyle`
     --background-secondary: #f3f4f6;
     --title-primary: #282c34;
     --text-primary: #000000;
+
+    --nav-font-size: 24px;
+
   }
 `;
 

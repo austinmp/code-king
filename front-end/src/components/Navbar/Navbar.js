@@ -13,7 +13,7 @@ import {
 } from './NavbarItems';
 
 const Navbar = (props) => {
-    const isWide = useMedia('(min-width: 800px)');
+    const isWide = useMedia('(min-width: 1024px)');
 
     return (
         isWide

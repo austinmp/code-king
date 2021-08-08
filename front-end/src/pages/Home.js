@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
-import styled from "styled-components";
 import { useLocation } from "react-router-dom";
-import './Main.css';
+import styled from "styled-components";
 import PageContainer from '../components/PageContainer';
 import Header from '../components/Header';
 
@@ -24,7 +23,6 @@ function Home({ modal, setModal }){
   return (
     <>
       <PageContainer>
-
         <HeaderContainer>
           <img src="/logo.png" alt="monkey with laptop logo" width="150"/>
           <div>

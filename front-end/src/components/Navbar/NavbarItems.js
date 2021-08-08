@@ -18,7 +18,7 @@ export const Nav = styled.nav`
     display:flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.1rem;
+    font-size: var(--nav-font-size);
     color: white;
     padding-right: 30px;
     padding-left: 30px;
@@ -29,8 +29,7 @@ export const Nav = styled.nav`
 export const Logo = () => {    
     const CrownIcon = styled(CgCrown)`
         color: gold;
-        width: 60px;
-        height: auto;
+        font-size: 60px;
         margin-right: 10px;
     `;
 
@@ -43,7 +42,7 @@ export const Logo = () => {
         font-size: 1.8rem;
         &:hover {
             text-decoration: none;
-            color:#3acbf7;
+            color:#e0e0de;
         };
     `;
 
@@ -108,8 +107,7 @@ export const SignUpButton = ({ setModal }) => {
 
 export const HamburgerIcon = styled(GiHamburgerMenu)`
     color: inherit;
-    width: 40px;
-    height: auto;
+    font-size: 50px;
     margin-right: 10px;
     &:hover {
         color:#3acbf7;
@@ -119,6 +117,7 @@ export const HamburgerIcon = styled(GiHamburgerMenu)`
 const MenuItem = styled(Button)`
     background-color: #20232a;
     text-align: inherit;
+    font-size: inherit;
 `;
 
 export const MenuItems = Links.map(item => {
@@ -138,14 +137,12 @@ export const UserAvatar = ({ credentials }) => {
     const StyledAvatar = styled(FaUser)`
         margin-right: 20px;
         color: white;
-        width: 25px;
-        height:auto;
+        font-size: 30px;
     `;
 
     const StyledButton = styled(Button)`
         color: gold;
         text-align: center;
-        // border-bottom: 0.5px white solid;
         outline: none;
         pointer-events: none;
         background: inherit;
