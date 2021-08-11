@@ -1,82 +1,17 @@
-//routes/challenges.
-const Challenge = require("../models/challenge");
+//routes/challenges.js
 const router = require("express").Router(); 
 const challengeManager = require(`../controllers/challenge-manager`);
 
-
-/// POST NEWLY CREATED CHALLENGE TO DB ///
+/// Save a new challenge to db
 router.post('/createChallenge', challengeManager.postChallenge);
 
-/// GET SPECIFIED CHALLENGE'S TESTS & OTHER PARAMETERS ///
-// Example: /getChallengeParameters?challengeId=1234 ==> returns array of test objects for challenge with specified id
-router.get('/getChallengeParameters', challengeManager.getChallengeTestCases);
-
-/// GET SPECIFIED NUMBER OF CHALLENGES ///
-// Example: /getChallengeSet?num=20 ==> retuns 20 challenges (default of 10)
+// Get all challenges from db (front-end handles pagination)
 router.get("/getChallengeSet", challengeManager.getChallengeSet);
 
-/// GET ALL DATA FOR A CHALLENGE GIVEN ITS DB _ID ///
+/// Get all data for a specific challenge given database _id
 router.get("/getChallenge", challengeManager.getChallenge);
 
-
-// GET SPECIFIED CHALLENGES HIGHSCORES ///
-/// Example /getHighscores?challengeId=212&programmingLanguage=java
-router.get("/getHighscores", challengeManager.getHighscores);
-
-/// DELETE ALL DOCUMENTS FROM DB ///
-// router.get("/delete", createChallengeController.deleteAllDocuments);
-
-
-///========================== WILL MOVE TO GATEWAY ==========================///
-
-// /// GET CHALLENGE SET PAGE ///
-// // Need to add extra parameters to set which category of challenges to get
-// router.get('/challengeSet', createChallengeController.challengeSetPageGet);
-
-// /// GET CHALLENGE HIGHSCORES PAGE ///
-// /// /highscores?challengeId=212&programmingLanguage=java
-// router.get("/highscores", createChallengeController.highscoresPageGet);
-
-///=========================================================================///
-
-/// TEST ROUTE ///
-// router.get("/test", createChallengeController.test);
+// Get all test cases for a specfic challenge given a challenge id
+router.get('/getChallengeParameters', challengeManager.getChallengeTestCases);
 
 module.exports = router;
-
-
-
-
-
-
-
-
-
-
-
-/// ADD THESE ENDPOINTS FOR OTHER SERVICES /// 
-
-// // GET /getUserSubmissions?userId=12345
-// router.get("/getUserSubmissions", function(req, res){
-//     console.log("Received a request for user submission");
-
-//     // Extract the URL query parameters
-//     var userId = req.query.userId;
-   
-//     var submissions = ["Algorithm 1", "DFS", "Prison Break", "Word Count"];
-//     res.set('content-type', 'text/plain');
-//     res.send(submissions);
-// });
-
-// // GET /getChallengeHighscores?challengeId=12345&programmingLanguage=java
-// router.get("/getChallengeHighscores", function(req, res){
-//     console.log("Received a request for challenge high scores");
-
-//     // Extract the URL query parameters
-//     var challengeId = req.query.challengeId;
-//     var programmingLanguage = req.query.programmingLanguage;
-
-//     var highscores = ["100", "92", "33", "44"];
-//     res.set('content-type', 'text/plain');
-//     res.send(highscores);
-// });
