@@ -38,14 +38,13 @@ async function postSubmission(req, res){
 }
 
 async function getUserSubmissions(req, res){
-    console.log('got a request');
     const userName = req.query.userName;
     if(!userName) return res.status(400).json({message : "userId was not specified in query parameters"});
     try {
         const user = await UserSubmissions.findOne({'userName': userName}, 'submissions').exec();
         return res.status(200).json({userSubmissions : user.submissions});
     } catch(err){
-        console.log(err);
+        console.error(err);
         return res.status(500).json({message : `Submissions service encounted an error while fetching submissions for user ${userName} : ${err}`}); 
     }
 }
@@ -54,10 +53,12 @@ async function getChallengeHighscores(req, res){
     const challengeId = req.query.challengeId;
     if(!challengeId) return res.status(400).json({message : "challengeId was not specified in query parameters"});
     try {
-        const submissions = await submission.find({'challengeId' : challengeId})
-        .sort({'executionTime': 1}) //lowest times first
-        .exec();
-        return res.status(200).json({highscores : submissions});
+
+        const allUserSubmissions = await UserSubmissions.find({'submissions._id': challengeId}, { "submissions.$": 1 }).exec();
+        const submissionObjects = allUserSubmissions.map(user => { return (user.submissions[0]) });
+        const sortedSubmissions = submissionObjects.sort( (a,b)  => { return a.executionTime - b.executionTime });
+
+        return res.status(200).json({highscores : sortedSubmissions.slice(0, MAX_HIGHSCORES_PER_PAGE)});
     } catch(err){
         return res.status(500).json({message : `Submissions service encounted an error while fetching highscores for challengeId ${challengeId} : ${err}`}); 
     }

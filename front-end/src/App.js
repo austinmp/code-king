@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import CreateChallenge from './pages/CreateChallenge';
 import ChallengeSet from './pages/ChallengeSet';
+import Highscores from './pages/Highscores';
 import Challenge from './pages/Challenge';
 import ProtectedRoute from './components/ProtectedRoute';
 import styled from "styled-components";
@@ -76,6 +77,7 @@ function App() {
         <ProtectedRoute exact path="/createChallenge" component={CreateChallenge} setModal={setModal}/>
         <ProtectedRoute exact path="/challenges" component={ChallengeSet} />
         <ProtectedRoute path="/challenges/:title/:_id" component={Challenge} username={credentials.username}/>
+        <ProtectedRoute path="/highscores/:challengeId/:_id" component={Highscores} />
       </Router>
     </Div>    
   );

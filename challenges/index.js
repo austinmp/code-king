@@ -1,4 +1,4 @@
-//server.js
+//index.js
 const express = require("express");
 const formData = require('express-form-data');
 const config = require('./config/config.js');
@@ -8,7 +8,6 @@ const app = express();
 
 const router = express.Router();
 router.use("/", require("./routes/challenges"));
-
 
 app.use(formData.parse());
 app.use(express.json()); 

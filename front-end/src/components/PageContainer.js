@@ -16,7 +16,7 @@ function PageContainer({header, children}){
     );
 }
 const OuterContainer = styled.div`
-  width:70%;
+  width:60%;
   margin-bottom: 40px;
   align-content: center;
   @media (max-width: 1000px) {
@@ -27,6 +27,7 @@ const OuterContainer = styled.div`
 
 const Container = styled.div`
   background-color: #ffffff;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

@@ -1,17 +1,16 @@
 import React, {useState, useEffect} from 'react';
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import PageContainer from '../components/PageContainer';
 import ContentCard from '../components/ContentCard';
 import CodeSandbox from '../components/CodeSandbox';
 import Button from '../components/Button';
 import { BsPlayFill } from 'react-icons/bs';
-import { IoMdArrowRoundBack } from 'react-icons/io';
 import  useFetch from '../api/useFetch';
+import BackButton from '../components/BackButton'
+
 
 // All route props (match, location and history) are available to component 
 function Challenge({...rest}) {
-    let history = useHistory();
     const { title, _id } = rest.match.params;
     const [submission, setSubmission] = useState('def submission(*args):');
     const [submissionStatus, setSubmissionStatus] = useState('INCOMPLETE'); // WILL NEED TO PASS IN A STATE IF WE HAVE  SUBMITTED A CHALLENGE ALREADY
@@ -23,6 +22,10 @@ function Challenge({...rest}) {
 
     useEffect( async () =>{
         const [challengeData, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallenge?_id=${_id}`);
+        const d = new Date(challengeData.date);
+        d.toLocaleDateString('en-US')
+        console.log(d.toLocaleDateString('en-US'));
+        // console.log(challengeData.date.toDateString());
         setChallenge(challengeData);
     }, [] );
 
@@ -39,7 +42,6 @@ function Challenge({...rest}) {
         setSubmissionStatus(result.status);
         setExecutionResults(result.executionResults);
         // To do add error and loading handling
-
     };
 
     const renderExecutionResults = () => {
@@ -68,11 +70,7 @@ function Challenge({...rest}) {
 
     return (
         <PageContainer className='challenge-container' header={title}>
-                <BackButton     
-                        text='Browse Challenges'
-                        icon={<BackIcon/>} 
-                        onClick={ () => history.push('/challenges')}
-                />
+                <BackButton />
                 <ContentCard>
                     {! challenge
                     ? <div>LOADING... </div>
@@ -83,16 +81,16 @@ function Challenge({...rest}) {
                             </div>  
                             <div>       
                                 <Label >Status:      
-                                    <SubmissionStatus className={`${submissionStatus}`}>
+                                    <span className={submissionStatus.toLowerCase()}>
                                         {' ' + submissionStatus}
-                                    </SubmissionStatus>
+                                    </span>
                                 </Label>
                             </div>  
                             <div>  
                                 <Label>Difficulty: 
-                                    <Difficulty className={`${challenge.difficulty}`}>
+                                    <span className={challenge.difficulty.toLowerCase()}>
                                         {' ' +  challenge.difficulty.toUpperCase()}
-                                    </Difficulty>
+                                    </span>
                                 </Label>
                             </div>  
                         </ChallengeDetailsTopRow>
@@ -155,33 +153,6 @@ const Label = styled.label`
     align-self: flex-start;
 `;
 
-const SubmissionStatus = styled.span`
-    &.PASSED {
-        color : #4CAF55;
-    }
-
-    &.FAILED {
-        color : #e85e6c;
-    }
-
-    &.INCOMPLETE {
-        color: #ffcc00;
-    }
-`;
-
-const Difficulty = styled.span`
-    &.Easy {
-        color : #4CAF55;
-    }
-
-    &.Medium {
-        color : #e85e6c;
-    }
-
-    &.Hard {
-        color: #e85e6c;
-    }
-`;
 
 const ChallengeDetailsTopRow = styled.div`
     display: flex; 
@@ -205,10 +176,7 @@ const Output = styled.div`
     color: rgb(235, 38, 88);
 `;
 
-const BackButton = styled(Button)`
-    align-self: flex-start;
-    // margin-top: 40px;
-`
+
 
 const SubmitIcon = styled(BsPlayFill)`
     margin-right: 5px;
@@ -217,38 +185,4 @@ const SubmitIcon = styled(BsPlayFill)`
     height: auto;
 `;
 
-const BackIcon = styled(IoMdArrowRoundBack)`
-    margin-right: 5px;
-    text-align: center;
-    align-self: center;
-    width: 20px;
-    height: auto;
-`;
-
-
-
 export default Challenge;
-
-
-
-
-// const handleSubmit = (e) => {
-//     e.preventDefault();  
-//     const options = {
-//         method: 'POST',
-//         body : submission,
-//         headers: {
-//             'Content-Type': 'text/plain',
-//         }   
-//     }
-//     fetch(`http://localhost:8080/submission-testing/submitSolution?challengeId=${challenge.id}&programmingLanguage=${language}&challengeName=${challenge.name}&userName=${rest.username}`, options)
-//     .then(response => response.json())
-//     // .then(response => response.text())
-//     .then(result => {
-//         console.log(result.status);
-//         setSubmissionStatus(result.status);
-//         setExecutionResults(result.executionResults.tests);
-//         // setSubmissionStatus(result.status);
-//     })
-//     .catch(error => console.log('error', error))
-// };

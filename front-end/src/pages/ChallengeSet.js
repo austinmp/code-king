@@ -1,12 +1,10 @@
 import React, {useState, useEffect, useContext} from 'react';
 import styled from "styled-components";
-import Header from '../components/Header.js';
 import PageContainer from '../components/PageContainer';
 import BasicPagination from '../components/BasicPagination';
 import  useFetch from '../api/useFetch';
 import { AuthContext } from '../context/AuthContext';
-
-
+import Button from '../components/Button';
 
 const CHALLENGES_PER_PAGE = 20;
 
@@ -14,8 +12,8 @@ const headers = [
     'Id',
     'Title',
     'Difficulty',
-    'Status',
     'Date Created',
+    'Status',
     'Highscores',
 ];
 
@@ -27,14 +25,13 @@ const ChallengeSet = () => {
     const [submissions, setSubmissions] = useState();
     const fetchData = useFetch();
 
+    // create key : value mapping (challengeId : submission) for easier/faster data retrieval during pagination.
     const getSubmissionsById = (submissions) => {
-        const test = submissions.reduce((obj, submission)=>{
+        const challengeIdMap = submissions.reduce((obj, submission)=>{
             obj[submission.challengeId] = submission;
             return obj;
         }, {});
-
-        console.log(test);
-        return test;
+        return challengeIdMap;
     }
 
     useEffect( async () =>{
@@ -47,12 +44,6 @@ const ChallengeSet = () => {
         setSubmissions(submissionsById);
     }, [] );
 
-
-    useEffect ( ()=> {
-
-
-    })
-
     const paginateChallenges = () => {
         const start = (page-1)*CHALLENGES_PER_PAGE;
         const end = (page*CHALLENGES_PER_PAGE <= numChallenges) ? page*CHALLENGES_PER_PAGE : undefined;
@@ -64,17 +55,25 @@ const ChallengeSet = () => {
                     onClick={ (e) => {
                         e.preventDefault();
                         window.location.href=`/challenges/${challenge.name}/${challenge._id}`;
+                        e.stopPropagation();
                     }}
                 >
                     <td>{challenge.id}</td>
                     <td>{challenge.name} </td>
-                    <td>{challenge.difficulty}</td> 
+                    <td className={challenge.difficulty.toLowerCase()}>{challenge.difficulty}</td> 
+                    <td>{new Date(challenge.date).toLocaleDateString('en-US')}</td>
                     { submissions && submissions[challenge.id] && submissions[challenge.id].didAllTestsPass
-                    ?  <td>Completed</td>
-                    :  <td>Incomplete</td>
+                    ?  <td className='success'>Completed</td>
+                    :  <td className='error'>Incomplete</td>
                     }
-                    <td>{challenge.date}</td>
-                    <td>Highscores</td>
+                    <td className='highscores'> 
+                        <Button className='highscores' text="Highscores"onClick={ (e) => {
+                            e.preventDefault();
+                            window.location.href=`/highscores/${challenge.id}/${challenge._id}`;
+                            e.stopPropagation();
+                        }}
+                        />
+                    </td>
                 </tr>
             ))
         );
@@ -111,17 +110,21 @@ const Table = styled.table`
         color: white;
         
     }
-
-    tbody tr:hover{
-        background:var(--hover-color);
-        cursor: pointer;
+    
+    tbody  tr:hover :not(.highscores){
+            background:var(--hover-color);
+            cursor: pointer;
     }
+
+   
+    
 
     td, th {
         text-align: center;
         padding-bottom: 1em;
         padding-top: 1em;
     }
+
 `;
 
 export default ChallengeSet;

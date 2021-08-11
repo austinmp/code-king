@@ -10,5 +10,5 @@ COPY / /
 
 # Declare that the service uses port 3000 internally.
 EXPOSE 3000
-# Define the command that starts the service.
-ENTRYPOINT ["node", "server.js"]
+# Define the command that startsn the service.
+ENTRYPOINT ["node", "index.js"]

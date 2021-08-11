@@ -18,6 +18,7 @@ const Container = styled.div`
   align-items: center;
   align-content: center;
   width:70%;
+  overflow: auto;
   margin-top: 40px;
   margin-bottom: 40px;
   border-radius: 15px;
