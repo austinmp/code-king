@@ -6,9 +6,9 @@ services:
     image: ${DOCKER_REGISTRY:-localhost}/front-end
     ports:
       - 80:8010
-    volumes:
-      - ./front-end:/src/
-      - nodemodules:/src/node_modules
+    # volumes:
+    #   - ./front-end:/src/
+    #   - nodemodules:/src/node_modules
     environment:
       HOST:  "0.0.0.0"
       PORT: "8010"
@@ -131,7 +131,7 @@ services:
       microservice:
     restart: always
     depends_on:
-      - front-end
+      # - front-end
       - accounts
       - submission-history
       - submission-testing
