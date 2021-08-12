@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const Challenge = require('../models/challenge');
 
 /// Save a new challenge to db
