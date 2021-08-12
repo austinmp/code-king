@@ -31,9 +31,11 @@ const MenuContainer = styled.div`
     background: #6568F4;
     display: flex;
     flex-direction: column;
-    text-align: left;
+    text-align: center;
     width: inherit;
     button {
+        width: 100%;
+        height: 60px;
         border-radius: unset;
         background-color: #16181d;
     }

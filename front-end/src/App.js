@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar.js';
 import Modal from './components/Modal/Modal';
@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import CreateChallenge from './pages/CreateChallenge';
 import ChallengeSet from './pages/ChallengeSet';
+import Highscores from './pages/Highscores';
 import Challenge from './pages/Challenge';
 import ProtectedRoute from './components/ProtectedRoute';
 import styled from "styled-components";
@@ -15,13 +16,20 @@ import {
 } from "react-router-dom";
 
 import ModalMessage from './components/ModalForms/ModalMessage';
+import { AuthContext } from './context/AuthContext';
+import GlobalStyles from './GlobalStyles';
+
+
 
 function App() {
 
-  const [credentials, setCredentials] = useState({
-    username  : localStorage.getItem('codeKingUsername') || '',
-    token     : localStorage.getItem('APIToken') || '',
-  });
+  const {credentials, setCredentials} = useContext(AuthContext);
+  console.log(credentials);
+
+  // const [credentials, setCredentials] = useState({
+  //   username  : localStorage.getItem('codeKingUsername') || '',
+  //   token     : localStorage.getItem('APIToken') || '',
+  // });
 
   const [modal, setModal] = useState({
     isOpen  : false,
@@ -38,6 +46,7 @@ function App() {
 
   return (
     <Div className="App">
+      <GlobalStyles/>
       <Router>
         <Navbar 
           setModal={setModal}
@@ -52,25 +61,23 @@ function App() {
               setCredentials={setCredentials}
             />  
           : null
-        }
+        } 
         <Route
           exact path='/'
           render={(props) => (
             <Home modal={modal} setModal={setModal} />
           )}
         />
-        <Route 
+        {/* <Route 
           exact path="/createChallenge" 
           render={(props) => (
-          <CreateChallenge 
-          token={credentials.token}
-          setModal={setModal} />
+            <CreateChallenge setModal={setModal} />
           )}
-        
-        />
-        {/* <ProtectedRoute exact path="/createChallenge" component={CreateChallenge} isAuthenticated={credentials.token}/> */}
-        <ProtectedRoute exact path="/challenges" component={ChallengeSet} isAuthenticated={credentials.token} />
-        <ProtectedRoute path="/challenges/:title/:_id" component={Challenge} isAuthenticated={credentials.token} username={credentials.username}/>
+        /> */}
+        <ProtectedRoute exact path="/createChallenge" component={CreateChallenge} setModal={setModal}/>
+        <ProtectedRoute exact path="/challenges" component={ChallengeSet} />
+        <ProtectedRoute path="/challenges/:title/:_id" component={Challenge} username={credentials.username}/>
+        <ProtectedRoute path="/highscores/:challengeId/:_id" component={Highscores} />
       </Router>
     </Div>    
   );
@@ -79,7 +86,6 @@ function App() {
 export default App;
 
 const Div = styled.div`
-  /* background: red; */
   min-height: 100vh;
   position:relative;
   padding-bottom: 150px;

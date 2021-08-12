@@ -10,7 +10,7 @@ services:
       - ./front-end:/src/
       - nodemodules:/src/node_modules
     environment:
-      HOST: "${HOST}"
+      HOST:  "0.0.0.0"
       PORT: "8010"
       GATEWAY_PORT: "8080"
     networks:
@@ -69,7 +69,7 @@ services:
       DATABASE_COLLECTION: 'accounts'
       SALT_ROUND: '12'
       PORT: "3000"
-      HOST: "${HOST}"
+      HOST: "0.0.0.0"
       DATABASE_URL: "${DATABASE_URL}"
       DATABASE_PASSWORD: "${DATABASE_PASSWORD}"
       DATABASE_NAME: "${DATABASE_NAME}"

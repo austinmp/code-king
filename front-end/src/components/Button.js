@@ -25,6 +25,7 @@ const StyledButton = styled(Button)`
     cursor: pointer;
     min-width: 100px;
     text-align:inherit;
+    font-size: inherit;
 
     &:hover {
         padding:8px 20px;

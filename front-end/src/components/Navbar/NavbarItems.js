@@ -12,24 +12,24 @@ import { FaUser } from 'react-icons/fa';
 
 export const Nav = styled.nav`
     background: #20232a;
-    height: 70px;
+    height: 90px;
     min-height:70px;
     width: 100vw;
     display:flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.1rem;
+    font-size: var(--nav-font-size);
     color: white;
     padding-right: 30px;
     padding-left: 30px;
     overflow: hidden;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 `;
 
 export const Logo = () => {    
     const CrownIcon = styled(CgCrown)`
         color: gold;
-        width: 40px;
-        height: auto;
+        font-size: 60px;
         margin-right: 10px;
     `;
 
@@ -39,10 +39,10 @@ export const Logo = () => {
         color:white;
         cursor: pointer;
         font-weight: 600;
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         &:hover {
             text-decoration: none;
-            color:#3acbf7;
+            color:#e0e0de;
         };
     `;
 
@@ -107,8 +107,7 @@ export const SignUpButton = ({ setModal }) => {
 
 export const HamburgerIcon = styled(GiHamburgerMenu)`
     color: inherit;
-    width: 40px;
-    height: auto;
+    font-size: 50px;
     margin-right: 10px;
     &:hover {
         color:#3acbf7;
@@ -118,6 +117,7 @@ export const HamburgerIcon = styled(GiHamburgerMenu)`
 const MenuItem = styled(Button)`
     background-color: #20232a;
     text-align: inherit;
+    font-size: inherit;
 `;
 
 export const MenuItems = Links.map(item => {
@@ -137,14 +137,12 @@ export const UserAvatar = ({ credentials }) => {
     const StyledAvatar = styled(FaUser)`
         margin-right: 20px;
         color: white;
-        width: 25px;
-        height:auto;
+        font-size: 30px;
     `;
 
     const StyledButton = styled(Button)`
         color: gold;
         text-align: center;
-        // border-bottom: 0.5px white solid;
         outline: none;
         pointer-events: none;
         background: inherit;

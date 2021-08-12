@@ -8,6 +8,7 @@ import request from "request-promise";
 
 const runnerImageContexts = new Map<string, string>();
 runnerImageContexts.set("python3", "/runners/python3/");
+runnerImageContexts.set("javascript", "/runners/javascript/");
 
 const docker = new Dockerode();
 
@@ -44,10 +45,11 @@ export async function evaluateSubmission(code: string, language: string, challen
 
 	const submissionId = randomUuid();
 	let submissionStatus: TestOutcome;
+	let executionResults = {} as ExecutionResults;
+	
 
 	try {
-		const executionResults: ExecutionResults = await runTests(code, language, testCases, submissionId);
-		console.log(executionResults.tests);
+		executionResults = await runTests(code, language, testCases, submissionId);
 		const allTestsPassed = executionResults.tests.reduce((allPassed, result) => result.outcome === "PASSED" && allPassed, true);
 		submissionStatus = allTestsPassed ? "PASSED" : "FAILED";
 
@@ -69,10 +71,11 @@ export async function evaluateSubmission(code: string, language: string, challen
 		submissionStatus = "ERRORED";
 		console.log(err);
 	}
-
+	
 	return {
 		id: submissionId,
-		status: submissionStatus
+		status: submissionStatus,
+		executionResults: executionResults
 	}
 }
 
@@ -82,6 +85,7 @@ export async function evaluateSubmission(code: string, language: string, challen
  */
 export async function runTests(code: string, language: string, testCases: TestCase[], submissionId: string): Promise<ExecutionResults> {
 	const testResults: TestCaseResult[] = [];
+	console.log(code);
 
 	let container: Container | null = null;
 	const containerStream = new streams.WritableStream();
@@ -131,7 +135,7 @@ export async function runTests(code: string, language: string, testCases: TestCa
 			executionTime: executionTime
 		};
 	} catch (err) {
-		console.error("Output from errored execution was: ", containerStream.toString());
+		console.log("Output from errored execution was: ", containerStream.toString());
 		throw new Error(`An error occurred while running the tests for submission '${submissionId}'`);
 	}
 }
@@ -142,10 +146,6 @@ export function isSupportedProgrammingLanguage(language: string): boolean {
 
 type TestOutcome = "PASSED" | "FAILED" | "ERRORED";
 
-interface SubmissionResult {
-	id: string;
-	status: TestOutcome;
-}
 
 interface TestCase {
 	input: any;
@@ -160,4 +160,10 @@ interface TestCaseResult extends TestCase {
 interface ExecutionResults {
 	tests: TestCaseResult[];
 	executionTime: number;
+}
+
+interface SubmissionResult {
+	id: string;
+	status: TestOutcome;
+	executionResults: ExecutionResults;
 }

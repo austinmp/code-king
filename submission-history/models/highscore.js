@@ -2,10 +2,7 @@ const db = require('../database/db');
 const config = require('../config/config');
 
 const submissionSchema = new db.Schema({
-    // userId: {
-    //     type: Number,
-    //     required: [true, 'UserId is required']
-    // },
+    _id: Number,
     userName: {
         type: String,
         required: [true, 'User name is required'],
@@ -38,11 +35,21 @@ const submissionSchema = new db.Schema({
         type: Date, 
         default: Date.now         
     }
+});
+
+const userSubmissionsSchema = new db.Schema({
+    _id: String,
+    userName: {
+        type: String,
+        required: [true, 'User name is required'],
+        maxlength: [128, 'User name exceeds max character limit'],
+    },
+    submissions: [submissionSchema]
 },
 
 { collection: `${config.database.collection}`}
 
 );
 
-const submission = new db.model("submission", submissionSchema);
-module.exports = submission;
+ const UserSubmissions = new db.model("UserSubmissions", userSubmissionsSchema);
+ module.exports = UserSubmissions;
