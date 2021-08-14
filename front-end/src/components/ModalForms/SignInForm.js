@@ -12,7 +12,7 @@ function LoginForm({modal, setModal, setCredentials}){
     const handleSubmit = (e) => {
         e.preventDefault(); 
 
-        const url = 'http://localhost:8080/sessions/token';
+        const url = 'http://164.90.252.81:8080/sessions/token';
 
         const raw = JSON.stringify({
             userId: username,

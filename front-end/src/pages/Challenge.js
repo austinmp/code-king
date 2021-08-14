@@ -21,7 +21,7 @@ function Challenge({...rest}) {
     const fetchData = useFetch();
 
     useEffect( async () =>{
-        const [challengeData, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallenge?_id=${_id}`);
+        const [challengeData, loading, error] = await fetchData(`http://164.90.252.81:8080/challenges/getChallenge?_id=${_id}`);
         const d = new Date(challengeData.date);
         d.toLocaleDateString('en-US')
         console.log(d.toLocaleDateString('en-US'));
@@ -38,7 +38,7 @@ function Challenge({...rest}) {
                 'Content-Type': 'text/plain',
             }   
         }
-        const [result, loading, error] = await fetchData(`http://localhost:8080/submission-testing/submitSolution?challengeId=${challenge.id}&programmingLanguage=${language}&challengeName=${challenge.name}&userName=${rest.username}`, options);
+        const [result, loading, error] = await fetchData(`http://164.90.252.81:8080/submission-testing/submitSolution?challengeId=${challenge.id}&programmingLanguage=${language}&challengeName=${challenge.name}&userName=${rest.username}`, options);
         setSubmissionStatus(result.status);
         setExecutionResults(result.executionResults);
         // To do add error and loading handling

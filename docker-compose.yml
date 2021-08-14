@@ -69,7 +69,7 @@ services:
       DATABASE_COLLECTION: 'accounts'
       SALT_ROUND: '12'
       PORT: "3000"
-      HOST: "0.0.0.0"
+      HOST: "${HOST}"
       DATABASE_URL: "${DATABASE_URL}"
       DATABASE_PASSWORD: "${DATABASE_PASSWORD}"
       DATABASE_NAME: "${DATABASE_NAME}"
@@ -106,7 +106,7 @@ services:
       context: ./Sessions
     image: ${DOCKER_REGISTRY:-localhost}/sessions
     environment:
-      HOST: "0.0.0.0"
+      HOST: "${HOST}"
       PORT: "5000"
       JWT_KEY: "my_secret_key"
       JWT_KEY_EXPIRY : "7d"

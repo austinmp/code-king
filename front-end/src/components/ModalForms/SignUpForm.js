@@ -23,7 +23,7 @@ function SignUpForm({ modal, setModal }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         const credentials = base64.encode(state.username + ":" + state.password);
-        const url = 'http://localhost:8080/account/signup';
+        const url = 'http://164.90.252.81:8080/account/signup';
         const options = {
             method: 'POST',
             headers: {
