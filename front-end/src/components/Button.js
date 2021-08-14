@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
+import { device } from '../common/breakpoints';
+
 
 
 const Button = ({text, onClick, className, icon, type}) => {
@@ -34,6 +36,10 @@ const StyledButton = styled(Button)`
         color: white;
         transition: 250ms;
     }
+
+    @media ${device.sm} {
+        padding:4px 10px;
+    } 
 `;
 
 

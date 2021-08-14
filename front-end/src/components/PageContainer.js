@@ -1,14 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import Header from "./Header";
+import {useMedia} from 'react-use';
+import { device } from '../common/breakpoints';
 
-function PageContainer({header, children}){
+const PageContainer = ({header, children}) =>{
     return (
       <OuterContainer>
-        {/* { header */}
-             <Header text={header} />
-            {/* : null
-        } */}
+        <Header text={header} />
         <Container className='page-container'>
           {children}
         </Container>
@@ -16,12 +15,17 @@ function PageContainer({header, children}){
     );
 }
 const OuterContainer = styled.div`
-  width:60%;
+
+  @media ${device.sm} {
+    width:95%;
+  } 
+
+  @media ${device.lg} {
+    width: 60%;
+  } 
+
   margin-bottom: 40px;
   align-content: center;
-  @media (max-width: 1000px) {
-    width: 90%;
-  };
 `;
 
 
@@ -48,6 +52,11 @@ const Container = styled.div`
     margin-top: 20px;
     margin-bottom: 5px;
   };
+
+  @media ${device.sm} {
+    padding: 10px;
+  } 
+
   
 `;
 

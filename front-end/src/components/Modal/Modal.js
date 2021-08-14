@@ -5,6 +5,7 @@ import styled from "styled-components";
 import SignInForm from '../ModalForms/SignInForm';
 import SignUpForm from '../ModalForms/SignUpForm';
 import ModalMessage from "../ModalForms/ModalMessage";
+import { device } from '../../common/breakpoints'
 
 const forms = {
     signIn : SignInForm,
@@ -86,6 +87,10 @@ const ModalContainer = styled.div`
     &:a{
         color: #0070f3;
     }
+
+    @media ${device.sm} {
+        width: 100%;
+      } 
     
 `;
 const HeaderDiv = styled.div `

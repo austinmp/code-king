@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import { Link } from "react-router-dom";
 import Button from '../Button'
 import styled from "styled-components";
-import { Links } from './MenuLinks'
+import { Links } from './MenuLinks';
+import { device } from '../../common/breakpoints'
 
 // icons
 import { CgCrown } from 'react-icons/cg';
@@ -20,8 +21,8 @@ export const Nav = styled.nav`
     align-items: center;
     font-size: var(--nav-font-size);
     color: white;
-    padding-right: 30px;
-    padding-left: 30px;
+    padding-right: 2vw;
+    padding-left: 2vw;
     overflow: hidden;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 `;

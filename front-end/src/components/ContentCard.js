@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { device } from '../common/breakpoints';
+
 
 const ContentCard = ({children}) => {
     return (
@@ -35,9 +37,10 @@ const Container = styled.div`
     margin-bottom: 5px;
   };
 
-  @media (max-width: 1000px) {
-    width: 80%;
-  };
+  
+  @media ${device.sm} {
+    width:100%;
+  } 
 
 `;
 
