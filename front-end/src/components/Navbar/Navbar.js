@@ -14,7 +14,7 @@ import {
 
 const Navbar = (props) => {
     const isWide = useMedia('(min-width: 1024px)');
-
+    
     return (
         isWide
         ? <Nav>

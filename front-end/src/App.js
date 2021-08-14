@@ -22,14 +22,9 @@ import GlobalStyles from './GlobalStyles';
 
 
 function App() {
-
   const {credentials, setCredentials} = useContext(AuthContext);
   console.log(credentials);
 
-  // const [credentials, setCredentials] = useState({
-  //   username  : localStorage.getItem('codeKingUsername') || '',
-  //   token     : localStorage.getItem('APIToken') || '',
-  // });
 
   const [modal, setModal] = useState({
     isOpen  : false,

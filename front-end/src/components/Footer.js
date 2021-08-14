@@ -20,15 +20,21 @@ const Footer = () => {
 const StyledFooter = styled.footer`
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
+    text-align: center;
     height: 100%;
     background: #20232a;
-    height:90px;
+    min-height:90px;
+    height: auto;
     position:absolute;
     bottom:0;
     width:100%;
     color: white;
+
+    div {
+        margin-top: 10px;
+    }
 
     a {
        color: var(--secondary);

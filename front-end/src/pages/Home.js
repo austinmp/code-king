@@ -3,8 +3,7 @@ import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import PageContainer from '../components/PageContainer';
 import Header from '../components/Header';
-
-
+import { device } from '../common/breakpoints';
 
 function Home({ modal, setModal }){
   const search = useLocation().search;
@@ -37,7 +36,6 @@ function Home({ modal, setModal }){
 
       <PageContainer>
         <Grid className="grid">
-          
           <a href="#"
             className="card"
             onClick={() => {
@@ -94,6 +92,11 @@ const HeaderContainer = styled.div`
     margin: 0 0 1rem 0;
     font-size: 1.5rem;
   }
+
+  @media ${device.sm} {
+    flex-basis: 100%;
+    min-width: 0px;
+  } 
 `
 
 const Grid = styled.div`
@@ -101,14 +104,18 @@ const Grid = styled.div`
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+ 
 
   & .card {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     margin: 1rem;
     flex-basis: 45%;
-    height: 300px;
+    min-height: 350px;
+    min-width: 500px;
+    height: auto;
     padding: 2rem;
     color: white;
     text-decoration: none;
@@ -116,6 +123,11 @@ const Grid = styled.div`
     border-radius: 10px;
     background: var(--secondary);
     transition: color 0.15s ease, border-color 0.15s ease;
+
+    @media ${device.sm} {
+      flex-basis: 100%;
+      min-width: 0px;
+    } 
 
     h3 {
       margin: 1rem 0 1rem 0;
