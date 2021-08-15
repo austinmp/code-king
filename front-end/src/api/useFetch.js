@@ -16,13 +16,9 @@ const useFetch = (url, options) => {
     let fetchedData;
 
     const getFetchOptions = (options) => {
-        const myHeaders = new Headers({
-            ...(options && {...options.headers}),
-            'Authorization': 'Bearer ' + credentials.token,
-        });
-        if(!myHeaders.has('Content-Type')){
-            myHeaders.append('Content-Type', 'application/json');         
-        }
+        const myHeaders = new Headers({ ...(options && {...options.headers}) });
+        if(!myHeaders.has('Authorization')) myHeaders.append('Authorization', 'Bearer ' + credentials.token);
+        if(!myHeaders.has('Content-Type')) myHeaders.append('Content-Type', 'application/json');         
         const fetchOptions = {
             ...(options),
             ...(options && !options.method && {method: 'GET'}),

@@ -5,6 +5,7 @@ import Modal from './components/Modal/Modal';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import CreateChallenge from './pages/CreateChallenge';
+import Submissions from './pages/Submissions';
 import ChallengeSet from './pages/ChallengeSet';
 import Highscores from './pages/Highscores';
 import Challenge from './pages/Challenge';
@@ -63,16 +64,12 @@ function App() {
             <Home modal={modal} setModal={setModal} />
           )}
         />
-        {/* <Route 
-          exact path="/createChallenge" 
-          render={(props) => (
-            <CreateChallenge setModal={setModal} />
-          )}
-        /> */}
-        <ProtectedRoute exact path="/createChallenge" component={CreateChallenge} setModal={setModal}/>
-        <ProtectedRoute exact path="/challenges" component={ChallengeSet} />
-        <ProtectedRoute path="/challenges/:title/:_id" component={Challenge} username={credentials.username}/>
-        <ProtectedRoute path="/highscores/:challengeId/:_id" component={Highscores} />
+
+        <ProtectedRoute exact path='/createChallenge' component={CreateChallenge} setModal={setModal}/>
+        <ProtectedRoute exact path='/challenges' component={ChallengeSet} />
+        <ProtectedRoute path='/challenges/:title/:_id' component={Challenge} username={credentials.username}/>
+        <ProtectedRoute path='/highscores/:challengeId/:_id' component={Highscores} />
+        <ProtectedRoute path='/submissions/:username' component={Submissions} />
       </Router>
     </Div>    
   );

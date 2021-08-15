@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, { useContext } from 'react';
 import { Link } from "react-router-dom";
 import Button from '../Button'
 import styled from "styled-components";
 import { Links } from './MenuLinks';
 import { device } from '../../common/breakpoints'
+import { AuthContext } from '../../context/AuthContext';
+
 
 // icons
 import { CgCrown } from 'react-icons/cg';
@@ -134,7 +136,8 @@ export const MenuItems = Links.map(item => {
     )
 });
 
-export const UserAvatar = ({ credentials }) => {
+export const UserAvatar = () => {
+    const { credentials } = useContext(AuthContext);
     const StyledAvatar = styled(FaUser)`
         margin-right: 20px;
         color: white;
@@ -150,11 +153,13 @@ export const UserAvatar = ({ credentials }) => {
    `;
 
     return (
-        <StyledButton
-            text={credentials.username}
-            className='btn'
-            icon={<StyledAvatar/>}
-        />
+        <Link to={`/submissions/${credentials.username}`}>
+            <StyledButton
+                text={credentials.username}
+                className='btn'
+                icon={<StyledAvatar/>}
+            />
+        </Link>
     );
 }
 
