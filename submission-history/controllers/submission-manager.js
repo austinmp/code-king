@@ -1,11 +1,9 @@
-const fetch = require('node-fetch');
 const UserSubmissions = require('../models/user-submissions');
 
 const MAX_HIGHSCORES_PER_PAGE = 10;
 
-//TO DO : Only save highest score submission for each user?
 
-/// SAVE/UPDATE A SUBMISSION IN DATABASE ///
+// Save a submission to db using username as primary key
 async function postSubmission(req, res){
     try {
         const submission = {
@@ -37,6 +35,7 @@ async function postSubmission(req, res){
     }
 }
 
+// Get all submissions for a user
 async function getUserSubmissions(req, res){
     const userName = req.query.userName;
     if(!userName) return res.status(400).json({message : "userId was not specified in query parameters"});
@@ -49,6 +48,8 @@ async function getUserSubmissions(req, res){
     }
 }
 
+// Get the top highscores for a specific challenge (number of highscores returned = MAX_HIGHSCORES_PER_PAGE)
+// To Do : Add a url query for variable number of highscores
 async function getChallengeHighscores(req, res){
     const challengeId = req.query.challengeId;
     if(!challengeId) return res.status(400).json({message : "challengeId was not specified in query parameters"});

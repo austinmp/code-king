@@ -11,7 +11,7 @@ import BackButton from '../components/BackButton'
 
 // All route props (match, location and history) are available to component 
 function Challenge({...rest}) {
-    const { title, _id } = rest.match.params;
+    const { title, challengeId } = rest.match.params;
     const [submission, setSubmission] = useState('def submission(*args):');
     const [submissionStatus, setSubmissionStatus] = useState('INCOMPLETE'); // WILL NEED TO PASS IN A STATE IF WE HAVE  SUBMITTED A CHALLENGE ALREADY
     const [language, setLanguage] = useState('python3');
@@ -21,8 +21,13 @@ function Challenge({...rest}) {
     const fetchData = useFetch();
 
     useEffect( async () =>{
-        const [challengeData, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallenge?_id=${_id}`);
+        const [challengeData, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallenge?challengeId=${challengeId}`);
         setChallenge(challengeData);
+        if( rest.location.state && rest.location.state.submission) {
+            const status = rest.location.state.submission.didAllTestsPass ? 'COMPLETED' : 'INCOMPLETE'
+            setSubmissionStatus(status);
+            setSubmission(rest.location.state.submission.code);
+        }
     }, [] );
 
     const handleSubmit = async (e) => {
@@ -34,14 +39,16 @@ function Challenge({...rest}) {
                 'Content-Type': 'text/plain',
             }   
         }
-        const [result, loading, error] = await fetchData(`http://localhost:8080/submission-testing/submitSolution?challengeId=${challenge.id}&programmingLanguage=${language}&challengeName=${challenge.name}&userName=${rest.username}`, options);
-        setSubmissionStatus(result.status);
-        setExecutionResults(result.executionResults);
+        const [result, loading, err] = await fetchData(`http://localhost:8080/submission-testing/submitSolution?challengeId=${challenge.id}&programmingLanguage=${language}&challengeName=${challenge.name}&userName=${rest.username}`, options);
+        if(result && !err) {
+            setSubmissionStatus(result.status);
+            setExecutionResults(result.executionResults);
+        }
+        
         // To do add error and loading handling
     };
 
     const renderExecutionResults = () => {
-        console.log(executionResults);
         if(!executionResults || submissionStatus === 'INCOMPLETE') return null;
         
         switch(submissionStatus) {

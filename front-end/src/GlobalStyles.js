@@ -22,6 +22,7 @@ const GlobalStyles = createGlobalStyle`
     color:  #e85e6c;
   }
 
+  .completed,
   .passed,
   .easy,
   .success {

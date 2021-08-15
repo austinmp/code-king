@@ -3,6 +3,9 @@ import styled from "styled-components";
 import PageContainer from '../components/PageContainer';
 import  useFetch from '../api/useFetch';
 import Challenge from './Challenge';
+import { useHistory } from "react-router-dom";
+
+
 
 const headers = [
     'Date Submitted',
@@ -14,6 +17,7 @@ const headers = [
 
 
 const Submissions = ({ match }) => {
+    let history = useHistory();
     const fetchData = useFetch();
     const { username } = match.params;
     const [error, setError] = useState();
@@ -31,12 +35,20 @@ const Submissions = ({ match }) => {
         console.log(submissions[0]);
         return (
             submissions.map(submission => (
-                <tr key={submission.id}
-                    // onClick={ (e) => {
-                    //     e.preventDefault();
-                    //     window.location.href=`/challenges/${challenge.name}/${challenge._id}`;
-                    //     e.stopPropagation();
-                    // }} 
+                <tr 
+                    key={submission.challengeId}
+                    onClick={ (e) => {
+                        e.preventDefault();
+                        history.push({
+                            pathname: `/challenges/${submission.challengeName}/${submission.challengeId}`, 
+                            state: { submission: submission }
+                        });
+                        
+                            
+                        //     state: submission
+                        //    }}>
+                        // // window.location.href=`/challenges/${submission.challengeName}/${submission.challengeId}`;
+                    }} 
                 >
                     <td>{new Date(submission.dateSubmitted).toLocaleDateString('en-US')}</td>
                     <td>{submission.challengeName}</td>

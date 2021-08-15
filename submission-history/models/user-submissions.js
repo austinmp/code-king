@@ -31,6 +31,9 @@ const submissionSchema = new db.Schema({
         required: [true, 'DidAllTestsPass is required'],
 
     },
+    code: {
+        type: String,
+    },
     dateSubmitted:{
         type: Date, 
         default: Date.now         

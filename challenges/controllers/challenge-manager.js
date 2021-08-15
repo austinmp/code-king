@@ -11,7 +11,7 @@ async function postChallenge(req, res, next){
         await newChallenge.save();
         return res.status(201).json({ 
             message     : `Challenge created successfully! Challenge Id: ${newChallenge.id}`,
-            ...newChallenge
+            ...newChallenge._doc
         });
     } catch(err){
         console.log(err);
@@ -35,21 +35,21 @@ async function getChallengeSet(req, res, next){
     }
 }
 
-/// Get all data for a specific challenge given database _id
+/// Get all data for a specific challenge given id
 async function getChallenge(req, res, next){
-    const _id = req.query._id;
-    if(!_id){
+    const challengeId = req.query.challengeId;
+    if(!challengeId){
         return res.status(400).json({ message: "Bad Request: A valid challengeId must be provided in the query parameters"});
     } 
     try { 
-        const challenge = await Challenge.findById(_id).exec();
+        const challenge = await Challenge.findOne({ 'id': challengeId }).exec();
         if(!challenge || challenge.length === 0){
-            return res.status(404).json({ message: `Challenge with id:${_id} does not exist`});
+            return res.status(404).json({ message: `Challenge with id: ${challengeId} does not exist`});
         }   
         return res.status(200).json({...challenge._doc});
     } catch(err) {
         return res.status(500).json({ 
-            message : `Challenges service was unable to retrieve the challenge with id:${_id}`,
+            message : `Challenges service was unable to retrieve the challenge with id: ${challengeId}`,
             error   : `${err}`
         });
     }

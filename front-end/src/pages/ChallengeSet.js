@@ -23,6 +23,7 @@ const ChallengeSet = () => {
     const [page, setPage] = useState(1);
     const [challenges, setChallenges] = useState();
     const [submissions, setSubmissions] = useState();
+    const [error, setError] = useState();
     const fetchData = useFetch();
 
     // create key : value mapping (challengeId : submission) for easier/faster data retrieval during pagination.
@@ -34,15 +35,27 @@ const ChallengeSet = () => {
         return challengeIdMap;
     }
 
-    useEffect( async () =>{
+    useEffect( async () => {
         const [challengeSet, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallengeSet`);
         setChallenges(challengeSet.challenges);
-        setNumChallenges(challengeSet.length);
-
-        const [userSubmissions] = await fetchData(`http://localhost:8080/submission-history/getUserSubmissions?userName=${credentials.username}`);
-        const submissionsById = getSubmissionsById(userSubmissions.userSubmissions);
-        setSubmissions(submissionsById);
+        setNumChallenges(challengeSet.length);        
     }, [] );
+
+    useEffect( async () => {
+        const [userSubmissions, loading,  err] = await fetchData(`http://localhost:8080/submission-history/getUserSubmissions?userName=${credentials.username}`);
+        if(userSubmissions && !err) {
+            const submissionsById = getSubmissionsById(userSubmissions.userSubmissions);
+            setSubmissions(submissionsById);
+        }
+        if(err){
+            setError(err);
+            console.log(err);
+        } 
+       
+    }, [] );
+
+
+ 
 
     const paginateChallenges = () => {
         const start = (page-1)*CHALLENGES_PER_PAGE;
@@ -54,7 +67,7 @@ const ChallengeSet = () => {
                 <tr key={challenge.name}
                     onClick={ (e) => {
                         e.preventDefault();
-                        window.location.href=`/challenges/${challenge.name}/${challenge._id}`;
+                        window.location.href=`/challenges/${challenge.name}/${challenge.id}`;
                         e.stopPropagation();
                     }}
                 >
@@ -69,7 +82,7 @@ const ChallengeSet = () => {
                     <td className='highscores'> 
                         <Button className='highscores' text="Highscores"onClick={ (e) => {
                             e.preventDefault();
-                            window.location.href=`/highscores/${challenge.id}/${challenge._id}`;
+                            window.location.href=`/highscores/${challenge.id}`;
                             e.stopPropagation();
                         }}
                         />
