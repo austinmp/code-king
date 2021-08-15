@@ -2,11 +2,10 @@ import React, {useState, useEffect, useContext} from 'react';
 import styled from "styled-components";
 import PageContainer from '../components/PageContainer';
 import  useFetch from '../api/useFetch';
-import Challenge from './Challenge';
 import { useHistory } from "react-router-dom";
+import BasicPagination from '../components/BasicPagination';
 
-
-
+const SUBMISSIONS_PER_PAGE = 10;
 const headers = [
     'Date Submitted',
     'Title',
@@ -15,26 +14,33 @@ const headers = [
     'Status',
 ];
 
-
 const Submissions = ({ match }) => {
     let history = useHistory();
-    const fetchData = useFetch();
     const { username } = match.params;
     const [error, setError] = useState();
     const [submissions, setSubmissions] = useState();
+    const [numSubmissions, setNumSubmissions] = useState(0);
+    const [page, setPage] = useState(1);
+    const fetchData = useFetch();
 
 
     useEffect( async () => { 
         const [userSubmissions, loading, err] = await fetchData(`http://localhost:8080/submission-history/getUserSubmissions?userName=${username}`);
-        if(userSubmissions && !err) setSubmissions(userSubmissions.userSubmissions);
+        if(userSubmissions && !err){
+            setSubmissions(userSubmissions.userSubmissions);
+            setNumSubmissions(userSubmissions.userSubmissions.length);
+        } 
+        
         if(err) setError(err);
 
     }, []);
 
     const paginateSubmissions = () => {
-        console.log(submissions[0]);
+        const start = (page-1)*SUBMISSIONS_PER_PAGE;
+        const end = (page*SUBMISSIONS_PER_PAGE <= numSubmissions) ? page*SUBMISSIONS_PER_PAGE : undefined;
+        const currSubmissions = submissions.slice(start, end);
         return (
-            submissions.map(submission => (
+            currSubmissions.map(submission => (
                 <tr 
                     key={submission.challengeId}
                     onClick={ (e) => {
@@ -43,11 +49,6 @@ const Submissions = ({ match }) => {
                             pathname: `/challenges/${submission.challengeName}/${submission.challengeId}`, 
                             state: { submission: submission }
                         });
-                        
-                            
-                        //     state: submission
-                        //    }}>
-                        // // window.location.href=`/challenges/${submission.challengeName}/${submission.challengeId}`;
                     }} 
                 >
                     <td>{new Date(submission.dateSubmitted).toLocaleDateString('en-US')}</td>
@@ -88,6 +89,8 @@ const Submissions = ({ match }) => {
                 </div> 
             : null
             } 
+            <BasicPagination pageCount={Math.ceil(numSubmissions / SUBMISSIONS_PER_PAGE)} setPage={setPage} />
+            
         </PageContainer>
     );
 

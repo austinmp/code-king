@@ -4,15 +4,23 @@ import { device } from '../common/breakpoints';
 
 
 
-const Button = ({text, onClick, className, icon, type}) => {
+const Button = ({text, onClick, className, icon, type, iconPosition}) => {
     return (
         <button 
             className={className} 
             onClick={onClick}
             type={type}
         >
-            {icon}
-            {text}
+            {iconPosition == "right"
+            ?  <> 
+                    {text}
+                    {icon}
+                </>
+            :   <> 
+                    {icon}
+                    {text}
+                </>
+            }
         </button>
     )
 }

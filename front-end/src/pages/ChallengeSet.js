@@ -5,9 +5,9 @@ import BasicPagination from '../components/BasicPagination';
 import  useFetch from '../api/useFetch';
 import { AuthContext } from '../context/AuthContext';
 import Button from '../components/Button';
+import { useHistory } from "react-router-dom";
 
-const CHALLENGES_PER_PAGE = 20;
-
+const CHALLENGES_PER_PAGE = 10;
 const headers = [
     'Id',
     'Title',
@@ -18,6 +18,7 @@ const headers = [
 ];
 
 const ChallengeSet = () => {
+    let history = useHistory();
     const {credentials, setCredentials} = useContext(AuthContext);
     const [numChallenges, setNumChallenges] = useState(0);
     const [page, setPage] = useState(1);
@@ -26,7 +27,7 @@ const ChallengeSet = () => {
     const [error, setError] = useState();
     const fetchData = useFetch();
 
-    // create key : value mapping (challengeId : submission) for easier/faster data retrieval during pagination.
+    // create key : value mapping (key = challengeId : value = submission object) for easier/faster data retrieval during pagination.
     const getSubmissionsById = (submissions) => {
         const challengeIdMap = submissions.reduce((obj, submission)=>{
             obj[submission.challengeId] = submission;
@@ -37,8 +38,11 @@ const ChallengeSet = () => {
 
     useEffect( async () => {
         const [challengeSet, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallengeSet`);
-        setChallenges(challengeSet.challenges);
-        setNumChallenges(challengeSet.length);        
+        if(challengeSet){
+            setChallenges(challengeSet.challenges);
+            setNumChallenges(challengeSet.challenges.length);  
+        }
+              
     }, [] );
 
     useEffect( async () => {
@@ -50,24 +54,25 @@ const ChallengeSet = () => {
         if(err){
             setError(err);
             console.log(err);
-        } 
-       
+        }  
     }, [] );
-
-
- 
 
     const paginateChallenges = () => {
         const start = (page-1)*CHALLENGES_PER_PAGE;
         const end = (page*CHALLENGES_PER_PAGE <= numChallenges) ? page*CHALLENGES_PER_PAGE : undefined;
         const currChallenges = challenges.slice(start, end);
-        const challengeIds = currChallenges.map(challenge => challenge.id);
-       return (
+        return (
             currChallenges.map(challenge => (
                 <tr key={challenge.name}
                     onClick={ (e) => {
                         e.preventDefault();
-                        window.location.href=`/challenges/${challenge.name}/${challenge.id}`;
+                        history.push({
+                            pathname: `/challenges/${challenge.name}/${challenge.id}`, 
+                            state: { 
+                                challenge : challenge,
+                                submission : submissions[challenge.id]
+                            }
+                        });
                         e.stopPropagation();
                     }}
                 >
@@ -80,11 +85,19 @@ const ChallengeSet = () => {
                     :  <td className='error'>Incomplete</td>
                     }
                     <td className='highscores'> 
-                        <Button className='highscores' text="Highscores"onClick={ (e) => {
+                        <Button className='highscores' text="Highscores"
+                        onClick={ (e) => {
                             e.preventDefault();
-                            window.location.href=`/highscores/${challenge.id}`;
+                            history.push({
+                                pathname: `/highscores/${challenge.id}`, 
+                                state: { 
+                                    challenge : challenge,
+                                }
+                            });
                             e.stopPropagation();
                         }}
+
+                        
                         />
                     </td>
                 </tr>
@@ -110,6 +123,7 @@ const ChallengeSet = () => {
                 </tbody>
             </Table>
             <BasicPagination pageCount={Math.ceil(numChallenges / CHALLENGES_PER_PAGE)} setPage={setPage} />
+            
         </PageContainer>
     );
 }

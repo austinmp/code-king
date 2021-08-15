@@ -1,32 +1,42 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
+import { useHistory } from "react-router-dom";
+import { AuthContext } from '../context/AuthContext';
 import styled from "styled-components";
 import PageContainer from '../components/PageContainer';
 import ContentCard from '../components/ContentCard';
 import CodeSandbox from '../components/CodeSandbox';
 import Button from '../components/Button';
-import { BsPlayFill } from 'react-icons/bs';
 import  useFetch from '../api/useFetch';
-import BackButton from '../components/BackButton'
+// import BackButton from '../components/BackButton'
 
+//icons
+import { BsPlayFill } from 'react-icons/bs';
+import { IoMdArrowRoundBack } from 'react-icons/io';
+import { IoMdArrowRoundForward } from 'react-icons/io';
 
 // All route props (match, location and history) are available to component 
-function Challenge({...rest}) {
-    const { title, challengeId } = rest.match.params;
+function Challenge({ location, match }) {
+    let history = useHistory();
+    const { title, challengeId } = match.params;
+    const [challenge, setChallenge] = useState(location.state.challenge);
+    const { credentials } = useContext(AuthContext);
     const [submission, setSubmission] = useState('def submission(*args):');
-    const [submissionStatus, setSubmissionStatus] = useState('INCOMPLETE'); // WILL NEED TO PASS IN A STATE IF WE HAVE  SUBMITTED A CHALLENGE ALREADY
+    const [submissionStatus, setSubmissionStatus] = useState('INCOMPLETE'); 
     const [language, setLanguage] = useState('python3');
     const [executionResults, setExecutionResults] = useState();
     const [output, setOutput] = useState();
-    const [challenge, setChallenge] = useState();
     const fetchData = useFetch();
 
-    useEffect( async () =>{
-        const [challengeData, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallenge?challengeId=${challengeId}`);
-        setChallenge(challengeData);
-        if( rest.location.state && rest.location.state.submission) {
-            const status = rest.location.state.submission.didAllTestsPass ? 'COMPLETED' : 'INCOMPLETE'
+    // ChallengeSet page will pass in a submission, if it exists, through state prop
+    useEffect( async () => {
+        if(location.state.submission) {
+            const status = location.state.submission.didAllTestsPass ? 'COMPLETED' : 'INCOMPLETE'
             setSubmissionStatus(status);
-            setSubmission(rest.location.state.submission.code);
+            setSubmission(location.state.submission.code);
+        }
+        if(!location.state.challenge){
+            const [challengeData, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallenge?challengeId=${challengeId}`);
+            setChallenge(challengeData);
         }
     }, [] );
 
@@ -39,7 +49,7 @@ function Challenge({...rest}) {
                 'Content-Type': 'text/plain',
             }   
         }
-        const [result, loading, err] = await fetchData(`http://localhost:8080/submission-testing/submitSolution?challengeId=${challenge.id}&programmingLanguage=${language}&challengeName=${challenge.name}&userName=${rest.username}`, options);
+        const [result, loading, err] = await fetchData(`http://localhost:8080/submission-testing/submitSolution?challengeId=${challenge.id}&programmingLanguage=${language}&challengeName=${challenge.name}&userName=${credentials.username}`, options);
         if(result && !err) {
             setSubmissionStatus(result.status);
             setExecutionResults(result.executionResults);
@@ -73,10 +83,22 @@ function Challenge({...rest}) {
 
     return (
         <PageContainer className='challenge-container' header={title}>
-                <BackButton />
+                <ButtonDiv>
+                    <Button
+                        text='Browse Challenges'
+                        icon={<BackIcon/>} 
+                        onClick={ () => history.push('/challenges')} 
+                    />
+                    <Button 
+                        text={'Add / Edit Test Cases'} 
+                        icon={<ForwardIcon/>}
+                        iconPosition={'right'}
+                        onClick={ () => history.push('/challenges')} 
+                    />
+                </ButtonDiv>
                 <ContentCard>
                     {! challenge
-                    ? <div>LOADING... </div>
+                    ? <div>Loading... </div>
                     :<>  
                         <ChallengeDetailsTopRow>
                             <div> 
@@ -149,6 +171,12 @@ function Challenge({...rest}) {
     );
 }
 
+const ButtonDiv = styled.div`
+    display flex;
+    width: 100%;
+    justify-content: space-between;
+`;
+
 const Label = styled.label`
     width: 100%;
     margin: 0;
@@ -161,9 +189,7 @@ const ChallengeDetailsTopRow = styled.div`
     display: flex; 
     flex-direction: row;
     justify-content: space-between;
-
     width: 100%;
-
 `;
 
 const ProgrammingLanguageSelect = styled.span`
@@ -179,13 +205,30 @@ const Output = styled.div`
     color: rgb(235, 38, 88);
 `;
 
-
-
 const SubmitIcon = styled(BsPlayFill)`
     margin-right: 5px;
     text-align: center;
     width: 20px;
     height: auto;
 `;
+
+const BackIcon = styled(IoMdArrowRoundBack)`
+    margin-right: 10px;
+    text-align: center;
+    align-self: center;
+    width: 20px;
+    height: auto;
+`;
+
+const ForwardIcon = styled(IoMdArrowRoundForward)`
+    margin-left: 10px;
+    text-align: center;
+    align-self: center;
+    width: 20px;
+    height: auto;
+`;
+
+
+
 
 export default Challenge;

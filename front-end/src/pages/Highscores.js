@@ -16,13 +16,8 @@ const headers = [
 const Highscores = ({history, location, match}) => {
     const { challengeId } = match.params;
     const [highscores, setHighscores] = useState();
-    const [challenge, setChallenge] = useState();
+    const [challenge, setChallenge] = useState(location.state.challenge);
     const fetchData = useFetch();
-
-    useEffect( async () =>{
-        const [challengeData, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallenge?challengeId=${challengeId}`);
-        setChallenge(challengeData);
-    }, [] );
 
     useEffect( async () =>{
         const [highscoresData, loading, error] = await fetchData(`http://localhost:8080/submission-history/getChallengeHighscores?challengeId=${challengeId}`);

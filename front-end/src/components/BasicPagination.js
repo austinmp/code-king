@@ -14,6 +14,8 @@ const useStyles = makeStyles((theme) => ({
 
 function BasicPagination({ pageCount, setPage }) {
   const classes = useStyles();
+  console.log(pageCount);
+  const count = ( !pageCount || isNaN(pageCount) ) ? 1 : pageCount;
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -21,7 +23,7 @@ function BasicPagination({ pageCount, setPage }) {
 
   return (
     <div className={classes.root}>
-      <StyledPagination count={pageCount} onChange={handleChange} />
+      <StyledPagination count={count} onChange={handleChange} />
     </div>
   );
 }
@@ -36,8 +38,13 @@ const StyledPagination = styled(Pagination)`
     background-color: var(--hover-color);
   }
 
-  .MuiPaginationItem-page.Mui-selected {
-    background-color: var(--primary);
+  // .MuiPaginationItem-page.Mui-selected, {
+  //   background-color: var(--secondary);
+  // }
+
+  .MuiPaginationItem-page.Mui-selected, .MuiPaginationItem-page.Mui-selected:hover, .MuiPaginationItem-page.Mui-selected.Mui-focusVisible {
+    background: var(--secondary);
+    color: white;
   }
 
 `;
