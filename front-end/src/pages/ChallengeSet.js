@@ -87,7 +87,6 @@ const ChallengeSet = () => {
                         {headers.map(header => (
                             <th key={header}>{header}</th>
                         ))}
-    
                     </tr>
                 </thead>
                 <tbody>
@@ -109,21 +108,18 @@ const Table = styled.table`
         background: var(--title-primary);
         color: white;
         
-    }
-    
-    tbody  tr:hover :not(.highscores){
+    };
+
+    tbody  tr:hover :not(.highscores) {
             background:var(--hover-color);
             cursor: pointer;
     }
-
-   
-    
 
     td, th {
         text-align: center;
         padding-bottom: 1em;
         padding-top: 1em;
-    }
+    };
 
 `;
 

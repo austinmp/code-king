@@ -22,10 +22,6 @@ function Challenge({...rest}) {
 
     useEffect( async () =>{
         const [challengeData, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallenge?_id=${_id}`);
-        const d = new Date(challengeData.date);
-        d.toLocaleDateString('en-US')
-        console.log(d.toLocaleDateString('en-US'));
-        // console.log(challengeData.date.toDateString());
         setChallenge(challengeData);
     }, [] );
 

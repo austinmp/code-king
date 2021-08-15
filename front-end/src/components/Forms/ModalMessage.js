@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { FaCheckCircle } from 'react-icons/fa';
 import { MdErrorOutline } from 'react-icons/md';
 
-const ModalMessage = ( {modal, setModal} ) => {
+const ModalMessage = ({ modal, setModal }) => {
     const Icon = icons[modal.icon];
     return (
         <Container>

@@ -2,10 +2,12 @@ import React from "react";
 import ReactDOM from 'react-dom';
 import { MdClose } from 'react-icons/md';
 import styled from "styled-components";
-import SignInForm from '../ModalForms/SignInForm';
-import SignUpForm from '../ModalForms/SignUpForm';
-import ModalMessage from "../ModalForms/ModalMessage";
+import SignInForm from '../Forms/SignInForm';
+import SignUpForm from '../Forms/SignUpForm';
+import ModalMessage from "../Forms/ModalMessage";
 import { device } from '../../common/breakpoints'
+import Header from '../Header';
+import { GiWhiteBook } from "react-icons/gi";
 
 const forms = {
     signIn : SignInForm,
@@ -13,22 +15,16 @@ const forms = {
     message : ModalMessage
 }
 
-const  Modal = ( { modal, setModal, setCredentials } ) => {
+const  Modal = ( { modal, setModal } ) => {
+    
     const ModalForm = forms[modal.form] || forms['signIn'];
     if(!modal.isOpen) return null;
 
     const renderHeader = () => {
         if(!modal.header) return null;
         return (
-            <HeaderDiv> <h2>{modal.header}</h2></HeaderDiv>
+                <Header className='modal-header' text={modal.header}/>
         );
-    }
-
-    const clearPrevHeader = () => {
-        setModal(prevState => ({
-            ...prevState,
-            header : '',
-        }))
     }
 
     return ReactDOM.createPortal(
@@ -47,7 +43,7 @@ const  Modal = ( { modal, setModal, setCredentials } ) => {
                 }}
             >
                 {renderHeader()}
-                <ModalForm modal={modal} setModal={setModal} setCredentials={setCredentials}/>
+                <ModalForm modal={modal} setModal={setModal} />
                 <CloseModalButton 
                     onClick={ () => 
                         setModal(prevState => ({
@@ -76,13 +72,13 @@ const ModalContainer = styled.div`
     align-items: center;
     position: fixed;
     z-index: 1;
-    width: 600px;
+    width: 700px;
     top: 50%;
     left: 50%;
     height: auto    ;
     transform: translate(-50%, -50%);
     background:  #20232a;
-    padding: 80px;
+    padding: 8vh 4vw 8vh 4vw;
     color:white;
     &:a{
         color: #0070f3;
@@ -90,21 +86,34 @@ const ModalContainer = styled.div`
 
     @media ${device.sm} {
         width: 100%;
-      } 
+    }
+    header {
+        color: white;
+        text-align: center;
+    }
     
 `;
-const HeaderDiv = styled.div `
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;  
-    color: white;
-    margin-bottom: 20px;
-    margin-top: 20px;
-`;
+
+// const StyledHeader = styled(Header)`
+//     justify-content: center;
+//     color: white;
+// `;
+// const HeaderDiv = styled.div `
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     width: 100%;  
+//     color: white;
+//     margin-bottom: 20px;
+//     margin-top: 20px;
+
+//     // header {
+//     //     color: white;
+//     // }
+// `;
 
 const CloseIcon = styled(MdClose)`
-    width:30px;
+    width:50px;
     height: auto;
     color: white;
     &:hover {

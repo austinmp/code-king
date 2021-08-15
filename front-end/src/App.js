@@ -15,7 +15,7 @@ import {
   Route, 
 } from "react-router-dom";
 
-import ModalMessage from './components/ModalForms/ModalMessage';
+import ModalMessage from './components/Forms/ModalMessage';
 import { AuthContext } from './context/AuthContext';
 import GlobalStyles from './GlobalStyles';
 

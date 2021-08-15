@@ -9,7 +9,11 @@ const GlobalStyles = createGlobalStyle`
     --background-secondary: #f3f4f6;
     --title-primary: #282c34;
     --text-primary: #000000;
+
+    --error-color: #e85e6c;
     --nav-font-size: 20px;
+    --form-font-size: 20px;
+
   }
 
   .incomplete,

@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import Header from "./Header";
-import {useMedia} from 'react-use';
 import { device } from '../common/breakpoints';
 
 const PageContainer = ({header, children}) =>{
