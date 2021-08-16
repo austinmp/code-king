@@ -67,11 +67,11 @@ function App() {
         />
 
         <ProtectedRoute exact path='/createChallenge' component={CreateChallenge} setModal={setModal}/>
+        <ProtectedRoute path='/editChallenge/:challengeId' component={EditChallenge} setModal={setModal} />
         <ProtectedRoute exact path='/challenges' component={ChallengeSet} />
         <ProtectedRoute path='/challenges/:title/:challengeId' component={Challenge} username={credentials.username}/>
         <ProtectedRoute path='/highscores/:challengeId' component={Highscores} />
         <ProtectedRoute path='/submissions/:username' component={Submissions} />
-        <ProtectedRoute path='/editChallenge/:challengeId' component={EditChallenge} />
       </Router>
     </Div>    
   );

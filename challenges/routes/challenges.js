@@ -5,6 +5,9 @@ const challengeManager = require(`../controllers/challenge-manager`);
 /// Save a new challenge to db
 router.post('/createChallenge', challengeManager.postChallenge);
 
+/// Save a new challenge to db
+router.post('/editChallenge', challengeManager.postEditChallenge);
+
 // Get all challenges from db (front-end handles pagination)
 router.get("/getChallengeSet", challengeManager.getChallengeSet);
 

@@ -20,7 +20,31 @@ async function postChallenge(req, res, next){
             error   : `${err}`
         });  
     }
-}    
+} 
+
+// Update an existing challenge in db
+const postEditChallenge = async (req, res, next) => {
+    const challengeId = req.query.challengeId;
+    if(!challengeId){
+        return res.status(400).json({ message: "Bad Request: A valid challengeId must be provided in the query parameters."});
+    }
+    try {
+        const isDuplicateName = await Challenge.findOne({'name' : req.body.name}).exec();
+        if(isDuplicateName && isDuplicateName.id !== challengeId ){
+            return res.status(409).json({ message: "A different challenge with that name already exists!"});
+        }
+        const filter = { id: challengeId };
+        const update = {...req.body};   
+        const doc = await Challenge.findOneAndUpdate(filter, update, {new : true});     // new : true option returns the updated doc instead of the original
+        return res.status(200).json({...doc }); 
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ 
+            message : `An error occured while saving, changes may not have taken effect. ( Challenge Id : ${challengeId})`,
+            error   : `${err}`
+        });
+    }
+}
 
 // Get all challenges from db (front-end handles pagination)
 async function getChallengeSet(req, res, next){
@@ -77,6 +101,7 @@ async function getChallengeTestCases(req, res, next){
 
 module.exports = {
     postChallenge,
+    postEditChallenge,
     getChallengeSet,
     getChallenge,
     getChallengeTestCases,

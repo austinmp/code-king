@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom';
-import styled, {css} from "styled-components";
+import styled from "styled-components";
 import Button from '../components/Button';
 import PageContainer from '../components/PageContainer';
 import useFetch from '../api/useFetch';
@@ -13,25 +13,22 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 function EditChallenge({ location, setModal }) {
   let history = useHistory();
   const [challenge, setChallenge] = useState(location.state.challenge);
-  const fetchData = useFetch();
-  console.log(location.state.challenge);
-
-
+  const [testCases, setTestCases] = useState(location.state.challenge.testCases);
+  const [form, setForm] = useState({
+    name: challenge.name,
+    description: challenge.description,
+    difficulty: challenge.difficulty,
+  });
   const testCase = {
     input: "[]",
     expectedOutput:"",
     inputError:false,
     expectedOutputError:false
   }
-//   const [testCases, setTestCases] = useState([testCase]);
-const [testCases, setTestCases] = useState(location.state.challenge.testCases);
+  const fetchData = useFetch();
 
-  const [form, setForm] = useState({
-    name: challenge.name,
-    description: challenge.description,
-    difficulty: challenge.difficulty,
-  });
 
+  
   const handleChange = (e) => {
     const value = e.target.value;
     setForm( prevState => ({
@@ -69,9 +66,11 @@ const [testCases, setTestCases] = useState(location.state.challenge.testCases);
       method: 'POST',
       body : JSON.stringify(body),
     }
-    const [response, loading, error]  = await fetchData('http://localhost:8080/challenges/createChallenge', options);
-    if(error) handleError(error)
-    if(response && !error) handleSuccess(response);
+    const [response, loading, err]  = await fetchData(`http://localhost:8080/challenges/editChallenge?challengeId=${challenge.id}`, options);
+    if(err) handleError(err)
+    if(response && !err){
+      handleSuccess(response);
+    }
   };
   
   const isValidTestCases = () => {
@@ -112,16 +111,20 @@ const [testCases, setTestCases] = useState(location.state.challenge.testCases);
 
   const handleSuccess = (response) => {
     const newChallenge = response._doc
-    const path = `/challenges/${newChallenge.name}/${newChallenge._id}`
     setModal(prevState =>({
       ...prevState,
       isOpen : true,
       form: 'message',
-      data: 'Challenge created successfully!',
+      data: 'Changes saved successfully!',
       header: '',
       icon : 'success'
     }));
-    history.push(path);
+    history.push({
+      pathname: `/challenges/${newChallenge.name}/${newChallenge._id}`, 
+      state: { 
+          challenge : newChallenge,
+      }
+    });
   }
 
   const renderTestCases = () => {
@@ -172,7 +175,7 @@ const [testCases, setTestCases] = useState(location.state.challenge.testCases);
                 <input 
                   type="text" 
                   name='name'
-                  value={challenge.name} 
+                  value={form.name} 
                   className="form-control" 
                   onChange={handleChange} 
                   required 
@@ -185,7 +188,7 @@ const [testCases, setTestCases] = useState(location.state.challenge.testCases);
                 <select 
                     name='difficulty' 
                     onChange={handleChange} 
-                    value={challenge.difficulty} 
+                    value={form.difficulty} 
                     required
                 > 
                     <option value = "">Select</option>
@@ -201,7 +204,7 @@ const [testCases, setTestCases] = useState(location.state.challenge.testCases);
               <input 
                 type="text" 
                 name='description' 
-                value={challenge.description}
+                value={form.description}
                 className="form-control" 
                 onChange={handleChange} 
                 required 
@@ -231,7 +234,7 @@ const [testCases, setTestCases] = useState(location.state.challenge.testCases);
             icon={<AddIcon/>} 
             onClick={addTestCase}
           />
-          <SubmitButton text="Submit" className='btn'/>
+          <SubmitButton text="Save Changes" className='btn'/>
         </Div>
       </CreateChallengeForm>
     </PageContainer>

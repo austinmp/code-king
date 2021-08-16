@@ -108,7 +108,6 @@ function CreateChallenge({ setModal }) {
 
   const handleSuccess = (response) => {
     const newChallenge = response._doc;
-    const path = `/challenges/${newChallenge.name}/${newChallenge._id}`
     setModal(prevState =>({
       ...prevState,
       isOpen : true,
@@ -117,7 +116,13 @@ function CreateChallenge({ setModal }) {
       header: '',
       icon : 'success'
     }));
-    history.push(path);
+    
+    history.push({
+      pathname: `/challenges/${newChallenge.name}/${newChallenge._id}`, 
+      state: { 
+          challenge : newChallenge,
+      }
+    });
   }
 
   const renderTestCases = () => {
