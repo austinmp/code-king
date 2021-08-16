@@ -94,24 +94,6 @@ const ModalContainer = styled.div`
     
 `;
 
-// const StyledHeader = styled(Header)`
-//     justify-content: center;
-//     color: white;
-// `;
-// const HeaderDiv = styled.div `
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     width: 100%;  
-//     color: white;
-//     margin-bottom: 20px;
-//     margin-top: 20px;
-
-//     // header {
-//     //     color: white;
-//     // }
-// `;
-
 const CloseIcon = styled(MdClose)`
     width:50px;
     height: auto;

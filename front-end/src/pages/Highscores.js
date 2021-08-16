@@ -4,6 +4,7 @@ import PageContainer from '../components/PageContainer';
 import ContentCard from '../components/ContentCard';
 import useFetch from '../api/useFetch';
 import BackButton from '../components/BackButton';
+import Table from '../components/Table';
 
 const headers = [
     'Username',
@@ -17,12 +18,11 @@ const Highscores = ({history, location, match}) => {
     const [highscores, setHighscores] = useState();
     const [challenge, setChallenge] = useState(location.state.challenge);
     const fetchData = useFetch();
-
+    
     useEffect( async () =>{
         const [highscoresData, loading, error] = await fetchData(`http://localhost:8080/submission-history/getChallengeHighscores?challengeId=${challengeId}`);
         setHighscores(highscoresData.highscores);
     }, [] );
-
 
     const renderHighscores = () => {
        return (
@@ -82,7 +82,6 @@ const Highscores = ({history, location, match}) => {
     );
 }
 
-
 const ChallengeDetailsTopRow = styled.div`
     display: flex; 
     flex-direction: row;
@@ -96,28 +95,6 @@ const Label = styled.label`
     padding: 0;
     align-self: flex-start;
 `;
-
-const Table = styled.table`
-    width:100%;
-    border-collapse:collapse; 
-    thead {
-        background: var(--title-primary);
-        color: white;
-    }
-
-    tbody tr:hover{
-        background:var(--hover-color);
-        // cursor: pointer;
-    }
-
-    td, th {
-        text-align: center;
-        padding-bottom: 1em;
-        padding-top: 1em;
-    }
-
-`;
-
 
 export default Highscores;
 

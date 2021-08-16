@@ -1,8 +1,7 @@
 import React from 'react';
-import { makeStyles, withTheme } from '@material-ui/core/styles';
+import { makeStyles} from '@material-ui/core/styles';
 import Pagination from '@material-ui/lab/Pagination';
 import styled from "styled-components";
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function BasicPagination({ pageCount, setPage }) {
+const BasicPagination = ({ pageCount, setPage }) => {
   const classes = useStyles();
   const count = ( !pageCount || isNaN(pageCount) ) ? 1 : pageCount;
   const handleChange = (event, value) => {
@@ -25,7 +24,6 @@ function BasicPagination({ pageCount, setPage }) {
     </div>
   );
 }
-
 
 const StyledPagination = styled(Pagination)`
   .MuiPaginationItem-root {

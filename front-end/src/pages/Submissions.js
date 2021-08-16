@@ -1,9 +1,9 @@
 import React, {useState, useEffect, useContext} from 'react';
-import styled from "styled-components";
 import PageContainer from '../components/PageContainer';
 import  useFetch from '../api/useFetch';
 import { useHistory } from "react-router-dom";
 import BasicPagination from '../components/BasicPagination';
+import Table from '../components/Table';
 
 const SUBMISSIONS_PER_PAGE = 10;
 const headers = [
@@ -85,32 +85,8 @@ const Submissions = ({ match }) => {
             : null
             } 
             <BasicPagination pageCount={Math.ceil(numSubmissions / SUBMISSIONS_PER_PAGE)} setPage={setPage} />
-            
         </PageContainer>
     );
-
 }
-
-const Table = styled.table`
-    width:100%;
-    border-collapse:collapse; 
-    thead {
-        background: var(--title-primary);
-        color: white;
-        
-    };
-
-    tbody  tr:hover :not(.highscores) {
-            background:var(--hover-color);
-            cursor: pointer;
-    }
-
-    td, th {
-        text-align: center;
-        padding-bottom: 1em;
-        padding-top: 1em;
-    };
-
-`;
 
 export default Submissions;
