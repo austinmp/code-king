@@ -23,7 +23,6 @@ const Submissions = ({ match }) => {
     const [page, setPage] = useState(1);
     const fetchData = useFetch();
 
-
     useEffect( async () => { 
         const [userSubmissions, loading, err] = await fetchData(`http://localhost:8080/submission-history/getUserSubmissions?userName=${username}`);
         if(userSubmissions && !err){
@@ -61,11 +60,7 @@ const Submissions = ({ match }) => {
                     }
                 </tr>
             ))
-
-
         )
-
-
     }
 
     return (

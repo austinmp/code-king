@@ -3,8 +3,7 @@ import styled from "styled-components";
 import PageContainer from '../components/PageContainer';
 import ContentCard from '../components/ContentCard';
 import useFetch from '../api/useFetch';
-import BackButton from '../components/BackButton'
-
+import BackButton from '../components/BackButton';
 
 const headers = [
     'Username',

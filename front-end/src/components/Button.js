@@ -2,8 +2,6 @@ import React from 'react';
 import styled from "styled-components";
 import { device } from '../common/breakpoints';
 
-
-
 const Button = ({text, onClick, className, icon, type, iconPosition}) => {
     return (
         <button 
@@ -49,7 +47,5 @@ const StyledButton = styled(Button)`
         padding:4px 10px;
     } 
 `;
-
-
 
 export default StyledButton;

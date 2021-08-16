@@ -10,9 +10,12 @@ import BackButton from '../components/BackButton';
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import { FaRegTrashAlt } from 'react-icons/fa';
 
-function CreateChallenge({ setModal }) {
+function EditChallenge({ location, setModal }) {
   let history = useHistory();
+  const [challenge, setChallenge] = useState(location.state.challenge);
   const fetchData = useFetch();
+  console.log(location.state.challenge);
+
 
   const testCase = {
     input: "[]",
@@ -20,12 +23,13 @@ function CreateChallenge({ setModal }) {
     inputError:false,
     expectedOutputError:false
   }
+//   const [testCases, setTestCases] = useState([testCase]);
+const [testCases, setTestCases] = useState(location.state.challenge.testCases);
 
-  const [testCases, setTestCases] = useState([testCase]);
   const [form, setForm] = useState({
-    name: '',
-    description: '',
-    difficulty: '',
+    name: challenge.name,
+    description: challenge.description,
+    difficulty: challenge.difficulty,
   });
 
   const handleChange = (e) => {
@@ -107,7 +111,7 @@ function CreateChallenge({ setModal }) {
   }
 
   const handleSuccess = (response) => {
-    const newChallenge = response._doc;
+    const newChallenge = response._doc
     const path = `/challenges/${newChallenge.name}/${newChallenge._id}`
     setModal(prevState =>({
       ...prevState,
@@ -157,8 +161,8 @@ function CreateChallenge({ setModal }) {
   }
 
   return (
-    <PageContainer className='create-challenge-container' header={'Create a Challenge'}>
-      <BackButton/>
+    <PageContainer className='edit-challenge-container' header={'Edit Challenge'}>
+    <BackButton/>
       <CreateChallengeForm onSubmit={handleSubmit}>
         <Div>
           <Row>
@@ -167,7 +171,8 @@ function CreateChallenge({ setModal }) {
                 Challenge Name:
                 <input 
                   type="text" 
-                  name='name' 
+                  name='name'
+                  value={challenge.name} 
                   className="form-control" 
                   onChange={handleChange} 
                   required 
@@ -177,7 +182,12 @@ function CreateChallenge({ setModal }) {
             </ChallengeName>
             <DifficultySelect>
               <label>Difficulty:</label>
-                <select name='difficulty' onChange={handleChange} required> 
+                <select 
+                    name='difficulty' 
+                    onChange={handleChange} 
+                    value={challenge.difficulty} 
+                    required
+                > 
                     <option value = "">Select</option>
                     <option value="Easy">Easy</option>
                     <option value="Medium">Medium</option>
@@ -191,6 +201,7 @@ function CreateChallenge({ setModal }) {
               <input 
                 type="text" 
                 name='description' 
+                value={challenge.description}
                 className="form-control" 
                 onChange={handleChange} 
                 required 
@@ -378,4 +389,4 @@ const AddIcon = styled(IoMdAddCircleOutline)`
 `;
 
 
-export default CreateChallenge;
+export default EditChallenge;

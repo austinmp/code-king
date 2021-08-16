@@ -6,6 +6,7 @@ import  useFetch from '../api/useFetch';
 import { AuthContext } from '../context/AuthContext';
 import Button from '../components/Button';
 import { useHistory } from "react-router-dom";
+import { BiEdit } from 'react-icons/bi';
 
 const CHALLENGES_PER_PAGE = 10;
 const headers = [
@@ -15,6 +16,7 @@ const headers = [
     'Date Created',
     'Status',
     'Highscores',
+    'Edit'
 ];
 
 const ChallengeSet = () => {
@@ -76,28 +78,41 @@ const ChallengeSet = () => {
                         e.stopPropagation();
                     }}
                 >
-                    <td>{challenge.id}</td>
-                    <td>{challenge.name} </td>
-                    <td className={challenge.difficulty.toLowerCase()}>{challenge.difficulty}</td> 
-                    <td>{new Date(challenge.date).toLocaleDateString('en-US')}</td>
+                    <td className='hoverable'>{challenge.id}</td>
+                    <td className='hoverable'>{challenge.name} </td>
+                    <td className={challenge.difficulty.toLowerCase() + ' hoverable'}>{challenge.difficulty}</td> 
+                    <td className='hoverable'>{new Date(challenge.date).toLocaleDateString('en-US')}</td>
                     { submissions && submissions[challenge.id] && submissions[challenge.id].didAllTestsPass
-                    ?  <td className='success'>Completed</td>
-                    :  <td className='error'>Incomplete</td>
+                    ?  <td className='success hoverable'>Completed</td>
+                    :  <td className='error hoverable'>Incomplete</td>
                     }
                     <td className='highscores'> 
                         <Button className='highscores' text="Highscores"
-                        onClick={ (e) => {
-                            e.preventDefault();
-                            history.push({
-                                pathname: `/highscores/${challenge.id}`, 
-                                state: { 
-                                    challenge : challenge,
-                                }
-                            });
-                            e.stopPropagation();
-                        }}
-
-                        
+                            onClick={ (e) => {
+                                e.preventDefault();
+                                history.push({
+                                    pathname: `/highscores/${challenge.id}`, 
+                                    state: { 
+                                        challenge : challenge,
+                                    }
+                                });
+                                e.stopPropagation();
+                            }}
+                        />
+                    </td>
+                    <td className='edit-icon'>   
+                        <EditIcon
+                            className='edit-icon'
+                            onClick={ (e) => {
+                                e.preventDefault();
+                                history.push({
+                                    pathname: `/editChallenge/${challenge.id}`, 
+                                    state: { 
+                                        challenge : challenge,
+                                    }
+                                });
+                                e.stopPropagation();
+                            }}
                         />
                     </td>
                 </tr>
@@ -123,31 +138,45 @@ const ChallengeSet = () => {
                 </tbody>
             </Table>
             <BasicPagination pageCount={Math.ceil(numChallenges / CHALLENGES_PER_PAGE)} setPage={setPage} />
-            
         </PageContainer>
     );
 }
 
 const Table = styled.table`
     width:100%;
-    border-collapse:collapse; 
+    border-collapse:separate; 
+    border-spacing: 0 0.3em;
+
     thead {
         background: var(--title-primary);
         color: white;
-        
     };
 
-    tbody  tr:hover :not(.highscores) {
-            background:var(--hover-color);
+    tbody tr {
+        :hover {
             cursor: pointer;
+            transform: scale(1.02);
+            box-shadow: 0px 0px 16px 0 rgba(0, 0, 0, 0.5);
+        }
     }
 
+    .edit-icon:hover {
+        transform: scale(1.3);
+        color: var(--hover-color);
+        
+    }
+    
     td, th {
         text-align: center;
         padding-bottom: 1em;
         padding-top: 1em;
     };
 
+`;
+
+const EditIcon = styled(BiEdit)`
+    color: black;
+    font-size: 20px;
 `;
 
 export default ChallengeSet;

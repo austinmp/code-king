@@ -5,6 +5,7 @@ import Modal from './components/Modal/Modal';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import CreateChallenge from './pages/CreateChallenge';
+import EditChallenge from './pages/EditChallenge';
 import Submissions from './pages/Submissions';
 import ChallengeSet from './pages/ChallengeSet';
 import Highscores from './pages/Highscores';
@@ -70,6 +71,7 @@ function App() {
         <ProtectedRoute path='/challenges/:title/:challengeId' component={Challenge} username={credentials.username}/>
         <ProtectedRoute path='/highscores/:challengeId' component={Highscores} />
         <ProtectedRoute path='/submissions/:username' component={Submissions} />
+        <ProtectedRoute path='/editChallenge/:challengeId' component={EditChallenge} />
       </Router>
     </Div>    
   );

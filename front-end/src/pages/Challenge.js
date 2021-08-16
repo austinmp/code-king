@@ -7,11 +7,10 @@ import ContentCard from '../components/ContentCard';
 import CodeSandbox from '../components/CodeSandbox';
 import Button from '../components/Button';
 import  useFetch from '../api/useFetch';
-// import BackButton from '../components/BackButton'
+import BackButton from '../components/BackButton';
 
 //icons
 import { BsPlayFill } from 'react-icons/bs';
-import { IoMdArrowRoundBack } from 'react-icons/io';
 import { IoMdArrowRoundForward } from 'react-icons/io';
 
 // All route props (match, location and history) are available to component 
@@ -27,12 +26,12 @@ function Challenge({ location, match }) {
     const [output, setOutput] = useState();
     const fetchData = useFetch();
 
-    // ChallengeSet page will pass in a submission, if it exists, through state prop
+   // ChallengeSet page will pass in a submission, if it exists, through state prop
     useEffect( async () => {
         if(location.state.submission) {
             const status = location.state.submission.didAllTestsPass ? 'COMPLETED' : 'INCOMPLETE'
             setSubmissionStatus(status);
-            setSubmission(location.state.submission.code);
+            setSubmission(location.state.submission.code); 
         }
         if(!location.state.challenge){
             const [challengeData, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallenge?challengeId=${challengeId}`);
@@ -84,16 +83,17 @@ function Challenge({ location, match }) {
     return (
         <PageContainer className='challenge-container' header={title}>
                 <ButtonDiv>
-                    <Button
-                        text='Browse Challenges'
-                        icon={<BackIcon/>} 
-                        onClick={ () => history.push('/challenges')} 
-                    />
+                    <BackButton/>
                     <Button 
-                        text={'Add / Edit Test Cases'} 
+                        text={'Edit Challenge'} 
                         icon={<ForwardIcon/>}
                         iconPosition={'right'}
-                        onClick={ () => history.push('/challenges')} 
+                        onClick={ () => 
+                            history.push({
+                                pathname: `/editChallenge/${challenge.id}`, 
+                                state: { challenge: challenge }
+                            })
+                        }
                     />
                 </ButtonDiv>
                 <ContentCard>
@@ -212,13 +212,7 @@ const SubmitIcon = styled(BsPlayFill)`
     height: auto;
 `;
 
-const BackIcon = styled(IoMdArrowRoundBack)`
-    margin-right: 10px;
-    text-align: center;
-    align-self: center;
-    width: 20px;
-    height: auto;
-`;
+
 
 const ForwardIcon = styled(IoMdArrowRoundForward)`
     margin-left: 10px;
