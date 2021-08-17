@@ -11,7 +11,19 @@ const Table = ({ children }) => {
 const StyledTable = styled.table`
     width:100%;
     border-collapse:separate; 
-    border-spacing: 0 0.3em;
+    border-spacing: 0 10px;
+    min-width: 500px;
+    overflow: auto;
+
+    tbody {
+        tr:nth-child(odd) {
+            background-color: #FFFFFF;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f3f4f6; 
+        }
+    }
 
     thead {
         background: var(--title-primary);
@@ -19,6 +31,7 @@ const StyledTable = styled.table`
     };
 
     tbody tr {
+            background: white;
         :hover {
             cursor: pointer;
             transform: scale(1.02);
@@ -35,6 +48,8 @@ const StyledTable = styled.table`
         text-align: center;
         padding-bottom: 1em;
         padding-top: 1em;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
     };
 `;
 

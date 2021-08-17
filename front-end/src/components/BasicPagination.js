@@ -19,11 +19,19 @@ const BasicPagination = ({ pageCount, setPage }) => {
   };
 
   return (
-    <div className={classes.root}>
+    <Div className={classes.root}>
       <StyledPagination count={count} onChange={handleChange} />
-    </div>
+    </Div>
   );
 }
+
+const Div = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-itemms: center;
+`;
 
 const StyledPagination = styled(Pagination)`
   .MuiPaginationItem-root {

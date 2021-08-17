@@ -32,7 +32,7 @@ export const Nav = styled.nav`
 export const Logo = () => {    
     const CrownIcon = styled(CgCrown)`
         color: gold;
-        font-size: 60px;
+        font-size: 50px;
         margin-right: 10px;
     `;
 
@@ -47,8 +47,9 @@ export const Logo = () => {
             text-decoration: none;
             color:white;
             transform: scale(1.05);
-            transition-duration: 0.1s;
-            color: var(--hover-color);
+            // transition-duration: 0.1s;
+            color: var(--secondary);
+            font-weight: 700;
 
         };
     `;
