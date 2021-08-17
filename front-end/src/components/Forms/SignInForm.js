@@ -78,7 +78,7 @@ function LoginForm({modal, setModal}){
                 <div className="sign-in-button form-group">
                     <Button
                         text='Sign In'
-                        className="sign-in-button"
+                        className='modal-button'
                         disabled={!validateForm()}
                     />
                 </div>     

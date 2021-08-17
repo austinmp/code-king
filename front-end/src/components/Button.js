@@ -10,18 +10,27 @@ const Button = ({text, onClick, className, icon, type, iconPosition}) => {
             type={type}
         >
             {iconPosition == "right"
-            ?  <> 
+            ?  <Div> 
                     {text}
                     {icon}
-                </>
-            :   <> 
+                </Div>
+            :   <Div> 
                     {icon}
                     {text}
-                </>
+                </Div>
             }
         </button>
     )
 }
+
+const Div = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+
 
 const StyledButton = styled(Button)`
     background-color:#6568F4;
@@ -36,7 +45,6 @@ const StyledButton = styled(Button)`
     font-size: inherit;
 
     &:hover {
-        padding:8px 20px;
         transition: all 0.3s, ease-out;
         background: #3acbf7;
         color: white;

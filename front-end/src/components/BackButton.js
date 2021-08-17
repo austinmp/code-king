@@ -16,6 +16,7 @@ const BackButton = () => {
 
 const StyledButton = styled(Button)`
     align-self: flex-start;
+    // margin-bottom: 20px;
 `;
 
 const BackIcon = styled(IoMdArrowRoundBack)`

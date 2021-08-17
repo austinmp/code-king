@@ -42,15 +42,31 @@ export const Logo = () => {
         color:white;
         cursor: pointer;
         font-weight: 600;
-        font-size: 1.8rem;
+        font-size: 25px;
         &:hover {
             text-decoration: none;
-            color:#e0e0de;
+            color:white;
+            transform: scale(1.05);
+            transition-duration: 0.1s;
+            color: var(--hover-color);
+
         };
     `;
 
+    const Div = styled.div`
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    `;
+
     return (
-        <LogoText href='/' className="nav-logo"><CrownIcon/>Code King</LogoText>
+        <LogoText href='/' className="nav-logo">
+            <Div>
+                <CrownIcon/>Code King
+            </Div>
+
+        </LogoText>
     );
 };
 
@@ -141,15 +157,16 @@ export const UserAvatar = () => {
     const StyledAvatar = styled(FaUser)`
         margin-right: 20px;
         color: white;
-        font-size: 30px;
+        font-size: 25px;
     `;
 
     const StyledButton = styled(Button)`
         color: gold;
         text-align: center;
         outline: none;
-        pointer-events: none;
+        // pointer-events: none;
         background: inherit;
+        
    `;
 
     return (

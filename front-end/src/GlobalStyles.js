@@ -13,6 +13,7 @@ const GlobalStyles = createGlobalStyle`
     --error-color: #e85e6c;
     --nav-font-size: 20px;
     --form-font-size: 20px;
+    --default-font-size: 16px;
 
   }
 

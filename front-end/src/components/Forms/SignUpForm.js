@@ -122,10 +122,10 @@ function SignUpForm({ modal, setModal }) {
                 : null  
                 }
             </div>  
-            <div className="form-group">
+            <div className='form-group'>
                 <Button 
                     text='Create Account'
-                    className="form-button"
+                    className='modal-button'
                     disabled={!validateForm()}
                 />
             </div>

@@ -16,6 +16,7 @@ const Form = styled.form`
     flex-direction: column;
     justify-content: space-around; 
     height: auto;  
+    width: 100%;
     input {
         margin-top: 10px;
         height: 60px;
@@ -25,9 +26,12 @@ const Form = styled.form`
         width: 100%;
     }
 
-    button {
-        width:100%;
+    .modal-button {
         height: 60px;
+        width: 100%;
+    }
+   
+    button {
         text-align: center;
     }
 

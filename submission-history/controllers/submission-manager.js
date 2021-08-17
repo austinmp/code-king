@@ -13,6 +13,7 @@ async function postSubmission(req, res){
         let user =  await UserSubmissions.findOne({ 'userName': req.body.userName }).exec();
         if(user){
             const isAlreadySubmitted = user.submissions.id(submission._id);
+            // remove old submission before pushing new one
             if(isAlreadySubmitted){
                 user.submissions.id(submission._id).remove();
             }

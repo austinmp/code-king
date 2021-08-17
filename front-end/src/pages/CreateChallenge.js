@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom';
-import styled, {css} from "styled-components";
+import styled from "styled-components";
 import Button from '../components/Button';
 import PageContainer from '../components/PageContainer';
 import useFetch from '../api/useFetch';
 import BackButton from '../components/BackButton';
+import StyledForm from '../components/Forms/StyledForm';
+import { device } from '../common/breakpoints';
+import ContentCard from '../components/ContentCard';
+import TestCaseHowTo from '../components/TestCaseHowTo';
+
 
 // icons
-import { IoMdAddCircleOutline } from 'react-icons/io';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import { IoIosAdd } from 'react-icons/io';
 
 function CreateChallenge({ setModal }) {
   let history = useHistory();
@@ -127,11 +132,11 @@ function CreateChallenge({ setModal }) {
 
   const renderTestCases = () => {
     return testCases.map((test, i) =>
-      <TestCaseContainer key={'testCase' + i}>
-        <TestCase>
-          <Input>
+      <ContentCard>
+        <TestCase key={'testCase' + i}>
+          <div className="input">
             <label>Input:</label>
-              {(testCases[i]['inputError']) ? <ErrorText>{'*Malformed input'}</ErrorText> : null} 
+              {(testCases[i]['inputError']) ? <div className="error">{'*Malformed input'}</div> : null} 
               <TextArea 
                 name='input' 
                 key={'input' + i} 
@@ -139,10 +144,10 @@ function CreateChallenge({ setModal }) {
                 value={testCases[i]['input']} 
                 required 
               />
-          </Input>
-          <ExpectedOutput>
+          </div>
+          <div className="input">
             <label>Expected Output:</label>
-            {testCases[i]['expectedOutputError'] ? <ErrorText>{'*Malformed expected output'}</ErrorText> : null} 
+            {testCases[i]['expectedOutputError'] ? <div className="error">{'*Malformed expected output'}</div> : null} 
               <TextArea  
                 name='expectedOutput' 
                 key={'expectedOutput' + i} 
@@ -150,49 +155,48 @@ function CreateChallenge({ setModal }) {
                 value={testCases[i]['expectedOutput']} 
                 required
               />
-            </ExpectedOutput>
+            </div>
             <RemoveTestCaseButton 
-              classname='btn' 
+              classname='' 
               onClick={(e) => removeTestCase(e, i)}
               icon={<TrashIcon/>}
             />
         </TestCase>
-      </TestCaseContainer>
+      </ContentCard>
     )
   }
 
   return (
     <PageContainer className='create-challenge-container' header={'Create a Challenge'}>
       <BackButton/>
-      <CreateChallengeForm onSubmit={handleSubmit}>
-        <Div>
-          <Row>
-            <ChallengeName>
-              <Label>
-                Challenge Name:
-                <input 
-                  type="text" 
-                  name='name' 
-                  className="form-control" 
-                  onChange={handleChange} 
-                  required 
-                  maxLength="128" 
-                />
-              </Label>
-            </ChallengeName>
-            <DifficultySelect>
-              <label>Difficulty:</label>
-                <select name='difficulty' onChange={handleChange} required> 
-                    <option value = "">Select</option>
-                    <option value="Easy">Easy</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Hard">Hard</option>
-                  </select>
-            </DifficultySelect> 
-          </Row>
+      <StyledForm onSubmit={handleSubmit}>
+        <Row>
+          <ChallengeName>
+            <label>
+              Challenge Name:
+              <input 
+                type="text" 
+                name='name' 
+                className="form-control" 
+                onChange={handleChange} 
+                required 
+                maxLength="128" 
+              />
+            </label>
+          </ChallengeName>
+          <DifficultySelect>
+            <label>Difficulty:</label>
+              <select name='difficulty' onChange={handleChange} required> 
+                  <option value = "">Select</option>
+                  <option value="Easy">Easy</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Hard">Hard</option>
+                </select>
+          </DifficultySelect> 
+        </Row>
           <ChallengeDescription>
-            <Label>
-              Description:
+            <label>
+              Description
               <input 
                 type="text" 
                 name='description' 
@@ -201,52 +205,31 @@ function CreateChallenge({ setModal }) {
                 required 
                 maxLength="512" 
               />
-            </Label>
+            </label>
           </ChallengeDescription>
-          <label>Test Cases:</label>
-          <Blockquote>
-          <p>An individual test case consists of a comma seperated array specifying the function parameter inputs, along with the
-            output that is expected from a correct solution to the problem. Provide as many individual test cases as you would like in 
-            the array below, seperated by commas.
-            <br/>
-            <br/>
-            <b>Example:</b> Given an integer array nums and an integer k, return the kth largest element in the array.
-            <br/>
-            <br/>
-              <b>Input:</b> [ [[3,2,1,5,6,4], 2], [[1,9,8,4,2], 1], [[1,2,3], 3] ] &nbsp; &nbsp; &#8592; Three individual test cases
-              <br /> 
-              <b>Ouput:</b> [5, 9, 1]       
-            </p> 
-          </Blockquote>
-          {renderTestCases()}
+          <TestCaseContainer>
+            <TestCaseHowTo/>
+            <label>Test Cases</label>
+            {renderTestCases()}
+          </TestCaseContainer>
           <AddTestCaseButton 
-            classname='btn' 
+            className='btn' 
             text='Add Test Case'
             icon={<AddIcon/>} 
             onClick={addTestCase}
           />
           <SubmitButton text="Submit" className='btn'/>
-        </Div>
-      </CreateChallengeForm>
+      </StyledForm>
     </PageContainer>
   );
 };
-
-const Label = styled.label`
-  width: 100%;
-`;
 
 const ChallengeName = styled.div`
   width: 70%;
 `;
 
-const CreateChallengeForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;  
-  height: auto;
-  width:100%;
-  overflow: visible;
+const ChallengeDescription = styled.div`
+  width: 70%;
 `;
 
 const DifficultySelect = styled.div`
@@ -261,18 +244,6 @@ const DifficultySelect = styled.div`
   }
 `;
 
-const ChallengeDescription = styled.div`
-  width: 70%;
-`;
-
-const Div = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  overflow:visible;
-  width:100%;
-`;
-
 const Blockquote = styled.blockquote`
   height:auto;
   width:100%;
@@ -285,9 +256,55 @@ const Blockquote = styled.blockquote`
 
 const TestCaseContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+`;
+
+const TestCase = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
   height: auto;
   width: 100%;
-`
+  gap: 10px 10px;
+
+  .input {
+    margin-top: 0;
+    margin-bottom: 0;
+    width: 45%;
+    label {
+      margin: 0;
+    }
+  }
+
+  @media ${device.sm} {
+    justify-content: center;
+    flex-wrap: wrap;
+    .input {
+      width: 100%;
+    }
+  } 
+`;
+
+const RemoveTestCaseButton = styled(Button)`
+  background: var(--error-color);
+  min-width: 30px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  align-self: center;
+  &:hover {
+    background: #ad424d;
+  }
+`;
+
+const TextArea = styled.textarea`
+  height:5em;
+  width: 100%;
+`;
 
 const Row = styled.div`
   display:flex;
@@ -301,68 +318,19 @@ const Row = styled.div`
   }
 `;
 
-const TestCase = styled.div`
-  display: flex;
-  min-width: 100%;
-  justify-content: space-between;
-`;
-
-const Input = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 45%;
-`;
-
-const ExpectedOutput = styled.div`
-  overflow: visible;
-  display: flex;
-  flex-direction: column;
-  width: 45%;
-`;
-
-const TextArea = styled.textarea`
-  height:9em;
-  width: 100%;
-`;
-
-// const TestCaseAside = styled.div`
-//   display: flex;
-//   height: inherit;
-//   flex-shrink: 3;
-//   margin-left: 20px;
-//   justify-content: flex-end;
-//   background: green;
-// `;
-
-const RemoveTestCaseButton = styled(Button)`
-  background: #e85e6c;
-  min-height: 1em;
-  min-width: 1em;
-  align-self: center;
-  text-align: center;
-  height:50px;
-  width: 3.5em;
-  &:hover {
-    background: #ad424d;
-  }
-`;
-
 const AddTestCaseButton = styled(Button)`
-  min-width: 0;
   margin-top: 20px;
   align-self: left;
   width: 200px;
-  height:50px;
-`;
 
-const ErrorText = styled.div`
-  color: #e85e6c;
+  @media ${device.sm} {
+    align-self: center;
+  }
 `;
 
 const SubmitButton = styled(Button)`
   width: 200px;
-  height:50px;
-  margin-top:80px;
+  margin-top:20px;
   align-self: center;
   text-align: center;
   background-color: #4CAF55;
@@ -372,15 +340,12 @@ const SubmitButton = styled(Button)`
 `;
 
 const TrashIcon = styled(FaRegTrashAlt)`
-    color: white;
+    width: 20px;
 `;
 
-const AddIcon = styled(IoMdAddCircleOutline)`
-  color: white;
-  font-size: 1.5em;
-  margin-right: 20px;
-  text-align:center;
+const AddIcon = styled(IoIosAdd)`
+  width: 30px;
+  height: auto;
 `;
-
 
 export default CreateChallenge;
