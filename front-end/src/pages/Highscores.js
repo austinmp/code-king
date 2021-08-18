@@ -20,7 +20,7 @@ const Highscores = ({history, location, match}) => {
     const fetchData = useFetch();
     
     useEffect( async () =>{
-        const [highscoresData, loading, error] = await fetchData(`http://164.90.252.81:8080/submission-history/getChallengeHighscores?challengeId=${challengeId}`);
+        const [highscoresData, loading, error] = await fetchData(`http://${process.env.REACT_APP_HOST}:8080/submission-history/getChallengeHighscores?challengeId=${challengeId}`);
         setHighscores(highscoresData.highscores);
     }, [] );
 

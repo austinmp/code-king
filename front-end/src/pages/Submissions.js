@@ -22,9 +22,9 @@ const Submissions = ({ match }) => {
     const [numSubmissions, setNumSubmissions] = useState(0);
     const [page, setPage] = useState(1);
     const fetchData = useFetch();
-
+    
     useEffect( async () => { 
-        const [userSubmissions, loading, err] = await fetchData(`http://164.90.252.81:8080/submission-history/getUserSubmissions?userName=${username}`);
+        const [userSubmissions, loading, err] = await fetchData(`http://${process.env.REACT_APP_HOST}:8080/submission-history/getUserSubmissions?userName=${username}`);
         if(userSubmissions && !err){
             setSubmissions(userSubmissions.userSubmissions);
             setNumSubmissions(userSubmissions.userSubmissions.length);

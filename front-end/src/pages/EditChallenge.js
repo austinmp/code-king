@@ -69,7 +69,7 @@ function EditChallenge({ location, setModal }) {
       method: 'POST',
       body : JSON.stringify(body),
     }
-    const [response, loading, err]  = await fetchData(`http://164.90.252.81:8080/challenges/editChallenge?challengeId=${challenge.id}`, options);
+    const [response, loading, err]  = await fetchData(`http://${process.env.REACT_APP_HOST}:8080/challenges/editChallenge?challengeId=${challenge.id}`, options);
     if(err) handleError(err)
     if(response && !err){
       handleSuccess(response);
