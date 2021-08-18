@@ -123,7 +123,7 @@ function CreateChallenge({ setModal }) {
     }));
     
     history.push({
-      pathname: `/challenges/${newChallenge.name}/${newChallenge._id}`, 
+      pathname: `/challenges/${newChallenge.name}/${newChallenge.id}`, 
       state: { 
           challenge : newChallenge,
       }

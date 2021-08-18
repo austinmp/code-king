@@ -8,9 +8,10 @@ const Footer = () => {
         <StyledFooter>
             <div>&copy; Copyright {year}, Austin Pinto. All Rights Reserved.</div>
             <div>Icons made by 
-                <a href="https://www.freepik.com" title="Freepik">Freepik</a> and 
-                <a href="https://www.flaticon.com/authors/monkik" title="monkik">monkik</a> from 
-                <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+                <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware"> Good Ware</a> ,
+                <a href="https://www.freepik.com" title="Freepik"> Freepik</a> and  
+                <a href="https://www.flaticon.com/authors/monkik" title="monkik"> monkik</a> from 
+                <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
             </div>
         </StyledFooter>
 

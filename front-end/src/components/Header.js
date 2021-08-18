@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { device } from '../common/breakpoints';
+
 
 const Header = ({text, className}) => {
     return (
@@ -19,6 +21,10 @@ const StyledHeader = styled.header`
     overflow: hidden;
     justify-content: left;
     border-bottom: 0px;
+
+    @media ${device.sm} {
+        font-size: 40px;
+      } 
 `;
 
 export default Header;

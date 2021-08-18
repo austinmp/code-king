@@ -30,7 +30,11 @@ const postEditChallenge = async (req, res, next) => {
     }
     try {
         const isDuplicateName = await Challenge.findOne({'name' : req.body.name}).exec();
-        if(isDuplicateName && isDuplicateName.id !== challengeId ){
+        if(isDuplicateName && (isDuplicateName.id != challengeId)){
+            console.log(isDuplicateName);
+            console.log('chal id query = ' + challengeId);
+            console.log('db query id = ' + isDuplicateName.id);
+
             return res.status(409).json({ message: "A different challenge with that name already exists!"});
         }
         const filter = { id: challengeId };

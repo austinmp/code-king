@@ -24,6 +24,7 @@ function Challenge({ location, match }) {
     const [language, setLanguage] = useState('python3');
     const [executionResults, setExecutionResults] = useState();
     const [output, setOutput] = useState();
+    const [error, setError] = useState();
     const fetchData = useFetch();
 
    // ChallengeSet page will pass in a submission, if it exists, through state prop
@@ -62,7 +63,8 @@ function Challenge({ location, match }) {
         
         switch(submissionStatus) {
             case 'PASSED':
-                setOutput({output : `ALL TEST CASES PASSED SUCCESSFULLY! Execution time : ${executionResults.executionTime} ms`});
+                setOutput({output : `Challenge completed. All test cases passed successfully! 
+                Execution time : ${executionResults.executionTime} ms`});
                 break;
             case 'FAILED':
                 const failedTestCase = executionResults.tests.find( ({ outcome }) => outcome === 'ERRORED' || outcome === 'FAILED');
@@ -82,24 +84,26 @@ function Challenge({ location, match }) {
 
     return (
         <PageContainer className='challenge-container' header={title}>
-                <ButtonDiv>
-                    <BackButton/>
-                    <Button 
-                        text={'Edit Challenge'} 
-                        icon={<ForwardIcon/>}
-                        iconPosition={'right'}
-                        onClick={ () => 
-                            history.push({
-                                pathname: `/editChallenge/${challenge.id}`, 
-                                state: { challenge: challenge }
-                            })
-                        }
-                    />
-                </ButtonDiv>
-                <ContentCard>
-                    {! challenge
-                    ? <div>Loading... </div>
-                    :<>  
+            <ButtonDiv>
+                <BackButton/>
+                <Button 
+                    text={'Edit Challenge'} 
+                    icon={<ForwardIcon/>}
+                    iconPosition={'right'}
+                    onClick={ () => 
+                        history.push({
+                            pathname: `/editChallenge/${challenge.id}`, 
+                            state: { challenge: challenge }
+                        })
+                    }
+                />
+            </ButtonDiv>
+            <ContentCard>
+                {! challenge
+                ? error
+                    ?  <div>{error}</div>
+                    : <div>Loading... </div>
+                :   <>  
                         <ChallengeDetailsTopRow>
                             <div> 
                                 <Label>Challenge Id: {challenge.id}</Label> 
@@ -119,57 +123,54 @@ function Challenge({ location, match }) {
                                 </Label>
                             </div>  
                         </ChallengeDetailsTopRow>
-                        <Label>Description: {challenge.description}</Label>
+                        <Description>
+                            <Label>Description:</Label> <span>{challenge.description}</span>
+                        </Description>
                     </>
-                    }
-                </ContentCard>    
-                
-                
-                    {/* <div>TestCases:</div>
-                    {challenge.testCases.map( ( testCase, index ) => {
-                        return(
-                        <div key={index}>
-                            <div>Input: {testCase.input}</div>
-                            <div>Expected: {testCase.expectedOutput}</div>
-                        </div>
-                        )
-                    })}
-                    
-            </>       
-} */}
-        <ContentCard>
-            <Label>Solution  
-                <ProgrammingLanguageSelect>
-                    <select name='language' onChange={(e)=> setLanguage(e.target.value)} required> 
-                        <option value="python3">python3</option>
-                        <option value="javascript" disabled>javascript</option>
-                    </select>
-                </ProgrammingLanguageSelect>
-            </Label>    
-            <CodeSandbox 
-                submission={submission} 
-                setSubmission={setSubmission} 
-            />
-        </ContentCard>
-
-        <Button 
-            text='Submit'
-            icon={<SubmitIcon/>} 
-            onClick={handleSubmit}
-        />
-        <ContentCard>
-            <Label>Output</Label>
-            <Output>
-                {! output ? null 
-                : Object.keys(output).map(key => {
-                        return <p>{`${key} : ${output[key]}`} </p>
-                    } )
                 }
-            </Output>
-        </ContentCard>
+            </ContentCard>    
+            <ContentCard>
+                <Label>Solution  
+                    <ProgrammingLanguageSelect>
+                        <select name='language' onChange={(e)=> setLanguage(e.target.value)} required> 
+                            <option value="python3">python3</option>
+                            <option value="javascript" disabled>javascript</option>
+                        </select>
+                    </ProgrammingLanguageSelect>
+                </Label>    
+                <CodeSandbox 
+                    submission={submission} 
+                    setSubmission={setSubmission} 
+                />
+            </ContentCard>
+            <SubmitButton 
+                text='Run Code'
+                icon={<SubmitIcon/>} 
+                onClick={handleSubmit}
+            />
+            <ContentCard>
+                <Label>Output</Label>
+                <Output>
+                    {! output 
+                    ? null 
+                    : Object.keys(output).map(key => {
+                            return <p>{`${key} : ${output[key]}`} </p>
+                        })
+                    }
+                </Output>
+            </ContentCard>
         </PageContainer>
     );
 }
+
+const Description = styled.div`
+    width: 100%;
+`
+
+const SubmitButton = styled(Button)`
+    width: 200px;
+    align-self: center;
+`;
 
 const ButtonDiv = styled.div`
     display flex;
@@ -201,7 +202,8 @@ const Output = styled.div`
     background: #272822;
     width: 100%;
     height: 200px;
-    font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    font-size: 20px;
+    // font: 20px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
     color: rgb(235, 38, 88);
 `;
 

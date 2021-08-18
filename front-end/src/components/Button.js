@@ -30,8 +30,6 @@ const Div = styled.div`
     justify-content: center;
 `;
 
-
-
 const StyledButton = styled(Button)`
     background-color:#6568F4;
     color: white;
