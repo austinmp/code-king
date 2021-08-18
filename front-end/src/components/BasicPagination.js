@@ -1,8 +1,7 @@
 import React from 'react';
-import { makeStyles, withTheme } from '@material-ui/core/styles';
+import { makeStyles} from '@material-ui/core/styles';
 import Pagination from '@material-ui/lab/Pagination';
 import styled from "styled-components";
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,20 +11,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function BasicPagination({ pageCount, setPage }) {
+const BasicPagination = ({ pageCount, setPage }) => {
   const classes = useStyles();
-
+  const count = ( !pageCount || isNaN(pageCount) ) ? 1 : pageCount;
   const handleChange = (event, value) => {
     setPage(value);
   };
 
   return (
-    <div className={classes.root}>
-      <StyledPagination count={pageCount} onChange={handleChange} />
-    </div>
+    <Div className={classes.root}>
+      <StyledPagination count={count} onChange={handleChange} />
+    </Div>
   );
 }
 
+const Div = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-itemms: center;
+`;
 
 const StyledPagination = styled(Pagination)`
   .MuiPaginationItem-root {
@@ -36,8 +42,9 @@ const StyledPagination = styled(Pagination)`
     background-color: var(--hover-color);
   }
 
-  .MuiPaginationItem-page.Mui-selected {
-    background-color: var(--primary);
+  .MuiPaginationItem-page.Mui-selected, .MuiPaginationItem-page.Mui-selected:hover, .MuiPaginationItem-page.Mui-selected.Mui-focusVisible {
+    background: var(--secondary);
+    color: white;
   }
 
 `;

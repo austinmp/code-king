@@ -64,7 +64,8 @@ export async function evaluateSubmission(code: string, language: string, challen
 				challengeName: challengeName,
 				programmingLanguage: language,
 				executionTime: executionResults.executionTime,
-				didAllTestsPass: allTestsPassed ? 1 : 0
+				didAllTestsPass: allTestsPassed ? 1 : 0,
+				code : code,
 			}
 		});
 	} catch (err) {

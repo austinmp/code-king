@@ -10,28 +10,27 @@ import { device } from '../common/breakpoints';
 import ContentCard from '../components/ContentCard';
 import TestCaseHowTo from '../components/TestCaseHowTo';
 
-
 // icons
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { IoIosAdd } from 'react-icons/io';
 
-function CreateChallenge({ setModal }) {
-  let history = useHistory();
-  const fetchData = useFetch();
 
+function EditChallenge({ location, setModal }) {
+  let history = useHistory();
+  const [challenge, setChallenge] = useState(location.state.challenge);
+  const [testCases, setTestCases] = useState(location.state.challenge.testCases);
+  const [form, setForm] = useState({
+    name: challenge.name,
+    description: challenge.description,
+    difficulty: challenge.difficulty,
+  });
   const testCase = {
     input: "[]",
     expectedOutput:"",
     inputError:false,
     expectedOutputError:false
   }
-
-  const [testCases, setTestCases] = useState([testCase]);
-  const [form, setForm] = useState({
-    name: '',
-    description: '',
-    difficulty: '',
-  });
+  const fetchData = useFetch();
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -70,9 +69,11 @@ function CreateChallenge({ setModal }) {
       method: 'POST',
       body : JSON.stringify(body),
     }
-    const [response, loading, error]  = await fetchData('http://164.90.252.81:8080/challenges/createChallenge', options);
-    if(error) handleError(error)
-    if(response && !error) handleSuccess(response);
+    const [response, loading, err]  = await fetchData(`http://localhost:8080/challenges/editChallenge?challengeId=${challenge.id}`, options);
+    if(err) handleError(err)
+    if(response && !err){
+      handleSuccess(response);
+    }
   };
   
   const isValidTestCases = () => {
@@ -112,16 +113,15 @@ function CreateChallenge({ setModal }) {
   }
 
   const handleSuccess = (response) => {
-    const newChallenge = response._doc;
+    const newChallenge = response._doc
     setModal(prevState =>({
       ...prevState,
       isOpen : true,
       form: 'message',
-      data: 'Challenge created successfully!',
+      data: 'Changes saved successfully!',
       header: '',
       icon : 'success'
     }));
-    
     history.push({
       pathname: `/challenges/${newChallenge.name}/${newChallenge.id}`, 
       state: { 
@@ -167,16 +167,17 @@ function CreateChallenge({ setModal }) {
   }
 
   return (
-    <PageContainer className='create-challenge-container' header={'Create a Challenge'}>
-      <BackButton/>
+    <PageContainer className='edit-challenge-container' header={'Edit Challenge'}>
+    <BackButton/>
       <StyledForm onSubmit={handleSubmit}>
         <Row>
           <ChallengeName>
             <label>
-              Challenge Name:
+              Challenge Name
               <input 
                 type="text" 
-                name='name' 
+                name='name'
+                value={form.name} 
                 className="form-control" 
                 onChange={handleChange} 
                 required 
@@ -186,12 +187,17 @@ function CreateChallenge({ setModal }) {
           </ChallengeName>
           <DifficultySelect>
             <label>Difficulty:</label>
-              <select name='difficulty' onChange={handleChange} required> 
-                  <option value = "">Select</option>
-                  <option value="Easy">Easy</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Hard">Hard</option>
-                </select>
+              <select 
+                  name='difficulty' 
+                  onChange={handleChange} 
+                  value={form.difficulty} 
+                  required
+              > 
+                <option value = "">Select</option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
           </DifficultySelect> 
         </Row>
           <ChallengeDescription>
@@ -200,13 +206,14 @@ function CreateChallenge({ setModal }) {
               <input 
                 type="text" 
                 name='description' 
+                value={form.description}
                 className="form-control" 
                 onChange={handleChange} 
                 required 
                 maxLength="512" 
               />
             </label>
-          </ChallengeDescription>
+          </ChallengeDescription>        
           <TestCaseContainer>
             <TestCaseHowTo/>
             <label>Test Cases</label>
@@ -218,11 +225,12 @@ function CreateChallenge({ setModal }) {
             icon={<AddIcon/>} 
             onClick={addTestCase}
           />
-          <SubmitButton text="Submit" className='btn'/>
+          <SubmitButton text="Save Changes" className='btn'/>
       </StyledForm>
     </PageContainer>
   );
 };
+
 
 const ChallengeName = styled.div`
   width: 70%;
@@ -242,16 +250,6 @@ const DifficultySelect = styled.div`
     height:2em;
     width: 100%;
   }
-`;
-
-const Blockquote = styled.blockquote`
-  height:auto;
-  width:100%;
-  background-color: rgba(255,229,100,0.3);
-  border-left-color: #ffe564;
-  border-left-width: 9px;
-  border-left-style: solid;
-  padding: 20px 45px 20px 26px;
 `;
 
 const TestCaseContainer = styled.div`
@@ -301,6 +299,7 @@ const RemoveTestCaseButton = styled(Button)`
   }
 `;
 
+
 const TextArea = styled.textarea`
   height:5em;
   width: 100%;
@@ -321,11 +320,11 @@ const Row = styled.div`
 const AddTestCaseButton = styled(Button)`
   margin-top: 20px;
   align-self: left;
-  width: 200px;
-
+  width:200px;
   @media ${device.sm} {
     align-self: center;
   }
+  
 `;
 
 const SubmitButton = styled(Button)`
@@ -348,4 +347,5 @@ const AddIcon = styled(IoIosAdd)`
   height: auto;
 `;
 
-export default CreateChallenge;
+
+export default EditChallenge;

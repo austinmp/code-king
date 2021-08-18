@@ -1,32 +1,43 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
+import { useHistory } from "react-router-dom";
+import { AuthContext } from '../context/AuthContext';
 import styled from "styled-components";
 import PageContainer from '../components/PageContainer';
 import ContentCard from '../components/ContentCard';
 import CodeSandbox from '../components/CodeSandbox';
 import Button from '../components/Button';
-import { BsPlayFill } from 'react-icons/bs';
 import  useFetch from '../api/useFetch';
-import BackButton from '../components/BackButton'
+import BackButton from '../components/BackButton';
 
+//icons
+import { BsPlayFill } from 'react-icons/bs';
+import { IoMdArrowRoundForward } from 'react-icons/io';
 
 // All route props (match, location and history) are available to component 
-function Challenge({...rest}) {
-    const { title, _id } = rest.match.params;
+function Challenge({ location, match }) {
+    let history = useHistory();
+    const { title, challengeId } = match.params;
+    const [challenge, setChallenge] = useState(location.state.challenge);
+    const { credentials } = useContext(AuthContext);
     const [submission, setSubmission] = useState('def submission(*args):');
-    const [submissionStatus, setSubmissionStatus] = useState('INCOMPLETE'); // WILL NEED TO PASS IN A STATE IF WE HAVE  SUBMITTED A CHALLENGE ALREADY
+    const [submissionStatus, setSubmissionStatus] = useState('INCOMPLETE'); 
     const [language, setLanguage] = useState('python3');
     const [executionResults, setExecutionResults] = useState();
     const [output, setOutput] = useState();
-    const [challenge, setChallenge] = useState();
+    const [error, setError] = useState();
     const fetchData = useFetch();
 
-    useEffect( async () =>{
-        const [challengeData, loading, error] = await fetchData(`http://164.90.252.81:8080/challenges/getChallenge?_id=${_id}`);
-        const d = new Date(challengeData.date);
-        d.toLocaleDateString('en-US')
-        console.log(d.toLocaleDateString('en-US'));
-        // console.log(challengeData.date.toDateString());
-        setChallenge(challengeData);
+   // ChallengeSet page will pass in a submission, if it exists, through state prop
+    useEffect( async () => {
+        if(location.state.submission) {
+            const status = location.state.submission.didAllTestsPass ? 'COMPLETED' : 'INCOMPLETE'
+            setSubmissionStatus(status);
+            setSubmission(location.state.submission.code); 
+        }
+        if(!location.state.challenge){
+            const [challengeData, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallenge?challengeId=${challengeId}`);
+            setChallenge(challengeData);
+        }
     }, [] );
 
     const handleSubmit = async (e) => {
@@ -38,19 +49,22 @@ function Challenge({...rest}) {
                 'Content-Type': 'text/plain',
             }   
         }
-        const [result, loading, error] = await fetchData(`http://164.90.252.81:8080/submission-testing/submitSolution?challengeId=${challenge.id}&programmingLanguage=${language}&challengeName=${challenge.name}&userName=${rest.username}`, options);
-        setSubmissionStatus(result.status);
-        setExecutionResults(result.executionResults);
+        const [result, loading, err] = await fetchData(`http://localhost:8080/submission-testing/submitSolution?challengeId=${challenge.id}&programmingLanguage=${language}&challengeName=${challenge.name}&userName=${credentials.username}`, options);
+        if(result && !err) {
+            setSubmissionStatus(result.status);
+            setExecutionResults(result.executionResults);
+        }
+        
         // To do add error and loading handling
     };
 
     const renderExecutionResults = () => {
-        console.log(executionResults);
         if(!executionResults || submissionStatus === 'INCOMPLETE') return null;
         
         switch(submissionStatus) {
             case 'PASSED':
-                setOutput({output : `ALL TEST CASES PASSED SUCCESSFULLY! Execution time : ${executionResults.executionTime} ms`});
+                setOutput({output : `Challenge completed. All test cases passed successfully! 
+                Execution time : ${executionResults.executionTime} ms`});
                 break;
             case 'FAILED':
                 const failedTestCase = executionResults.tests.find( ({ outcome }) => outcome === 'ERRORED' || outcome === 'FAILED');
@@ -70,11 +84,26 @@ function Challenge({...rest}) {
 
     return (
         <PageContainer className='challenge-container' header={title}>
-                <BackButton />
-                <ContentCard>
-                    {! challenge
-                    ? <div>LOADING... </div>
-                    :<>  
+            <ButtonDiv>
+                <BackButton/>
+                <Button 
+                    text={'Edit Challenge'} 
+                    icon={<ForwardIcon/>}
+                    iconPosition={'right'}
+                    onClick={ () => 
+                        history.push({
+                            pathname: `/editChallenge/${challenge.id}`, 
+                            state: { challenge: challenge }
+                        })
+                    }
+                />
+            </ButtonDiv>
+            <ContentCard>
+                {! challenge
+                ? error
+                    ?  <div>{error}</div>
+                    : <div>Loading... </div>
+                :   <>  
                         <ChallengeDetailsTopRow>
                             <div> 
                                 <Label>Challenge Id: {challenge.id}</Label> 
@@ -94,57 +123,60 @@ function Challenge({...rest}) {
                                 </Label>
                             </div>  
                         </ChallengeDetailsTopRow>
-                        <Label>Description: {challenge.description}</Label>
+                        <Description>
+                            <Label>Description:</Label> <span>{challenge.description}</span>
+                        </Description>
                     </>
-                    }
-                </ContentCard>    
-                
-                
-                    {/* <div>TestCases:</div>
-                    {challenge.testCases.map( ( testCase, index ) => {
-                        return(
-                        <div key={index}>
-                            <div>Input: {testCase.input}</div>
-                            <div>Expected: {testCase.expectedOutput}</div>
-                        </div>
-                        )
-                    })}
-                    
-            </>       
-} */}
-        <ContentCard>
-            <Label>Solution  
-                <ProgrammingLanguageSelect>
-                    <select name='language' onChange={(e)=> setLanguage(e.target.value)} required> 
-                        <option value="python3">python3</option>
-                        <option value="javascript" disabled>javascript</option>
-                    </select>
-                </ProgrammingLanguageSelect>
-            </Label>    
-            <CodeSandbox 
-                submission={submission} 
-                setSubmission={setSubmission} 
-            />
-        </ContentCard>
-
-        <Button 
-            text='Submit'
-            icon={<SubmitIcon/>} 
-            onClick={handleSubmit}
-        />
-        <ContentCard>
-            <Label>Output</Label>
-            <Output>
-                {! output ? null 
-                : Object.keys(output).map(key => {
-                        return <p>{`${key} : ${output[key]}`} </p>
-                    } )
                 }
-            </Output>
-        </ContentCard>
+            </ContentCard>    
+            <ContentCard>
+                <Label>Solution  
+                    <ProgrammingLanguageSelect>
+                        <select name='language' onChange={(e)=> setLanguage(e.target.value)} required> 
+                            <option value="python3">python3</option>
+                            <option value="javascript" disabled>javascript</option>
+                        </select>
+                    </ProgrammingLanguageSelect>
+                </Label>    
+                <CodeSandbox 
+                    submission={submission} 
+                    setSubmission={setSubmission} 
+                />
+            </ContentCard>
+            <SubmitButton 
+                text='Run Code'
+                icon={<SubmitIcon/>} 
+                onClick={handleSubmit}
+            />
+            <ContentCard>
+                <Label>Output</Label>
+                <Output>
+                    {! output 
+                    ? null 
+                    : Object.keys(output).map(key => {
+                            return <p>{`${key} : ${output[key]}`} </p>
+                        })
+                    }
+                </Output>
+            </ContentCard>
         </PageContainer>
     );
 }
+
+const Description = styled.div`
+    width: 100%;
+`
+
+const SubmitButton = styled(Button)`
+    width: 200px;
+    align-self: center;
+`;
+
+const ButtonDiv = styled.div`
+    display flex;
+    width: 100%;
+    justify-content: space-between;
+`;
 
 const Label = styled.label`
     width: 100%;
@@ -158,9 +190,7 @@ const ChallengeDetailsTopRow = styled.div`
     display: flex; 
     flex-direction: row;
     justify-content: space-between;
-
     width: 100%;
-
 `;
 
 const ProgrammingLanguageSelect = styled.span`
@@ -172,11 +202,10 @@ const Output = styled.div`
     background: #272822;
     width: 100%;
     height: 200px;
-    font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    font-size: 20px;
+    // font: 20px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
     color: rgb(235, 38, 88);
 `;
-
-
 
 const SubmitIcon = styled(BsPlayFill)`
     margin-right: 5px;
@@ -184,5 +213,18 @@ const SubmitIcon = styled(BsPlayFill)`
     width: 20px;
     height: auto;
 `;
+
+
+
+const ForwardIcon = styled(IoMdArrowRoundForward)`
+    margin-left: 10px;
+    text-align: center;
+    align-self: center;
+    width: 20px;
+    height: auto;
+`;
+
+
+
 
 export default Challenge;

@@ -2,20 +2,33 @@ import React from 'react';
 import styled from "styled-components";
 import { device } from '../common/breakpoints';
 
-
-
-const Button = ({text, onClick, className, icon, type}) => {
+const Button = ({text, onClick, className, icon, type, iconPosition}) => {
     return (
         <button 
             className={className} 
             onClick={onClick}
             type={type}
         >
-            {icon}
-            {text}
+            {iconPosition == "right"
+            ?  <Div> 
+                    {text}
+                    {icon}
+                </Div>
+            :   <Div> 
+                    {icon}
+                    {text}
+                </Div>
+            }
         </button>
     )
 }
+
+const Div = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
 
 const StyledButton = styled(Button)`
     background-color:#6568F4;
@@ -30,7 +43,6 @@ const StyledButton = styled(Button)`
     font-size: inherit;
 
     &:hover {
-        padding:8px 20px;
         transition: all 0.3s, ease-out;
         background: #3acbf7;
         color: white;
@@ -41,7 +53,5 @@ const StyledButton = styled(Button)`
         padding:4px 10px;
     } 
 `;
-
-
 
 export default StyledButton;

@@ -5,9 +5,11 @@ import BasicPagination from '../components/BasicPagination';
 import  useFetch from '../api/useFetch';
 import { AuthContext } from '../context/AuthContext';
 import Button from '../components/Button';
+import { useHistory } from "react-router-dom";
+import { BiEdit } from 'react-icons/bi';
+import Table from '../components/Table';
 
-const CHALLENGES_PER_PAGE = 20;
-
+const CHALLENGES_PER_PAGE = 10;
 const headers = [
     'Id',
     'Title',
@@ -15,17 +17,20 @@ const headers = [
     'Date Created',
     'Status',
     'Highscores',
+    'Edit'
 ];
 
 const ChallengeSet = () => {
+    let history = useHistory();
     const {credentials, setCredentials} = useContext(AuthContext);
     const [numChallenges, setNumChallenges] = useState(0);
     const [page, setPage] = useState(1);
     const [challenges, setChallenges] = useState();
     const [submissions, setSubmissions] = useState();
+    const [error, setError] = useState();
     const fetchData = useFetch();
 
-    // create key : value mapping (challengeId : submission) for easier/faster data retrieval during pagination.
+    // create key : value mapping (key = challengeId : value = submission object) for easier/faster data retrieval during pagination.
     const getSubmissionsById = (submissions) => {
         const challengeIdMap = submissions.reduce((obj, submission)=>{
             obj[submission.challengeId] = submission;
@@ -34,44 +39,81 @@ const ChallengeSet = () => {
         return challengeIdMap;
     }
 
-    useEffect( async () =>{
-        const [challengeSet, loading, error] = await fetchData(`http://164.90.252.81:8080/challenges/getChallengeSet`);
-        setChallenges(challengeSet.challenges);
-        setNumChallenges(challengeSet.length);
+    useEffect( async () => {
+        const [challengeSet, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallengeSet`);
+        if(challengeSet){
+            setChallenges(challengeSet.challenges);
+            setNumChallenges(challengeSet.challenges.length);  
+        }
+              
+    }, [] );
 
-        const [userSubmissions] = await fetchData(`http://164.90.252.81:8080/submission-history/getUserSubmissions?userName=${credentials.username}`);
-        const submissionsById = getSubmissionsById(userSubmissions.userSubmissions);
-        setSubmissions(submissionsById);
+    useEffect( async () => {
+        const [userSubmissions, loading,  err] = await fetchData(`http://localhost:8080/submission-history/getUserSubmissions?userName=${credentials.username}`);
+        if(userSubmissions && !err) {
+            const submissionsById = getSubmissionsById(userSubmissions.userSubmissions);
+            setSubmissions(submissionsById);
+        }
+        if(err){
+            setError(err);
+            console.log(err);
+        }  
     }, [] );
 
     const paginateChallenges = () => {
         const start = (page-1)*CHALLENGES_PER_PAGE;
         const end = (page*CHALLENGES_PER_PAGE <= numChallenges) ? page*CHALLENGES_PER_PAGE : undefined;
         const currChallenges = challenges.slice(start, end);
-        const challengeIds = currChallenges.map(challenge => challenge.id);
-       return (
+        return (
             currChallenges.map(challenge => (
                 <tr key={challenge.name}
                     onClick={ (e) => {
                         e.preventDefault();
-                        window.location.href=`/challenges/${challenge.name}/${challenge._id}`;
+                        history.push({
+                            pathname: `/challenges/${challenge.name}/${challenge.id}`, 
+                            state: { 
+                                challenge : challenge,
+                                submission : submissions[challenge.id]
+                            }
+                        });
                         e.stopPropagation();
                     }}
                 >
-                    <td>{challenge.id}</td>
-                    <td>{challenge.name} </td>
-                    <td className={challenge.difficulty.toLowerCase()}>{challenge.difficulty}</td> 
-                    <td>{new Date(challenge.date).toLocaleDateString('en-US')}</td>
+                    <td className='hoverable'>{challenge.id}</td>
+                    <td className='hoverable'>{challenge.name} </td>
+                    <td className={challenge.difficulty.toLowerCase() + ' hoverable'}>{challenge.difficulty}</td> 
+                    <td className='hoverable'>{new Date(challenge.date).toLocaleDateString('en-US')}</td>
                     { submissions && submissions[challenge.id] && submissions[challenge.id].didAllTestsPass
-                    ?  <td className='success'>Completed</td>
-                    :  <td className='error'>Incomplete</td>
+                    ?  <td className='success hoverable'>Completed</td>
+                    :  <td className='error hoverable'>Incomplete</td>
                     }
                     <td className='highscores'> 
-                        <Button className='highscores' text="Highscores"onClick={ (e) => {
-                            e.preventDefault();
-                            window.location.href=`/highscores/${challenge.id}/${challenge._id}`;
-                            e.stopPropagation();
-                        }}
+                        <Button className='highscores' text="Highscores"
+                            onClick={ (e) => {
+                                e.preventDefault();
+                                history.push({
+                                    pathname: `/highscores/${challenge.id}`, 
+                                    state: { 
+                                        challenge : challenge,
+                                    }
+                                });
+                                e.stopPropagation();
+                            }}
+                        />
+                    </td>
+                    <td className='edit-icon'>   
+                        <EditIcon
+                            className='edit-icon'
+                            onClick={ (e) => {
+                                e.preventDefault();
+                                history.push({
+                                    pathname: `/editChallenge/${challenge.id}`, 
+                                    state: { 
+                                        challenge : challenge,
+                                    }
+                                });
+                                e.stopPropagation();
+                            }}
                         />
                     </td>
                 </tr>
@@ -87,7 +129,6 @@ const ChallengeSet = () => {
                         {headers.map(header => (
                             <th key={header}>{header}</th>
                         ))}
-    
                     </tr>
                 </thead>
                 <tbody>
@@ -102,29 +143,9 @@ const ChallengeSet = () => {
     );
 }
 
-const Table = styled.table`
-    width:100%;
-    border-collapse:collapse; 
-    thead {
-        background: var(--title-primary);
-        color: white;
-        
-    }
-    
-    tbody  tr:hover :not(.highscores){
-            background:var(--hover-color);
-            cursor: pointer;
-    }
-
-   
-    
-
-    td, th {
-        text-align: center;
-        padding-bottom: 1em;
-        padding-top: 1em;
-    }
-
+const EditIcon = styled(BiEdit)`
+    color: black;
+    font-size: 20px;
 `;
 
 export default ChallengeSet;

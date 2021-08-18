@@ -7,22 +7,18 @@ import { AuthContext } from '../context/AuthContext';
 
 const useFetch = (url, options) => {
     const { credentials, logout } = useContext(AuthContext);
-    const [error, setError] = useState(null);
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     let isError = false;
+    let error;
     let message;    
     let status;
     let fetchedData;
 
     const getFetchOptions = (options) => {
-        const myHeaders = new Headers({
-            ...(options && {...options.headers}),
-            'Authorization': 'Bearer ' + credentials.token,
-        });
-        if(!myHeaders.has('Content-Type')){
-            myHeaders.append('Content-Type', 'application/json');         
-        }
+        const myHeaders = new Headers({ ...(options && {...options.headers}) });
+        if(!myHeaders.has('Authorization')) myHeaders.append('Authorization', 'Bearer ' + credentials.token);
+        if(!myHeaders.has('Content-Type')) myHeaders.append('Content-Type', 'application/json');         
         const fetchOptions = {
             ...(options),
             ...(options && !options.method && {method: 'GET'}),
@@ -54,19 +50,13 @@ const useFetch = (url, options) => {
             console.log(err);
         }
         if(isError){
-            setError({
+           error = {
                 status : status,
                 message: message
-            });
+           }
         } 
-        setData(fetchedData); 
-        setLoading(false);
-        return [fetchedData, loading, error];
+        return [fetchedData, false, error];
     }
-
-    // useEffect( () => {
-    //     fetchData(url, options);
-    // }, []);
 
     return  fetchData;
 }

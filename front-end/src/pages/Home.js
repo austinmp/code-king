@@ -140,6 +140,12 @@ const Grid = styled.div`
       line-height: 1.5;
     }
 
+    :hover {
+      transform: scale(1.03);
+      transition: all .2s ease-in-out;
+      box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+    }
+
     :hover,
     :focus,
     :active {

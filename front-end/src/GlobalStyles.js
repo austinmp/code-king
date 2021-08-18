@@ -9,7 +9,12 @@ const GlobalStyles = createGlobalStyle`
     --background-secondary: #f3f4f6;
     --title-primary: #282c34;
     --text-primary: #000000;
+
+    --error-color: #e85e6c;
     --nav-font-size: 20px;
+    --form-font-size: 20px;
+    --default-font-size: 16px;
+
   }
 
   .incomplete,
@@ -18,6 +23,7 @@ const GlobalStyles = createGlobalStyle`
     color:  #e85e6c;
   }
 
+  .completed,
   .passed,
   .easy,
   .success {

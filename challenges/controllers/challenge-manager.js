@@ -11,7 +11,7 @@ async function postChallenge(req, res, next){
         await newChallenge.save();
         return res.status(201).json({ 
             message     : `Challenge created successfully! Challenge Id: ${newChallenge.id}`,
-            ...newChallenge
+            ...newChallenge._doc
         });
     } catch(err){
         console.log(err);
@@ -20,7 +20,35 @@ async function postChallenge(req, res, next){
             error   : `${err}`
         });  
     }
-}    
+} 
+
+// Update an existing challenge in db
+const postEditChallenge = async (req, res, next) => {
+    const challengeId = req.query.challengeId;
+    if(!challengeId){
+        return res.status(400).json({ message: "Bad Request: A valid challengeId must be provided in the query parameters."});
+    }
+    try {
+        const isDuplicateName = await Challenge.findOne({'name' : req.body.name}).exec();
+        if(isDuplicateName && (isDuplicateName.id != challengeId)){
+            console.log(isDuplicateName);
+            console.log('chal id query = ' + challengeId);
+            console.log('db query id = ' + isDuplicateName.id);
+
+            return res.status(409).json({ message: "A different challenge with that name already exists!"});
+        }
+        const filter = { id: challengeId };
+        const update = {...req.body};   
+        const doc = await Challenge.findOneAndUpdate(filter, update, {new : true});     // new : true option returns the updated doc instead of the original
+        return res.status(200).json({...doc }); 
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ 
+            message : `An error occured while saving, changes may not have taken effect. ( Challenge Id : ${challengeId})`,
+            error   : `${err}`
+        });
+    }
+}
 
 // Get all challenges from db (front-end handles pagination)
 async function getChallengeSet(req, res, next){
@@ -35,21 +63,21 @@ async function getChallengeSet(req, res, next){
     }
 }
 
-/// Get all data for a specific challenge given database _id
+/// Get all data for a specific challenge given id
 async function getChallenge(req, res, next){
-    const _id = req.query._id;
-    if(!_id){
+    const challengeId = req.query.challengeId;
+    if(!challengeId){
         return res.status(400).json({ message: "Bad Request: A valid challengeId must be provided in the query parameters"});
     } 
     try { 
-        const challenge = await Challenge.findById(_id).exec();
+        const challenge = await Challenge.findOne({ 'id': challengeId }).exec();
         if(!challenge || challenge.length === 0){
-            return res.status(404).json({ message: `Challenge with id:${_id} does not exist`});
+            return res.status(404).json({ message: `Challenge with id: ${challengeId} does not exist`});
         }   
         return res.status(200).json({...challenge._doc});
     } catch(err) {
         return res.status(500).json({ 
-            message : `Challenges service was unable to retrieve the challenge with id:${_id}`,
+            message : `Challenges service was unable to retrieve the challenge with id: ${challengeId}`,
             error   : `${err}`
         });
     }
@@ -77,6 +105,7 @@ async function getChallengeTestCases(req, res, next){
 
 module.exports = {
     postChallenge,
+    postEditChallenge,
     getChallengeSet,
     getChallenge,
     getChallengeTestCases,
