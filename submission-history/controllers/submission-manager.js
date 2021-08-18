@@ -41,8 +41,12 @@ async function getUserSubmissions(req, res){
     const userName = req.query.userName;
     if(!userName) return res.status(400).json({message : "userId was not specified in query parameters"});
     try {
-        const user = await UserSubmissions.findOne({'userName': userName}, 'submissions').exec();
-        return res.status(200).json({userSubmissions : user.submissions});
+        let submissions =[];
+        const userSubmissions = await UserSubmissions.findOne({'userName': userName}, 'submissions').exec();
+        if(userSubmissions) {
+            submissions = userSubmissions.submissions;
+        }
+        return res.status(200).json({userSubmissions : submissions});
     } catch(err){
         console.error(err);
         return res.status(500).json({message : `Submissions service encounted an error while fetching submissions for user ${userName} : ${err}`}); 

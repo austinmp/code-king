@@ -12,7 +12,7 @@ const StyledTable = styled.table`
     width:100%;
     border-collapse:separate; 
     border-spacing: 0 10px;
-    min-width: 500px;
+    min-width: 700px;
     overflow: auto;
 
     tbody {

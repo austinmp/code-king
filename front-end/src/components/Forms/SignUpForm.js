@@ -31,11 +31,7 @@ function SignUpForm({ modal, setModal }) {
                 'Authorization' : 'Basic ' + encodedCredentials
             }
         }
-<<<<<<< HEAD
         const [credentials, loading, err] = await fetchData(`http://${process.env.REACT_APP_HOST}:8080/account/signup` , options);
-=======
-        const [credentials, loading, err] = await fetchData(`http://localhost:8080/account/signup` , options);
->>>>>>> parent of 2064bf8... updated hosts
         if(credentials && !err) handleSuccess(credentials);
         if(err) setError(err);
 

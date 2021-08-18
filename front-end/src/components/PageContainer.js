@@ -19,8 +19,14 @@ const OuterContainer = styled.div`
     width:95%;
   } 
 
+
+
   @media ${device.lg} {
-    width: 60%;
+    width: 85%;
+  } 
+
+  @media ${device.xl} {
+    width: 65%;
   } 
 
   margin-bottom: 40px;
@@ -39,7 +45,6 @@ const Container = styled.div`
   border-radius: 15px;
   padding: 20px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  
 
   p {
     margin: 0px;

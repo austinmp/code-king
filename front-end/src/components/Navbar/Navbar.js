@@ -24,7 +24,7 @@ const Navbar = (props) => {
                 { props.credentials.token 
                 ? <>
                     <UserAvatar credentials={props.credentials}/>
-                    <SignOutButton setCredentials={props.setCredentials}/>
+                    <SignOutButton />
                 </>
                 : <>
                     <SignInButton setModal={props.setModal} />

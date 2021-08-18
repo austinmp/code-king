@@ -24,11 +24,7 @@ const Submissions = ({ match }) => {
     const fetchData = useFetch();
     
     useEffect( async () => { 
-<<<<<<< HEAD
         const [userSubmissions, loading, err] = await fetchData(`http://${process.env.REACT_APP_HOST}:8080/submission-history/getUserSubmissions?userName=${username}`);
-=======
-        const [userSubmissions, loading, err] = await fetchData(`http://localhost:8080/submission-history/getUserSubmissions?userName=${username}`);
->>>>>>> parent of 2064bf8... updated hosts
         if(userSubmissions && !err){
             setSubmissions(userSubmissions.userSubmissions);
             setNumSubmissions(userSubmissions.userSubmissions.length);

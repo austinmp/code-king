@@ -91,18 +91,13 @@ export const SignInButton = ({setModal}) => {
     );
 };
 
-export const SignOutButton = ({ setCredentials }) => {
+export const SignOutButton = () => {
+    const { logout } = useContext(AuthContext);
     return (
         <Button
-            className='sign-out-button btn'
+            className='sign-out-button'
             text="Sign Out"
-            onClick={ ()=>{
-                    setCredentials({
-                        username: '',
-                        token: ''  
-                    });
-                }
-            }
+            onClick={ () => logout() }
         />
     )
 };

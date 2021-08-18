@@ -35,11 +35,7 @@ function Challenge({ location, match }) {
             setSubmission(location.state.submission.code); 
         }
         if(!location.state.challenge){
-<<<<<<< HEAD
             const [challengeData, loading, error] = await fetchData(`http://${process.env.REACT_APP_HOST}:8080/challenges/getChallenge?challengeId=${challengeId}`);
-=======
-            const [challengeData, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallenge?challengeId=${challengeId}`);
->>>>>>> parent of 2064bf8... updated hosts
             setChallenge(challengeData);
         }
     }, [] );
@@ -53,11 +49,7 @@ function Challenge({ location, match }) {
                 'Content-Type': 'text/plain',
             }   
         }
-<<<<<<< HEAD
         const [result, loading, err] = await fetchData(`http://${process.env.REACT_APP_HOST}:8080/submission-testing/submitSolution?challengeId=${challenge.id}&programmingLanguage=${language}&challengeName=${challenge.name}&userName=${credentials.username}`, options);
-=======
-        const [result, loading, err] = await fetchData(`http://localhost:8080/submission-testing/submitSolution?challengeId=${challenge.id}&programmingLanguage=${language}&challengeName=${challenge.name}&userName=${credentials.username}`, options);
->>>>>>> parent of 2064bf8... updated hosts
         if(result && !err) {
             setSubmissionStatus(result.status);
             setExecutionResults(result.executionResults);

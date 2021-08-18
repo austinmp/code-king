@@ -69,11 +69,7 @@ function EditChallenge({ location, setModal }) {
       method: 'POST',
       body : JSON.stringify(body),
     }
-<<<<<<< HEAD
     const [response, loading, err]  = await fetchData(`http://${process.env.REACT_APP_HOST}:8080/challenges/editChallenge?challengeId=${challenge.id}`, options);
-=======
-    const [response, loading, err]  = await fetchData(`http://localhost:8080/challenges/editChallenge?challengeId=${challenge.id}`, options);
->>>>>>> parent of 2064bf8... updated hosts
     if(err) handleError(err)
     if(response && !err){
       handleSuccess(response);

@@ -40,11 +40,7 @@ const ChallengeSet = () => {
     }
 
     useEffect( async () => {
-<<<<<<< HEAD
         const [challengeSet, loading, error] = await fetchData(`http://${process.env.REACT_APP_HOST}:8080/challenges/getChallengeSet`);
-=======
-        const [challengeSet, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallengeSet`);
->>>>>>> parent of 2064bf8... updated hosts
         if(challengeSet){
             setChallenges(challengeSet.challenges);
             setNumChallenges(challengeSet.challenges.length);  
@@ -53,11 +49,7 @@ const ChallengeSet = () => {
     }, [] );
 
     useEffect( async () => {
-<<<<<<< HEAD
         const [userSubmissions, loading,  err] = await fetchData(`http://${process.env.REACT_APP_HOST}:8080/submission-history/getUserSubmissions?userName=${credentials.username}`);
-=======
-        const [userSubmissions, loading,  err] = await fetchData(`http://localhost:8080/submission-history/getUserSubmissions?userName=${credentials.username}`);
->>>>>>> parent of 2064bf8... updated hosts
         if(userSubmissions && !err) {
             const submissionsById = getSubmissionsById(userSubmissions.userSubmissions);
             setSubmissions(submissionsById);
@@ -84,16 +76,15 @@ const ChallengeSet = () => {
                                 submission : submissions[challenge.id]
                             }
                         });
-                        e.stopPropagation();
                     }}
                 >
-                    <td className='hoverable'>{challenge.id}</td>
-                    <td className='hoverable'>{challenge.name} </td>
-                    <td className={challenge.difficulty.toLowerCase() + ' hoverable'}>{challenge.difficulty}</td> 
-                    <td className='hoverable'>{new Date(challenge.date).toLocaleDateString('en-US')}</td>
+                    <td>{challenge.id}</td>
+                    <td>{challenge.name} </td>
+                    <td className={challenge.difficulty.toLowerCase()}>{challenge.difficulty}</td> 
+                    <td>{new Date(challenge.date).toLocaleDateString('en-US')}</td>
                     { submissions && submissions[challenge.id] && submissions[challenge.id].didAllTestsPass
-                    ?  <td className='success hoverable'>Completed</td>
-                    :  <td className='error hoverable'>Incomplete</td>
+                    ?  <td className='success'>Completed</td>
+                    :  <td className='error'>Incomplete</td>
                     }
                     <td className='highscores'> 
                         <Button className='highscores' text="Highscores"

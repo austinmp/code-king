@@ -26,11 +26,7 @@ function LoginForm({modal, setModal}){
             method: 'POST',
             body : raw,
         }
-<<<<<<< HEAD
         const [token, loading, err] = await fetchData(`http://${process.env.REACT_APP_HOST}:8080/sessions/token`, options);
-=======
-        const [token, loading, err] = await fetchData(`http://localhost:8080/sessions/token`, options);
->>>>>>> parent of 2064bf8... updated hosts
         if(token && !err) handleSuccess(token);
         if(err) setError(err);
     };
