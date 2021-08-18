@@ -24,7 +24,7 @@ const Submissions = ({ match }) => {
     const fetchData = useFetch();
 
     useEffect( async () => { 
-        const [userSubmissions, loading, err] = await fetchData(`http://localhost:8080/submission-history/getUserSubmissions?userName=${username}`);
+        const [userSubmissions, loading, err] = await fetchData(`http://164.90.252.81:8080/submission-history/getUserSubmissions?userName=${username}`);
         if(userSubmissions && !err){
             setSubmissions(userSubmissions.userSubmissions);
             setNumSubmissions(userSubmissions.userSubmissions.length);

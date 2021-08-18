@@ -31,7 +31,7 @@ function SignUpForm({ modal, setModal }) {
                 'Authorization' : 'Basic ' + encodedCredentials
             }
         }
-        const [credentials, loading, err] = await fetchData(`http://localhost:8080/account/signup` , options);
+        const [credentials, loading, err] = await fetchData(`http://164.90.252.81:8080/account/signup` , options);
         if(credentials && !err) handleSuccess(credentials);
         if(err) setError(err);
 

@@ -26,7 +26,7 @@ function LoginForm({modal, setModal}){
             method: 'POST',
             body : raw,
         }
-        const [token, loading, err] = await fetchData(`http://localhost:8080/sessions/token`, options);
+        const [token, loading, err] = await fetchData(`http://164.90.252.81:8080/sessions/token`, options);
         if(token && !err) handleSuccess(token);
         if(err) setError(err);
     };

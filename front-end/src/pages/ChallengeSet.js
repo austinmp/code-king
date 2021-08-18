@@ -40,7 +40,7 @@ const ChallengeSet = () => {
     }
 
     useEffect( async () => {
-        const [challengeSet, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallengeSet`);
+        const [challengeSet, loading, error] = await fetchData(`http://164.90.252.81:8080/challenges/getChallengeSet`);
         if(challengeSet){
             setChallenges(challengeSet.challenges);
             setNumChallenges(challengeSet.challenges.length);  
@@ -49,7 +49,7 @@ const ChallengeSet = () => {
     }, [] );
 
     useEffect( async () => {
-        const [userSubmissions, loading,  err] = await fetchData(`http://localhost:8080/submission-history/getUserSubmissions?userName=${credentials.username}`);
+        const [userSubmissions, loading,  err] = await fetchData(`http://164.90.252.81:8080/submission-history/getUserSubmissions?userName=${credentials.username}`);
         if(userSubmissions && !err) {
             const submissionsById = getSubmissionsById(userSubmissions.userSubmissions);
             setSubmissions(submissionsById);
