@@ -3,7 +3,6 @@ import React, { useState, createContext } from 'react';
 export const AuthContext = createContext();
 
 export const AuthProvider = (props) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [credentials  , setCredentials] = useState({
         username  : localStorage.getItem('codeKingUsername') || '',
         token     : localStorage.getItem('APIToken') || '',
@@ -16,7 +15,6 @@ export const AuthProvider = (props) => {
         });
         localStorage.setItem('codeKingUsername', username);
         localStorage.setItem('APIToken', token);
-        setIsLoggedIn(true);
     };
 
     const logout = () => {
@@ -24,11 +22,10 @@ export const AuthProvider = (props) => {
             username: '',
             token: ''  
         });
-        setIsLoggedIn(false);
     };
 
     return ( 
-        <AuthContext.Provider value={{credentials, setCredentials, isLoggedIn, login, logout}}>
+        <AuthContext.Provider value={{credentials, setCredentials, login, logout}}>
             {props.children}                                                                                
         </AuthContext.Provider>
     );
