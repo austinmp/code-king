@@ -40,7 +40,11 @@ const ChallengeSet = () => {
     }
 
     useEffect( async () => {
+<<<<<<< HEAD
         const [challengeSet, loading, error] = await fetchData(`http://${process.env.REACT_APP_HOST}:8080/challenges/getChallengeSet`);
+=======
+        const [challengeSet, loading, error] = await fetchData(`http://localhost:8080/challenges/getChallengeSet`);
+>>>>>>> parent of 2064bf8... updated hosts
         if(challengeSet){
             setChallenges(challengeSet.challenges);
             setNumChallenges(challengeSet.challenges.length);  
@@ -49,7 +53,11 @@ const ChallengeSet = () => {
     }, [] );
 
     useEffect( async () => {
+<<<<<<< HEAD
         const [userSubmissions, loading,  err] = await fetchData(`http://${process.env.REACT_APP_HOST}:8080/submission-history/getUserSubmissions?userName=${credentials.username}`);
+=======
+        const [userSubmissions, loading,  err] = await fetchData(`http://localhost:8080/submission-history/getUserSubmissions?userName=${credentials.username}`);
+>>>>>>> parent of 2064bf8... updated hosts
         if(userSubmissions && !err) {
             const submissionsById = getSubmissionsById(userSubmissions.userSubmissions);
             setSubmissions(submissionsById);
