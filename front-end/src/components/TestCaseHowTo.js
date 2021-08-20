@@ -52,7 +52,7 @@ const TestCaseHowTo = () => {
 
 
     return (
-            <Container class="how-to-container"
+            <Container className="how-to-container"
             onClick={ ()=> setIsCollapsed(prevState=> !prevState)}
             
             >

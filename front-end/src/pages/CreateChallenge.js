@@ -10,7 +10,6 @@ import { device } from '../common/breakpoints';
 import ContentCard from '../components/ContentCard';
 import TestCaseHowTo from '../components/TestCaseHowTo';
 
-
 // icons
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { IoIosAdd } from 'react-icons/io';
@@ -70,9 +69,12 @@ function CreateChallenge({ setModal }) {
       method: 'POST',
       body : JSON.stringify(body),
     }
-    const [response, loading, error]  = await fetchData(`http://${process.env.REACT_APP_HOST}:8080/challenges/createChallenge`, options);
-    if(error) handleError(error)
-    if(response && !error) handleSuccess(response);
+    const [response, loading, err]  = await fetchData(`http://${process.env.REACT_APP_HOST}:8080/challenges/createChallenge`, options);
+    if(response && !err){
+      handleSuccess(response.newChallenge);
+    } 
+    if(err) handleError(err)
+   
   };
   
   const isValidTestCases = () => {
@@ -111,8 +113,7 @@ function CreateChallenge({ setModal }) {
       }));
   }
 
-  const handleSuccess = (response) => {
-    const newChallenge = response._doc;
+  const handleSuccess = (newChallenge) => {
     setModal(prevState =>({
       ...prevState,
       isOpen : true,

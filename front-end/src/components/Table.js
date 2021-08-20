@@ -9,7 +9,7 @@ const Table = ({ children }) => {
 }
 
 const StyledTable = styled.table`
-    width:100%;
+    width:99%;
     border-collapse:separate; 
     border-spacing: 0 10px;
     min-width: 700px;

@@ -11,7 +11,7 @@ async function postChallenge(req, res, next){
         await newChallenge.save();
         return res.status(201).json({ 
             message     : `Challenge created successfully! Challenge Id: ${newChallenge.id}`,
-            ...newChallenge._doc
+            newChallenge : newChallenge._doc
         });
     } catch(err){
         console.log(err);
@@ -31,16 +31,12 @@ const postEditChallenge = async (req, res, next) => {
     try {
         const isDuplicateName = await Challenge.findOne({'name' : req.body.name}).exec();
         if(isDuplicateName && (isDuplicateName.id != challengeId)){
-            console.log(isDuplicateName);
-            console.log('chal id query = ' + challengeId);
-            console.log('db query id = ' + isDuplicateName.id);
-
             return res.status(409).json({ message: "A different challenge with that name already exists!"});
         }
         const filter = { id: challengeId };
-        const update = {...req.body};   
+        const update = req.body;  
         const doc = await Challenge.findOneAndUpdate(filter, update, {new : true});     // new : true option returns the updated doc instead of the original
-        return res.status(200).json({...doc }); 
+        return res.status(200).json({newChallenge: doc}); 
     } catch (err) {
         console.log(err);
         return res.status(500).json({ 
@@ -93,8 +89,15 @@ async function getChallengeTestCases(req, res, next){
         const testCasesDBObject = await Challenge.find({"id": challengeId}, 'testCases').exec();
         if(testCasesDBObject.length === 0){
             return res.status(404).json({ message: `Challenge with id:${challengeId} does not exist`});
-        }           
-        return res.status(200).json({testCases : testCasesDBObject[0].testCases});
+        }
+
+        let parsedTestCases = testCasesDBObject[0].testCases.map( testCase => {
+            return ({
+                input: JSON.parse(testCase.input),
+                expectedOutput: JSON.parse(testCase.expectedOutput)
+            })
+        })       
+        return res.status(200).json({testCases : parsedTestCases});
     } catch(err) {
         return res.status(500).json({ 
             message : "Challenges service was unable to retrieve challenge tests",

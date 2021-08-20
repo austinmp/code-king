@@ -19,6 +19,7 @@ function EditChallenge({ location, setModal }) {
   let history = useHistory();
   const [challenge, setChallenge] = useState(location.state.challenge);
   const [testCases, setTestCases] = useState(location.state.challenge.testCases);
+  console.log(testCases[0].expectedOutput); 
   const [form, setForm] = useState({
     name: challenge.name,
     description: challenge.description,
@@ -70,10 +71,11 @@ function EditChallenge({ location, setModal }) {
       body : JSON.stringify(body),
     }
     const [response, loading, err]  = await fetchData(`http://${process.env.REACT_APP_HOST}:8080/challenges/editChallenge?challengeId=${challenge.id}`, options);
-    if(err) handleError(err)
     if(response && !err){
-      handleSuccess(response);
+      handleSuccess(response.newChallenge);
     }
+    if(err) handleError(err);
+    
   };
   
   const isValidTestCases = () => {
@@ -112,8 +114,7 @@ function EditChallenge({ location, setModal }) {
       }));
   }
 
-  const handleSuccess = (response) => {
-    const newChallenge = response._doc
+  const handleSuccess = (newChallenge) => {
     setModal(prevState =>({
       ...prevState,
       isOpen : true,
@@ -132,8 +133,8 @@ function EditChallenge({ location, setModal }) {
 
   const renderTestCases = () => {
     return testCases.map((test, i) =>
-      <ContentCard>
-        <TestCase key={'testCase' + i}>
+      <ContentCard key={'testCase' + i}>
+        <TestCase>
           <div className="input">
             <label>Input:</label>
               {(testCases[i]['inputError']) ? <div className="error">{'*Malformed input'}</div> : null} 
@@ -157,7 +158,7 @@ function EditChallenge({ location, setModal }) {
               />
             </div>
             <RemoveTestCaseButton 
-              classname='' 
+              className='remove-testCase-button' 
               onClick={(e) => removeTestCase(e, i)}
               icon={<TrashIcon/>}
             />

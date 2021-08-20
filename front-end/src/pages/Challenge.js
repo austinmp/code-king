@@ -17,7 +17,7 @@ import { IoMdArrowRoundForward } from 'react-icons/io';
 function Challenge({ location, match }) {
     let history = useHistory();
     const { title, challengeId } = match.params;
-    const [challenge, setChallenge] = useState(location.state.challenge);
+    const [challenge, setChallenge] = useState();
     const { credentials } = useContext(AuthContext);
     const [submission, setSubmission] = useState('def submission(*args):');
     const [submissionStatus, setSubmissionStatus] = useState('INCOMPLETE'); 
@@ -34,13 +34,16 @@ function Challenge({ location, match }) {
             setSubmissionStatus(status);
             setSubmission(location.state.submission.code); 
         }
-        if(!location.state.challenge){
+        if(location.state.challenge){
+            setChallenge(location.state.challenge);
+        } else {
             const [challengeData, loading, error] = await fetchData(`http://${process.env.REACT_APP_HOST}:8080/challenges/getChallenge?challengeId=${challengeId}`);
-            setChallenge(challengeData);
+            setChallenge(challengeData); 
         }
     }, [] );
 
     const handleSubmit = async (e) => {
+        console.log(submission);
         e.preventDefault();  
         const options = {
             method: 'POST',
@@ -54,6 +57,9 @@ function Challenge({ location, match }) {
             setSubmissionStatus(result.status);
             setExecutionResults(result.executionResults);
         }
+        if(err){
+            console.log(err);
+        }
         
         // To do add error and loading handling
     };
@@ -63,16 +69,24 @@ function Challenge({ location, match }) {
         
         switch(submissionStatus) {
             case 'PASSED':
-                setOutput({output : `Challenge completed. All test cases passed successfully! 
-                Execution time : ${executionResults.executionTime} ms`});
+                setOutput({
+                    status : 'passed',
+                    output : `Challenge completed successfully! All test cases passed! Execution time : ${executionResults.executionTime} ms `,
+                });
                 break;
             case 'FAILED':
                 const failedTestCase = executionResults.tests.find( ({ outcome }) => outcome === 'ERRORED' || outcome === 'FAILED');
                 const isErrored = (failedTestCase.outcome === 'ERRORED');
                 if (isErrored) {
-                    setOutput({output : failedTestCase.output});
+                    setOutput({
+                        status: 'error',
+                        output : failedTestCase.output,
+                    });
                 } else {    
-                    setOutput({...failedTestCase});
+                    setOutput({
+                        status: 'failed',
+                        ...failedTestCase                       
+                    });
                 }
         }
     }
@@ -154,7 +168,7 @@ function Challenge({ location, match }) {
                     {! output 
                     ? null 
                     : Object.keys(output).map(key => {
-                            return <p>{`${key} : ${output[key]}`} </p>
+                            return <p className={output.status}>{`${key} : ${output[key]}`} </p>
                         })
                     }
                 </Output>
@@ -201,7 +215,9 @@ const Output = styled.div`
     margin: 0px 0px 40px 0px;
     background: #272822;
     width: 100%;
-    height: 200px;
+    min-height: 200px;
+    overflow: auto;
+    height: auto;
     font-size: 20px;
     // font: 20px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
     color: rgb(235, 38, 88);
