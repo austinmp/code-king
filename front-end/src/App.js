@@ -34,8 +34,8 @@ function App() {
   });
 
   useEffect( ()=> {
-    localStorage.setItem('APIToken', credentials.token);
-    localStorage.setItem('codeKingUsername', credentials.username);
+    sessionStorage.setItem('APIToken', credentials.token);
+    sessionStorage.setItem('codeKingUsername', credentials.username);
   }, [credentials]);
 
   return (
