@@ -79,7 +79,7 @@ GET /challenges/getChallengeParameters/:challengeId
 }
 ```
 
-### Endpoints
+### 🏁 Endpoints
 
 #### Response Codes
 ```
