@@ -12,16 +12,12 @@ import Highscores from './pages/Highscores';
 import Challenge from './pages/Challenge';
 import ProtectedRoute from './components/ProtectedRoute';
 import styled from "styled-components";
+import { AuthContext } from './context/AuthContext';
+import GlobalStyles from './GlobalStyles';
 import {
   BrowserRouter as Router,
   Route, 
 } from "react-router-dom";
-
-import ModalMessage from './components/Forms/ModalMessage';
-import { AuthContext } from './context/AuthContext';
-import GlobalStyles from './GlobalStyles';
-
-
 
 function App() {
   const {credentials, setCredentials} = useContext(AuthContext);

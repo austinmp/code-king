@@ -2,7 +2,6 @@ const UserSubmissions = require('../models/user-submissions');
 
 const MAX_HIGHSCORES_PER_PAGE = 10;
 
-
 // Save a submission to db using username as primary key
 async function postSubmission(req, res){
     try {
