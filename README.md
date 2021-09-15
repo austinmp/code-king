@@ -25,7 +25,7 @@ This application consists of 5 different micro-services which are **Accounts**, 
 
 We mostly used the [official Docker documentation](https://docs.docker.com/get-started/) as a reference point for our development and also sought advice from Matt who had considerable past experience in using Docker. We decided to pursue the utiliziation of an NGINX Web Server as the **Gateway** after reading about the perks of doing so on a [Nginx blog](https://www.nginx.com/blog/building-microservices-using-an-api-gateway/).
 
-## Scalability
+## 📈 Scalability
 
 As of now, our current Docker Compose implementation allows for the deployment of multiple instances of a container and it can be done so by running: `docker-compose up --scale submission-testing=3` to create 3 instances/containers of the submission-testing service. Following the above example, when a HTTP request is made to the `http://submission-tesing/` , the underlying DNS server in Docker will use a round robin implementation to distribute the incoming request to any of the 3 submission-testing containers that were deployed. 
 
