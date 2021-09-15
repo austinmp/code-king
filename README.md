@@ -17,7 +17,7 @@
 * Veronica Gusev - [Sessions](https://github.com/jitli98/CS497Project/tree/master/sessions)
 
 
-## ✏️ System design
+## 📝  System design
 
 ![Alt text](img/microservice-architecture.png)
 
