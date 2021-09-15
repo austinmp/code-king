@@ -1,4 +1,4 @@
-# Submission History Service
+# 📜 Submission History Service
 
 This service manages the creation of challenges and acts as a repository for the storage of all challenge details and their associated testases.
  
@@ -16,9 +16,9 @@ GET /submission-history/getUserSubmissions/:userName
 GET /submission-history/getChallengeHighscores/:challengeId
 ```
 
-### Schemas
+### 📝 Schemas
 
-#### The Submission Object
+#### 🔔 The Submission Object
 
 When a user submits a solution to an algorithm challenge it is first tested for correctness by the submission-testing service. Once the execution results are obtained, they are sent to the the submission-history service (this service), where the submission object is created and saved in a database. Hence, the submission object can be used to determine, for any given user, whether a challenge is complete, incomplete, or attempted.  
 ```
@@ -66,9 +66,9 @@ When a user submits a solution to an algorithm challenge it is first tested for 
 }
 ```
 
-### Endpoints
+### 🏁 Endpoints
 
-#### Response Codes
+#### 📮 Response Codes
 
 ```
 200: OK
@@ -78,7 +78,7 @@ When a user submits a solution to an algorithm challenge it is first tested for 
 500: Internal Server Error
 ```
 
-#### Post a Submission
+#### 🟡 Post a Submission
 
 Creates a new submission object in the database if no previous submission exists. Otherwise, the most recent submission is saved in the database.
 
@@ -116,7 +116,7 @@ Responses:
         }
 ```
 
-#### Get a User's Submissions
+#### 🟢 Get a User's Submissions
 Returns an array of submission objects for the user specified in query parameters. 
 
 ```
@@ -139,7 +139,7 @@ Responses:
         }
 ```
 
-#### Get a Challenge's Highscores
+#### 🟢 Get a Challenge's Highscores
 
 Returns an array of submission objects for the challengeId specified in query parameters. The returned array contains the top ten fastest submissions for the specified challenge, sorted in ascending order by execution time.  
 
