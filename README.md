@@ -9,7 +9,7 @@
 <p align="center" justify="center">  A coding challenge website built using microservices for CS497S - Scalable Web Systems </p>
 
 
-## Team members and their corresponding microservice:
+## ⭐ Team members and their corresponding microservice:
 * Matthew Oslan - [Submission Testing](https://github.com/jitli98/CS497Project/tree/master/submission-testing)
 * Gerry Gan - [Accounts](https://github.com/jitli98/CS497Project/tree/master/IdentityManagement), [Gateway](https://github.com/jitli98/CS497Project/tree/master/Gateway)
 * Austin Pinto - [Challenges](https://github.com/austinmp/code-king/tree/main/challenges)
