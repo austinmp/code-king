@@ -1,10 +1,10 @@
 # 📜 Submission History Service
 
-This service manages the creation of challenges and acts as a repository for the storage of all challenge details and their associated testases.
- 
-Original submission history service was done by Thinh pham and be seen here (link).
+When a user submits a solution to an algorithm challenge it is first tested for correctness by the Submission Testing service. Once the execution results are obtained, they are sent to the the Submission History service (this service), where a submission object is created and saved in a database.  The stored submission object contains the user's solution to a programming challenge (their code), information about whether all test cases passed, and the time it took to complete all test cases, among other things. Hence, this service can be used to determine, for any given user, whether a challenge is complete, incomplete, or attempted, as well as the fasted execution times for an given challenge.
 
-The most recent version has was migrated to use MongoDB and was designed to communicate directly with the front-end rather than with challenges service. 
+The most recent version of this service (the one in this repository) was done by Austin Pinto. It was changed to use MongoDB, and to ease debugging, was restructured to communicate directly with the api gateway rather than relaying information through the Challenges service.  
+
+The original submission history service was done by Thinh Pham and can be [seen here](https://github.com/jitli98/CS497Project/tree/master/submission-history).
 
 ## 📄 API Documentation
 
@@ -20,7 +20,6 @@ GET /submission-history/getChallengeHighscores/:challengeId
 
 #### 🔔 The Submission Object
 
-When a user submits a solution to an algorithm challenge it is first tested for correctness by the submission-testing service. Once the execution results are obtained, they are sent to the the submission-history service (this service), where the submission object is created and saved in a database. Hence, the submission object can be used to determine, for any given user, whether a challenge is complete, incomplete, or attempted.  
 ```
 {
     userName: {
