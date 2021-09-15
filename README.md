@@ -10,7 +10,7 @@
 
 
 ## ⭐ Team members and their corresponding microservice:
-* Austin Pinto - [Challenges](https://github.com/austinmp/code-king/tree/main/challenges), [Submission History (Updated Version)](https://github.com/austinmp/code-king/tree/main/submission-history), [Front End](http://codeking.codes/)
+* Austin Pinto - [Challenges](https://github.com/austinmp/code-king/tree/main/challenges), [Front End](http://codeking.codes/), [Submission History (Updated Version)](https://github.com/austinmp/code-king/tree/main/submission-history)
 * Matthew Oslan - [Submission Testing](https://github.com/jitli98/CS497Project/tree/master/submission-testing)
 * Gerry Gan - [Accounts](https://github.com/jitli98/CS497Project/tree/master/IdentityManagement), [Gateway](https://github.com/jitli98/CS497Project/tree/master/Gateway)
 * Thinh Pham - [Submission History](https://github.com/jitli98/CS497Project/tree/master/submission-history)
