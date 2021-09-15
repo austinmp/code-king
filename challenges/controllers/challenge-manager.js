@@ -1,6 +1,6 @@
 const Challenge = require('../models/challenge');
 
-/// Save a new challenge to db
+// save a new challenge to db
 async function postChallenge(req, res, next){ 
     try {
         const isDuplicateChallenge = await Challenge.exists({'name' : req.body.name});
@@ -22,7 +22,7 @@ async function postChallenge(req, res, next){
     }
 } 
 
-// Update an existing challenge in db
+// update an existing challenge in db
 const postEditChallenge = async (req, res, next) => {
     const challengeId = req.query.challengeId;
     if(!challengeId){
@@ -46,7 +46,7 @@ const postEditChallenge = async (req, res, next) => {
     }
 }
 
-// Get all challenges from db (front-end handles pagination)
+// get all challenges from db (front-end handles pagination)
 async function getChallengeSet(req, res, next){
     try {
         const challenges = await Challenge.find({},{__v: 0}).exec();
@@ -59,7 +59,7 @@ async function getChallengeSet(req, res, next){
     }
 }
 
-/// Get all data for a specific challenge given id
+// get all data for a specific challenge given id
 async function getChallenge(req, res, next){
     const challengeId = req.query.challengeId;
     if(!challengeId){
@@ -79,7 +79,7 @@ async function getChallenge(req, res, next){
     }
 }
 
-// Get all test cases for a specfic challenge given a challenge id
+// get all test cases for a specfic challenge given a challenge id
 async function getChallengeTestCases(req, res, next){
     const challengeId = req.query.challengeId;
     if(!challengeId){

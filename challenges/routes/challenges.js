@@ -2,19 +2,19 @@
 const router = require("express").Router(); 
 const challengeManager = require(`../controllers/challenge-manager`);
 
-/// Save a new challenge to db
+// save a new challenge to db
 router.post('/createChallenge', challengeManager.postChallenge);
 
-/// Save a new challenge to db
+// save an updated version of an existing challenge to db
 router.post('/editChallenge', challengeManager.postEditChallenge);
 
-// Get all challenges from db (front-end handles pagination)
+// get all challenges from db (front-end handles pagination)
 router.get("/getChallengeSet", challengeManager.getChallengeSet);
 
-/// Get all data for a specific challenge given database _id
+// get all data for a specific challenge given challenge id
 router.get("/getChallenge", challengeManager.getChallenge);
 
-// Get all test cases for a specfic challenge given a challenge id
+// get all test cases for a specfic challenge given a challenge id
 router.get('/getChallengeParameters', challengeManager.getChallengeTestCases);
 
 module.exports = router;
