@@ -16,7 +16,7 @@ GET /challenges/getChallengeParameters/:challengeId
 
 ### Schemas
 
-#### The Challenge Object
+#### 🔺 The Challenge Object
 
 ```
 {
@@ -63,7 +63,7 @@ GET /challenges/getChallengeParameters/:challengeId
 }
 ```
 
-#### The Test Case Object
+#### 🔺 The Test Case Object
 ```
 {
     input: {
