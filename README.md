@@ -1,6 +1,11 @@
-![Alt text](img/logo.png)
 
-# Code King
+
+<h1 align="center">
+  <img src="img/logo.png" width=50% height=50%><br/>
+  ⚡ Code King
+</h1>
+<p align="center" justify="center">  The Bluetooth Low Energy (BLE) Smart Charger is a custom-designed, 3D-printed wireless charger, capable of illustrating the current battery level of a connected IOS or Android device through the use of several pre-programmed, beautifully vibrant LED routines. </p>
+
 
 ## Team members and their corresponding microservice:
 * Matthew Oslan - [Submission Testing](https://github.com/jitli98/CS497Project/tree/master/submission-testing)
