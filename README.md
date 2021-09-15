@@ -1,4 +1,4 @@
-# CS497Project
+# Code King
 
 ## Team members and their corresponding microservice:
 * Matthew Oslan - [Submission Testing](https://github.com/jitli98/CS497Project/tree/master/submission-testing)
