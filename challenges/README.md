@@ -4,7 +4,7 @@ This service manages the creation of challenges and acts as a repository for the
 
 ## 📄 API Documentation
 
-### Endpoints Overview
+### 👀 Endpoints Overview
 
 ```
 POST /challenges/createChallenge
