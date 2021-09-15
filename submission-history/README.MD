@@ -8,7 +8,7 @@ The most recent version has was migrated to use MongoDB and was designed to comm
 
 ## 📄 API Documentation
 
-### Endpoints Overview
+### 👀 Endpoints Overview
 
 ```
 POST /submission-history/createSubmission
