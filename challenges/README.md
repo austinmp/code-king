@@ -119,6 +119,7 @@ Responses:
         body: {
            "message": "Challenge created successfully!"
         }
+        
     409 Conflict:
         body: {
            "message": "A challenge with that name already exists"
