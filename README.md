@@ -4,7 +4,7 @@
   <a href="http://codeking.codes/">
     <img src="img/logo.png"   width=35% height=35%><br/>
   </a>
-  💻 👑 Code King 
+  💻 Code King 👑
 </h1>
 <p align="center" justify="center">  A coding challenge website built using microservices for CS497S - Scalable Web Systems </p>
 
