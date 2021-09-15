@@ -5,15 +5,17 @@ This service manages the creation of challenges and acts as a repository for the
 ## 📄 API Documentation
 
 ### Endpoints
+
 ```
 POST /challenges/createChallenge
 POST /challenges/editChallenge/:challengeId
 GET /challenges/getChallenge/:challengeId
 GET /challenges/getChallengeSet
-GET /challenges/getChallengeParameters
+GET /challenges/getChallengeParameters/:challengeId
 ```
 
 ### Response Codes
+
 ```
 200: OK
 201: Created
@@ -26,6 +28,7 @@ GET /challenges/getChallengeParameters
 ### Schemas
 
 #### The Challenge Object
+
 ```
 {
     name: {
@@ -87,59 +90,103 @@ GET /challenges/getChallengeParameters
 }
 ```
 
+### Create a Challenge
 
+Creates a new challenge object in the database that other users can solve.
+Note : The challenge will automatically be assigned a unique id and date upon creation.
+```
+POST challenges/createChallenge
+Accept: application/json
+body : {
+  name: 'README Example',
+  description: 'Reverse the function input and return the result',
+  difficulty: 'Easy',
+  testCases : [
+    {
+        input : ["hello"],
+        expectedOutput : "olleh"
+    },
+    {
+        input : [ [1,2,3] ],
+        expectedOutput : [3,2,1]
+    }
+  ],
+}
+```
 
+### Edit a Challenge
 
+Update the name, description, difficulty, or test cases of an existing challenge.
+```
+POST /challenges/editChallenge/:challengeId
+Accept: application/json
+body : {
+  name: 'README Example With Extra Test Case',
+  description: 'Reverse the function input and return the result',
+  difficulty: 'Easy',
+  testCases : [
+    {
+        input : ["hello"],
+        expectedOutput : "olleh"
+    },
+    {
+        input : ["world"],
+        expectedOutput : "dlrow"
+    }
+    {
+        input : [ [1,2,3] ],
+        expectedOutput : [3,2,1]
+    }
+  ],
+}
+```
 
+### Get a Specific Challenge
 
+Get all data for the challenge specified in query parameters, including test cases. 
+```
+GET /challenges/getChallenge/:challengeId
+Content-Type: application/json
+200 OK
+body : {challenge Object}
+```
 
+### Get All Challenges
 
+Get all existing challenges, including their test cases.
+```
+GET /challenges/getChallengeSet
+Content-Type: application/json
+200 OK
+body: {
+    "challenges": [
+        {challenge Object}, 
+        {challenge Object}, 
+        ...
+    ],
+}
+```
 
+### Get Challenge Test Cases
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Get only the test cases for the challenge specified in the query parameters.
+```
+GET /challenges/getChallengeParameters/:challengeId
+Content-Type: application/json
+200 OK
+body: {
+    "testCases": [
+        {
+            "input": [
+               1,2,3
+            ],
+            "expectedOutput": [
+               3,2,1
+            ]
+        }
+    ],
+}
+```
 
 # Challenges Service
 This service manages the creation of challenges and acts as a repository for the storage of all challenge details and their associated test cases. 
