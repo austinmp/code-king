@@ -91,7 +91,7 @@ GET /challenges/getChallengeParameters/:challengeId
 500: Internal Server Error
 ```
 
-#### Create a Challenge
+#### 🟡 Create a Challenge
 
 Creates a new challenge object in the database that other users can solve.
 Note : The challenge will automatically be assigned a unique id and date upon creation.
@@ -126,7 +126,7 @@ Responses:
         }
 ```
 
-#### Edit a Challenge
+#### 🟡 Edit a Challenge
 
 Update the name, description, difficulty, or test cases of an existing challenge.
 ```
@@ -169,7 +169,7 @@ Responses:
         }
 ```
 
-#### Get a Specific Challenge
+#### 🟢 Get a Specific Challenge
 
 Get all data for the challenge specified in query parameters, including test cases. 
 ```
@@ -186,7 +186,7 @@ Responses:
         }
 ```
 
-#### Get All Challenges
+#### 🟢 Get All Challenges
 
 Get all existing challenges, including their test cases.
 ```
@@ -209,7 +209,7 @@ Responses:
         }
 ```
 
-#### Get Challenge Test Cases
+#### 🟢 Get A Challenge's Test Cases
 
 Get only the test cases for the challenge specified in the query parameters.
 ```
