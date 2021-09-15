@@ -39,7 +39,7 @@ We are also currently in the process of learning a container orchestration techn
 * [Austin Pinto]()
 
 
-## Running all microserviecs together 
+## 🐳 Running all microserviecs together 
 
 Prerequisites: [docker](https://docs.docker.com/engine/install/) and [docker-compose](https://docs.docker.com/compose/install/)
 
