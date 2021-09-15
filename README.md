@@ -2,6 +2,7 @@
 
 <h1 align="center">
   <a href="http://codeking.codes/">
+    <img src="img/code-king-logo.png"   width=35% height=35%><br/>
   </a>
   👑 Code King 
 </h1>
