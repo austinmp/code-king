@@ -162,3 +162,7 @@ Responses:
            "message": "challengeId was not specified in query parameters"
         }
 ```
+
+## 👨‍💻 Author
+
+Austin Pinto
