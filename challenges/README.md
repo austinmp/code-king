@@ -1,4 +1,147 @@
 # Challenges Service
+
+This service manages the creation of challenges and acts as a repository for the storage of all challenge details and their associated test cases.
+
+## 📄 API Documentation
+
+### Endpoints
+```
+POST /challenges/createChallenge
+POST /challenges/editChallenge/:challengeId
+GET /challenges/getChallenge/:challengeId
+GET /challenges/getChallengeSet
+GET /challenges/getChallengeParameters
+```
+
+### Response Codes
+```
+200: OK
+201: Created
+400: Bad Request
+404: Not Found
+409: Conflict
+500: Internal Server Error
+```
+
+### Schemas
+
+#### The Challenge Object
+```
+{
+    name: {
+        type: String, 
+        required: true,
+        maxlength: 128,
+        unique: true,
+        description: A short, descriptive title for the challenge.
+    },
+    description:{
+        type: String, 
+        required: true,
+        maxlength: 512, 
+        description: Detailed explanation of the challenge which mentions data type of function inputs/outputs.
+    },
+    difficulty: {
+        type: String,
+        required: true,
+        enum: ['Easy', 'Medium', 'Hard'],
+        description: The estimated difficulty of the challenge.
+        
+    },
+    testCases: [
+        type: Array,
+        required: true,
+        description: An array of individual test case objects.
+        testCase : {
+            input:{}, 
+            expectedOutput:{},
+            description: See "The Test Case Object" below.
+        }
+    ],
+    date:{ 
+        type: Date, 
+        default: Date.now 
+        description: The date in which the challenge was created or last edited.
+    }
+    id:{ 
+        type: Number, 
+        unique: true,
+        description: A unique id which can be used to reference the challenge in future API calls.
+    },
+}
+```
+
+#### The Test Case Object
+```
+{
+    input: {
+        type: Array, 
+        required: true,
+        description:  An array containing all function paramter inputs, with a comma seperating each parameter.
+    }
+    expectedOutput:{
+         type: Any, 
+         required: true,
+         description: The output a correct solution to the problem would generate, given the input defined.
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Challenges Service
 This service manages the creation of challenges and acts as a repository for the storage of all challenge details and their associated test cases. 
 
 # API Documentation
