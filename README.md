@@ -1,3 +1,5 @@
+![Alt text](img/logo.png)
+
 # Code King
 
 ## Team members and their corresponding microservice:
