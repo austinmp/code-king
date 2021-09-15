@@ -1,10 +1,10 @@
 
 
 <h1 align="center">
-  <img src="img/logo.png" width=50% height=50%><br/>
+  <img src="img/logo.png"  href="http://codeking.codes/" width=35% height=35%><br/>
   ⚡ Code King
 </h1>
-<p align="center" justify="center">  The Bluetooth Low Energy (BLE) Smart Charger is a custom-designed, 3D-printed wireless charger, capable of illustrating the current battery level of a connected IOS or Android device through the use of several pre-programmed, beautifully vibrant LED routines. </p>
+<p align="center" justify="center">  A coding challenge website built using microservices for CS497S - Scalable Web Systems </p>
 
 
 ## Team members and their corresponding microservice:
