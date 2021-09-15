@@ -236,3 +236,6 @@ Responses :
            "message": " A valid challengeId must be provided in the query parameters."
         }
 ```
+
+## 👨‍💻 Author
+Austin Pinto
