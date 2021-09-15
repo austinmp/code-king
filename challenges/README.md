@@ -1,4 +1,4 @@
-# Challenges Service
+# 🧠 Challenges Service
 
 This service manages the creation of challenges and acts as a repository for the storage of all challenge details and their associated test cases.
 
