@@ -6,8 +6,16 @@
   </a>
   👑 Code King 
 </h1>
-<p align="center" justify="center">  A coding challenge website built using microservices for CS497S - Scalable Web Systems </p>
+<p align="center" justify="center">  
+  A coding challenge website built using microservices for CS497S - Scalable Web Systems
+  ⚛ React front end now on display at [codeking.codes](http://codeking.codes/)
+  🐳 Dockerized microservices for fast deployment and scalability
+</p>
 
+## Features
+- Code your own solutions to any number of algorithm challenges, or create your own challenges.
+- Test your code for correctness on our server side code sandbox.
+- Create an account to save your progress, view or edit your past submissions, and browse highscores.
 
 ## ⭐ Team members and their corresponding microservice:
 * Austin Pinto - [Challenges](https://github.com/austinmp/code-king/tree/main/challenges), [Front End](http://codeking.codes/), [Submission History (Updated Version)](https://github.com/austinmp/code-king/tree/main/submission-history)
