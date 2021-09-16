@@ -12,12 +12,16 @@
 
 ## Features
 💻 Code your own solutions to any number of algorithm challenges, or create your own challenges.
+
 📦 Test your code for correctness on our server side code sandbox.
+
 🔓 Create an account to authenticate into our api, save your progress, view or edit your past submissions, and browse highscores.
+
 ⚛ React front end now on display at [codeking.codes](http://codeking.codes/).
+
 🐳 Dockerized microservices for fast deployment and scalability.
 
-## ⭐ Team members and their corresponding microservice:
+## Team members and their corresponding microservices:
 * Austin Pinto - [Challenges](https://github.com/austinmp/code-king/tree/main/challenges), [Front End](http://codeking.codes/), [Submission History (Updated Version)](https://github.com/austinmp/code-king/tree/main/submission-history)
 * Matthew Oslan - [Submission Testing](https://github.com/jitli98/CS497Project/tree/master/submission-testing)
 * Gerry Gan - [Accounts](https://github.com/jitli98/CS497Project/tree/master/IdentityManagement), [Gateway](https://github.com/jitli98/CS497Project/tree/master/Gateway)
